@@ -1,0 +1,69 @@
+.small-radius {
+  border-radius: 10px;
+}
+.border-none {
+  border: none;
+}
+.green {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+
+  /* Set green background color */
+  background-color: #90ee90;
+
+  /* Add a border (optional) */
+  border: 1px solid #5ffe03;
+
+  /* Add rounded corners for a smoother look */
+  border-radius: 3px;
+}
+
+.yellow {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+
+  /* Set green background color */
+  background-color: #ff7f7f;
+
+  /* Add a border (optional) */
+  border: 1px solid #ff7f7f;
+
+  /* Add rounded corners for a smoother look */
+  border-radius: 3px;
+}
+
+.nm {
+  width: 18px;
+  height: 18px;
+  appearance: none;
+
+  /* Set green background color */
+  background-color: #f5e793;
+
+  /* Add a border (optional) */
+  border: 1px solid #f5e793;
+
+  /* Add rounded corners for a smoother look */
+  border-radius: 3px;
+}
+
+#fix-height {
+  min-height: 215px !important;
+}
+
+.rdt_TableCol {
+  padding: 8px !important; /* Adjust padding value as needed */
+}
+.colored-letter {
+  display: inline-block; /* Ensures inline behavior for the circle */
+  width: 50px; /* Adjust width and height as needed */
+  height: 50px;
+  text-align: center; /* Centers the letter vertically */
+  line-height: 50px; /* Aligns the letter horizontally */
+  border-radius: 50%; /* Creates a circle */
+  background-color: red; /* Set desired background color */
+  color: white; /* Set text color (optional, for visibility) */
+  font-size: 30px; /* Adjust font size as needed */
+}
