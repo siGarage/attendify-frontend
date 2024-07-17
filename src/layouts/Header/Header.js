@@ -1,24 +1,28 @@
 import React, { useEffect } from "react";
-import { Dropdown, Navbar, Container,Button } from "react-bootstrap";
+import { Dropdown, Navbar, Container, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { changePass, fetchLoginUserById, fetchUserById } from "../../redux/Action/AuthAction";
+import {
+  changePass,
+  fetchLoginUserById,
+  fetchUserById,
+} from "../../redux/Action/AuthAction";
 // import user8 from "../../../assets/images/profile__.png";
-import user8 from '../../assets/images/profile__.png'
-
+import user8 from "../../assets/images/profile__.png";
+import "../../components/Pages/profile.css";
 
 export function Header() {
   const dispatch = useDispatch();
 
-  const { users } = useSelector(state => ({
+  const { users } = useSelector((state) => ({
     users: state?.userAuth?.loginUser,
-  })); 
+  }));
 
   useEffect(() => {
-    dispatch(fetchLoginUserById(sessionStorage.getItem("userId")))
-  }, [])
+    dispatch(fetchLoginUserById(sessionStorage.getItem("userId")));
+  }, []);
 
-  const profileData = users?.user
+  const profileData = users?.user;
 
   //full screen
   function Fullscreen() {
@@ -67,6 +71,9 @@ export function Header() {
     document.querySelector(".demo_changer").classList.toggle("active");
     document.querySelector(".demo_changer").style.right = "0px";
   };
+  function getFirstLetter(str) {
+    return str?.charAt(0);
+  }
   return (
     <Navbar expand="md" className="app-header header sticky">
       <Container fluid className="main-container">
@@ -109,7 +116,7 @@ export function Header() {
               alt="logo"
             />
           </Link>
-        
+
           <div className="d-flex order-lg-2 ms-auto header-right-icons">
             <Navbar.Toggle
               aria-controls="navbarScroll"
@@ -361,56 +368,65 @@ export function Header() {
                     </Dropdown.Menu>
                   </Dropdown> */}
                   <Dropdown className=" d-md-flex profile-1">
-                    <Dropdown.Toggle
+                    {/* <Dropdown.Toggle
                       className="nav-link profile leading-none d-flex px-1"
                       variant=""
-                    >
-                      <span>
-                        
-                          {/* {
+                    > */}
+                    <span>
+                      {/* {
                         sessionStorage.getItem("image") != "undefined" ? */}
-                        {/* <img className="profileImgSmall" crossorigin="anonymous" src={user8} alt="img" /> : */}
-                        <img
+                      {/* <img className="profileImgSmall" crossorigin="anonymous" src={user8} alt="img" /> : */}
+                      {/* <img
                           src={user8}
                           alt="profile-user"
                           className="avatar  profile-user brround cover-image"
-                        />
+                        /> */}
                       {/* } */}
+                      {/* {console.log(typeof(profileData?.email))} */}
+                      <span className="color-letter">
+                        {getFirstLetter(profileData?.email?.toUpperCase())}
                       </span>
-                    </Dropdown.Toggle>
+                    </span>
+                    {/* </Dropdown.Toggle> */}
                     <Dropdown.Menu
                       className="dropdown-menu-end dropdown-menu-arrow"
                       style={{ margin: 0 }}
                     >
                       <div className="drop-heading">
                         <div className="text-center">
-                          <h5 className="text-dark mb-0">{profileData?.name}</h5>
-                          <small className="text-muted">{
-                            sessionStorage.getItem("role") == '0' ? 'User' :
-                            sessionStorage.getItem("role") == '1' ? 'Admin' :
-                            sessionStorage.getItem("role") == '2' ? 'Editor' :
-                            sessionStorage.getItem("role") == '3' ? 'Caller' :
-                            sessionStorage.getItem("role") == '4' ? 'Cyber Partner' :
-                             'Superadmin' 
-                            }</small>
+                          <h5 className="text-dark mb-0">
+                            {profileData?.name}
+                          </h5>
+                          {/* <small className="text-muted">
+                            {sessionStorage.getItem("role") == "0"
+                              ? "User"
+                              : sessionStorage.getItem("role") == "1"
+                              ? "Admin"
+                              : sessionStorage.getItem("role") == "2"
+                              ? "Editor"
+                              : sessionStorage.getItem("role") == "3"
+                              ? "Caller"
+                              : sessionStorage.getItem("role") == "4"
+                              ? "Cyber Partner"
+                              : "Superadmin"}
+                          </small> */}
                         </div>
                       </div>
                       <div className="dropdown-divider m-0"></div>
                       <Dropdown.Item
-                       // href={`/profile`}
+                      // href={`/profile`}
                       >
-                      <Link to="/profile">
-                      <i className="dropdown-icon fe fe-user"></i> Profile
-                      </Link>
-                      
+                        <Link to="/profile">
+                          <i className="dropdown-icon fe fe-user"></i> Profile
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item
-                       // href={`/profile`}
+                      // href={`/profile`}
                       >
-                      <Link onClick={()=>dispatch(changePass())}>
-                      <i className="dropdown-icon fe fe-user"></i> Change Password
-                      </Link>
-                      
+                        <Link onClick={() => dispatch(changePass())}>
+                          <i className="dropdown-icon fe fe-user"></i> Change
+                          Password
+                        </Link>
                       </Dropdown.Item>
                       <Dropdown.Item
                         href={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
@@ -430,11 +446,12 @@ export function Header() {
                         <i className="dropdown-icon fe fe-alert-triangle"></i>
                         Need help?p??
                       </Dropdown.Item>
-                      <Dropdown.Item  onClick={() => {
-                      sessionStorage.clear();
-                      window.location.reload(false);
-                      window.location.href = '/login';
-                    }} 
+                      <Dropdown.Item
+                        onClick={() => {
+                          sessionStorage.clear();
+                          window.location.reload(false);
+                          window.location.href = "/login";
+                        }}
                         href={`${process.env.PUBLIC_URL}/custompages/login/`}
                       >
                         <i className="dropdown-icon fe fe-alert-circle"></i>
@@ -454,7 +471,6 @@ export function Header() {
                 </div>
               </Navbar.Collapse>
             </div>
-           
           </div>
         </div>
       </Container>

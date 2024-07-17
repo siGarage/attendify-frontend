@@ -355,7 +355,6 @@ export default function StudentProfile() {
           <Card.Title>
             <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center justify-content-between">
               <h3>Attendance for Month: {month}</h3>
-
               <div c>
                 <select
                   className="border-none"

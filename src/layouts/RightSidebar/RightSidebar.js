@@ -14,32 +14,34 @@ import face14 from "../../assets/images/faces/14.jpg";
 import face15 from "../../assets/images/faces/15.jpg";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchLoginUserById } from "../../redux/Action/AuthAction";
+import "../../components/Pages/profile.css";
 export function RightSidebar() {
-
-  
   const dispatch = useDispatch();
 
-  const { users } = useSelector(state => ({
+  const { users } = useSelector((state) => ({
     users: state?.userAuth?.loginUser,
-  })); 
+  }));
 
   useEffect(() => {
-    dispatch(fetchLoginUserById(sessionStorage.getItem("userId")))
-  }, [])
+    dispatch(fetchLoginUserById(sessionStorage.getItem("userId")));
+  }, []);
 
-  const profileData = users?.user
+  const profileData = users?.user;
 
   const [rightsidebartoogle, setSidebartoogleright] = useState(true);
   function Outhover(toggle) {
     setSidebartoogleright(!toggle);
     document.querySelector(".sidebar-right").classList.remove("sidebar-open");
   }
+  function getFirstLetter(str) {
+    return str?.charAt(0);
+  }
 
   return (
     <div className="sidebar sidebar-right sidebar-animate">
       <div className="panel panel-primary card mb-0 shadow-none border-0">
         <div className="tab-menu-heading border-0 d-flex p-3">
-          <div className="card-title mb-0">Notifications</div>
+          <div className="card-title mb-0">Settings</div>
           <div className="card-options ms-auto">
             <Link
               to="#"
@@ -62,27 +64,10 @@ export function RightSidebar() {
                 <div className="card-body text-center">
                   <div className="dropdown user-pro-body">
                     <div className="">
-                      <img
-                        alt="user-img"
-                        className="avatar avatar-xl brround mx-auto text-center"
-                        src={profileData?.image?`${process.env.REACT_APP_IMG_URL}images/${profileData?.image}`:{face6}}
-                      />
-                      <span className="avatar-status profile-status bg-green"></span>
-                    </div>
-                    <div className="user-info mg-t-20">
-                      <h6 className="fw-semibold  mt-2 mb-0">
-                       {profileData?.name}
-                      </h6>
-                      <span className="mb-0 text-muted fs-12">
-                        {
-                            profileData?.role == '0' ? 'User' :
-                            profileData?.role == '1' ? 'Admin' :
-                            profileData?.role == '2' ? 'Editor' :
-                            profileData?.role == '3' ? 'Caller' :
-                            profileData?.role == '4' ? 'Cyber Partner' :
-                             'Superadmin' 
-                            }
+                      <span className="color-letter">
+                        {getFirstLetter(profileData?.email?.toUpperCase())}
                       </span>
+                      {/* <span className="avatar-status profile-status bg-green"></span> */}
                     </div>
                   </div>
                 </div>
@@ -100,7 +85,7 @@ export function RightSidebar() {
                     </div>
                   </div>
                 </Link>
-                <Link
+                {/* <Link
                   className="dropdown-item d-flex border-bottom"
                   to={`${process.env.PUBLIC_URL}/components/defaultChat/`}
                 >
@@ -141,404 +126,26 @@ export function RightSidebar() {
                       </p>
                     </div>
                   </div>
-                </Link>
+                </Link> */}
                 <Link
                   className="dropdown-item d-flex border-bottom"
                   to={`${process.env.PUBLIC_URL}/custompages/login`}
                 >
                   <div className="d-flex">
                     <i className="fe fe-power me-3 tx-20 text-muted"></i>
-                    <div onClick={() => {
-                      sessionStorage.clear();
-                      window.location.reload(false);
-                      window.location.href = '/';
-                    }} className="pt-1">
+                    <div
+                      onClick={() => {
+                        sessionStorage.clear();
+                        window.location.reload(false);
+                        window.location.href = "/";
+                      }}
+                      className="pt-1"
+                    >
                       <h6 className="mb-0">Sign Out</h6>
                       <p className="tx-12 mb-0 text-muted">Account Signout</p>
                     </div>
                   </div>
                 </Link>
-              </div>
-            </Tab>
-
-            <Tab eventKey="side2" title="Contacts">
-              <div className="tab-pane" id="side2">
-                <div className="list-group list-group-flush ">
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        className="avatar avatar-md brround cover-image "
-                        src={face9}
-                        alt=""
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Mozelle Belt</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        mozellebelt@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face11}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face10}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinaaernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face2}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face13}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face12}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Mozelle Belt</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        mozellebelt@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face4}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face7}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinabernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face2}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face14}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face11}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Florinda Carasco</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        florindacarasco@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face9}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Alina Bernier</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        alinabernier@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face15}
-                      />
-                      <span className="avatar-status bg-success rcontacts"></span>
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Zula Mclaughin</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        zulamclaughin@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                  <div className="list-group-item d-flex  align-items-center">
-                    <div className="me-2">
-                      <img
-                        alt=""
-                        className="avatar avatar-md brround cover-image"
-                        src={face4}
-                      />
-                    </div>
-                    <div className="">
-                      <div className="fw-semibold">Isidro Heide</div>
-                      <p className="mb-0 tx-12 text-muted">
-                        isidroheide@gmail.com
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Tab>
-
-            <Tab eventKey="side3" title="Settings">
-              <div className="tab-pane" id="side3">
-                <Link className="dropdown-item bg-gray-100 pd-y-10" to="#">
-                  Account Settings
-                </Link>
-                <div className="card-body">
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Updates Automatically
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Allow Location Map
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show Contacts
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show Notication
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show Tasks Statistics
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show Email Notification
-                      </span>
-                    </label>
-                  </div>
-                </div>
-                <Link className="dropdown-item bg-gray-100 pd-y-10" to="#">
-                  General Settings
-                </Link>
-                <div className="card-body">
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show User Online
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Website Notication
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Show Recent activity
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Logout Automatically
-                      </span>
-                    </label>
-                  </div>
-                  <div className="form-group mg-b-10">
-                    <label className="custom-switch ps-0">
-                      <input
-                        type="checkbox"
-                        name="custom-switch-checkbox"
-                        className="custom-switch-input"
-                      />
-                      <span className="custom-switch-indicator"></span>
-                      <span className="custom-switch-description mg-l-10">
-                        Aloow All Notifications
-                      </span>
-                    </label>
-                  </div>
-                </div>
               </div>
             </Tab>
           </Tabs>
