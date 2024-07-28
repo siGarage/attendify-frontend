@@ -41,7 +41,7 @@ export default function SemesterAdd() {
     initialValues: {
       name: "",
       course_id: "",
-      status: "",
+      status: "active",
     },
 
     onSubmit: (values) => {
@@ -59,7 +59,7 @@ export default function SemesterAdd() {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Semester</Card.Title>
+                <Card.Title as="h3">Add Phase</Card.Title>
               </Card.Header>
               <Col sm={12} lg={12} md={12} xl={12}>
                 <Card>
@@ -83,7 +83,7 @@ export default function SemesterAdd() {
                           ) : null}
                         </Col>
 
-                        <Col sm={12} lg={4} md={4} xl={4}>
+                        <Col sm={12} lg={4} md={4} xl={4}style={{"display":"none"}}>
                           <label className="form-label">Status</label>
                           <Form.Select
                             name="status"
@@ -188,7 +188,7 @@ export default function SemesterAdd() {
                         </Col> */}
                         <Col sm={12} lg={12} md={12} xl={12}>
                           <label className="fw-bold mt-5 ">
-                            Semester Description
+                          Phase Description
                           </label>
                           <JoditEditor
                             ref={editor}

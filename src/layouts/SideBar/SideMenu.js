@@ -178,7 +178,7 @@ export const MENUITEMS = [
           {
             path: `/semester-list`,
             type: "link",
-            title: "Semester",
+            title: "Phase",
           },
 
           {

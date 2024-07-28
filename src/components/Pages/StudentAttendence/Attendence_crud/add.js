@@ -15,7 +15,6 @@ import { fetchSubject } from "../../../../redux/Action/SubjectAction";
 import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 import { fetchStudentsAttendence } from "../../../../redux/Action/StudentAttendenceAction";
 import { AddStudentAttendenceModal } from "../../../Modal/AddStudentModal";
-import Papa from "papaparse";
 
 export default function StudentAdd() {
   const dispatch = useDispatch();
@@ -203,7 +202,6 @@ export default function StudentAdd() {
       );
       return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
     }, []);
-    console.log(uniqueData,'uniqueData');
     setFinalAttendence(uniqueData);
   }, [StudentAttendence]);
   const formik = useFormik({

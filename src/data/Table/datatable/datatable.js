@@ -2078,7 +2078,7 @@ export const SubjectDataTables = ({ handleShow, Subjects }) => {
 export const SemesterDataTables = ({ handleShow, Semesters }) => {
   const columns = [
     {
-      name: "SEMESTER",
+      name: "PHASE",
       selector: (row) => [row.name],
       sortable: true,
     },

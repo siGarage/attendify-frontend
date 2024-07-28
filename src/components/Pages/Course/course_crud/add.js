@@ -40,7 +40,7 @@ export default function CourseAdd() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      status: ""
+      status: "active",
     },
     onSubmit: (values) => {
       values = { ...values, description: content, subject: confirmSubject };
@@ -78,7 +78,13 @@ export default function CourseAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={4} md={4} xl={4}>
+                        <Col
+                          sm={12}
+                          lg={4}
+                          md={4}
+                          xl={4}
+                          style={{ display: "none" }}
+                        >
                           <label className="form-label">Status</label>
                           <Form.Select
                             name="status"

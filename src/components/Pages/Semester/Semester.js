@@ -70,16 +70,16 @@ export default function Semesters() {
     <div>
       <div className="page-header">
         <div>
-          <h1 className="page-title">Semesters</h1>
+          <h1 className="page-title">Phase</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
-              Semesters
+            Phases
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
               aria-current="page"
             >
-              Semester
+              Phase
             </Breadcrumb.Item>
           </Breadcrumb>
         </div>
@@ -91,7 +91,7 @@ export default function Semesters() {
             <span>
               <i className="fe fe-plus"></i>&nbsp;
             </span>
-            Add Semesters
+            Add Phase
           </Link>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function Semesters() {
         <Col lg={12}>
           <Card>
             <Card.Header>
-              <h3 className="card-title">Semesters</h3>
+              <h3 className="card-title">Phases</h3>
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
