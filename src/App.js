@@ -21,10 +21,13 @@ import Agent from "./components/Pages/User/Agent";
 
 import Course from "./components/Pages/Course/Course";
 import CreateCourse from "./components/Pages/Course/course_crud/add";
+import UpdateCourse from "./components/Pages/Course/course_crud/update";
 import Subject from "./components/Pages/Subjects/Subject";
 import CreateSubject from "./components/Pages/Subjects/subject_crud/add";
+import UpdateSubject from "./components/Pages/Subjects/subject_crud/update";
 import Semester from "./components/Pages/Semester/Semester";
 import CreateSemester from "./components/Pages/Semester/semester_crud/add";
+import UpdateSemester from "./components/Pages/Semester/semester_crud/update";
 import Department from "./components/Pages/Department/Department";
 import CreateDepartment from "./components/Pages/Department/department_crud/add";
 import Groups from "./components/Pages/Groups/Groups";
@@ -66,10 +69,16 @@ function App() {
               //--------------------New Rotes--------------------------------//
               <Route path={"/course-list"} element={<Course />} />
               <Route path={"/add-course"} element={<CreateCourse />} />
+              <Route path={"/update-course/:id"} element={<UpdateCourse />} />
               <Route path={"/subject-list"} element={<Subject />} />
               <Route path={"/add-subject"} element={<CreateSubject />} />
+              <Route path={"/update-subject/:id"} element={<UpdateSubject />} />
               <Route path={"/semester-list"} element={<Semester />} />
               <Route path={"/add-semester"} element={<CreateSemester />} />
+              <Route
+                path={"/update-semester/:id"}
+                element={<UpdateSemester />}
+              />
               <Route path={"/department-list"} element={<Department />} />
               <Route path={"/add-department"} element={<CreateDepartment />} />
               <Route path={"/group-list"} element={<Groups />} />

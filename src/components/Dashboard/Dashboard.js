@@ -184,7 +184,7 @@ export default function Dashboard() {
                 <Card.Body className="card-body">
                   <Row>
                     <div className="col">
-                      <h6 className="">Today Student</h6>
+                      <h6 className="">Today Attendance</h6>
                       <h5 className="mb-2 number-font">
                         {/* $ */}
                         Present:

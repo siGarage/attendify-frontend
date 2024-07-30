@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 export const createSubject = (subject) => async (dispatch) => {
   try {
     dispatch({ type: SUBJECT_ADD_REQUEST });
-    const {data} = await API.post("/createSubject", subject);
+    const { data } = await API.post("/createSubject", subject);
     if (data.status_code == 201) {
       dispatch({ type: SUBJECT_ADD_SUCCESS, payload: data?.subject });
       toast.success(data?.message);
@@ -59,19 +59,19 @@ export const subjectDelete = (id) => async (dispatch) => {
   }
 };
 
-// export const examUpdate = (SUBJECT) => async (dispatch) => {
-//     try {
-//         dispatch({ type: SUBJECT_UPDATE_REQUEST });
-//         const { data } = await API.put(`/examUpdate`, SUBJECT);
-//         dispatch({ type: SUBJECT_UPDATE_SUCCESS, payload: data });
-//         toast.success("SUBJECT updated successfully.")
-//         return data
-//     } catch (error) {
-//         console.log(error, "error")
-//         toast.error(error)
-//         dispatch({
-//             type: SUBJECT_UPDATE_FAILURE,
-//             // payload: error.message && error.message ? error.message : '',
-//         });
-//     }
-// };
+export const updateSubject = (SUBJECT) => async (dispatch) => {
+  try {
+    dispatch({ type: SUBJECT_UPDATE_REQUEST });
+    const { data } = await API.put(`/updateSubject`, SUBJECT);
+    dispatch({ type: SUBJECT_UPDATE_SUCCESS, payload: data.subject_u });
+    toast.success("Subject updated successfully.");
+    return data;
+  } catch (error) {
+    console.log(error, "error");
+    toast.error(error);
+    dispatch({
+      type: SUBJECT_UPDATE_FAILURE,
+      // payload: error.message && error.message ? error.message : '',
+    });
+  }
+};

@@ -59,19 +59,19 @@ export const semesterDelete = (id) => async (dispatch) => {
   }
 };
 
-// export const examUpdate = (semester) => async (dispatch) => {
-//     try {
-//         dispatch({ type: SEMESTER_UPDATE_REQUEST });
-//         const { data } = await API.put(`/examUpdate`, semester);
-//         dispatch({ type: SEMESTER_UPDATE_SUCCESS, payload: data });
-//         toast.success("semester updated successfully.")
-//         return data
-//     } catch (error) {
-//         console.log(error, "error")
-//         toast.error(error)
-//         dispatch({
-//             type: SEMESTER_UPDATE_FAILURE,
-//             // payload: error.message && error.message ? error.message : '',
-//         });
-//     }
-// };
+export const semesterUpdate = (semester) => async (dispatch) => {
+  try {
+    dispatch({ type: SEMESTER_UPDATE_REQUEST });
+    const { data } = await API.put(`/updateSemester`, semester);
+    dispatch({ type: SEMESTER_UPDATE_SUCCESS, payload: data.semester_u });
+    toast.success("semester updated successfully.");
+    return data;
+  } catch (error) {
+    console.log(error, "error");
+    toast.error(error);
+    dispatch({
+      type: SEMESTER_UPDATE_FAILURE,
+      // payload: error.message && error.message ? error.message : '',
+    });
+  }
+};

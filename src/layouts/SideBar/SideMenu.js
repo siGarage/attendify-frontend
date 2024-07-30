@@ -157,6 +157,24 @@
 
 export const MENUITEMS = [
   {
+    menutitle: "Dashboard",
+    Items: [
+      {
+        title: "Dashboard",
+        icon: "user",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `/dashboard`,
+            type: "link",
+            title: "Dashboard",
+          },
+        ],
+      },
+    ],
+  },
+  {
     menutitle: "Institute Features",
     Items: [
       {
@@ -171,16 +189,15 @@ export const MENUITEMS = [
             title: "Course",
           },
           {
-            path: `/subject-list`,
-            type: "link",
-            title: "Subject",
-          },
-          {
             path: `/semester-list`,
             type: "link",
             title: "Phase",
           },
-
+          {
+            path: `/subject-list`,
+            type: "link",
+            title: "Subject",
+          },
           {
             path: `/department-list`,
             type: "link",
@@ -232,7 +249,7 @@ export const MENUITEMS = [
             path: `/teacher-attendance-list`,
             type: "link",
             title: "Teacher Attendance",
-          }
+          },
         ],
       },
     ],

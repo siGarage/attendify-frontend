@@ -2024,7 +2024,7 @@ export const SubjectDataTables = ({ handleShow, Subjects }) => {
         <span className="" style={{ width: "409px" }}>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <NavLink
-              to={`/update-course/${row?._id}`}
+              to={`/update-subject/${row?._id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -2095,7 +2095,7 @@ export const SemesterDataTables = ({ handleShow, Semesters }) => {
         <span className="" style={{ width: "409px" }}>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <NavLink
-              to={`/update-course/${row?._id}`}
+              to={`/update-semester/${row?._id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>

@@ -25,23 +25,22 @@ export default function Semesters() {
 
   const handleClose = () => setShow(false);
   useEffect(() => {
-    dispatch(fetchSemester());
     dispatch(fetchCourse());
-    if (Semesters?.length > 0 && Courses?.length > 0) {
-      const Sem = Semesters?.map((sem) => {
-        return {
-          ...sem,
-          courseName: Courses?.filter(({ _id }) => sem.course_id === _id),
-        };
-      });
-      if (Sem?.length > 0) {
-        setFinalSemester(Sem);
-      }
-    } else {
-      console.log("kartik");
-      dispatch(fetchSemester());
-    }
+    dispatch(fetchSemester());
   }, []);
+
+  useEffect(() => {
+    const Sem = Semesters?.map((sem) => {
+      return {
+        ...sem,
+        courseName: Courses?.filter(({ _id }) => sem.course_id === _id),
+      };
+    });
+    if (Sem?.length > 0) {
+      setFinalSemester(Sem);
+    }
+  }, [Courses, Semesters]);
+
   const handleClickOpen = (scrollType, row) => () => {
     setEditUser(row);
     setOpen(true);
@@ -73,7 +72,7 @@ export default function Semesters() {
           <h1 className="page-title">Phase</h1>
           <Breadcrumb className="breadcrumb">
             <Breadcrumb.Item className="breadcrumb-item" href="#">
-            Phases
+              Phases
             </Breadcrumb.Item>
             <Breadcrumb.Item
               className="breadcrumb-item active breadcrumds"
