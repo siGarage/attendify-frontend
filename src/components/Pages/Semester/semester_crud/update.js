@@ -34,7 +34,7 @@ export default function SemesterAdd() {
     initialValues: {
       name: Semesters[0].name || "",
       course_id: Semesters[0].course_id || "",
-      status: "active",
+      status: Semesters[0].status || "",
     },
     onSubmit: (values) => {
       let _id = params?.id;
@@ -78,17 +78,12 @@ export default function SemesterAdd() {
                           ) : null}
                         </Col>
 
-                        <Col
-                          sm={12}
-                          lg={4}
-                          md={4}
-                          xl={4}
-                          style={{ display: "none" }}
-                        >
+                        <Col sm={12} lg={4} md={4} xl={4}>
                           <label className="form-label">Status</label>
                           <Form.Select
                             name="status"
                             onChange={formik.handleChange}
+                            value={formik.values.status}
                           >
                             <option>Select Status</option>
                             <option value="active">Active</option>

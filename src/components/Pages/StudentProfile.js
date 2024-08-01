@@ -13,6 +13,7 @@ import { fetchSemester } from "../../redux/Action/SemesterAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
 import DataTable from "react-data-table-component";
 import { fetchSingleStudentsAttendence } from "../../redux/Action/StudentAttendenceAction";
+import { escape } from "validator";
 
 export default function StudentProfile() {
   const dispatch = useDispatch();
@@ -124,7 +125,8 @@ export default function StudentProfile() {
     return array.filter((obj) => obj._id === targetId).map((obj) => obj.name);
   }
   function takeLastTwoAlphas(str) {
-    return str.slice(-1);
+    const dateParts = str.split("-");
+    return parseInt(dateParts[2], 10);
   }
 
   useEffect(() => {
@@ -144,11 +146,14 @@ export default function StudentProfile() {
           days: StudentAttendence[0]
             .filter((innerObj) => innerObj.subject_id === obj.subject_id)
             .reduce((accumulatedAttendance, innerObj) => {
+              // console.log(accumulatedAttendance);
               accumulatedAttendance[takeLastTwoAlphas(innerObj.a_date)] =
                 innerObj.attendence_status;
               return accumulatedAttendance;
             }, {}),
         }));
+
+      console.log(subjectsArray);
       setFinalAttendence(subjectsArray);
     }
   }, [StudentAttendence[0], Subjects]);
@@ -164,7 +169,13 @@ export default function StudentProfile() {
               <Card.Body className="bg-white small-radius">
                 <div className="wideget-user">
                   <Row>
-                    <Col lg={2} md={2} xl={2} sm={12} className="d-flex justify-content-center">
+                    <Col
+                      lg={2}
+                      md={2}
+                      xl={2}
+                      sm={12}
+                      className="d-flex justify-content-center"
+                    >
                       {/* <img
                         className="rounded"
                         src={profile}

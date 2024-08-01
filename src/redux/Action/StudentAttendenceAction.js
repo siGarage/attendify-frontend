@@ -9,12 +9,16 @@ import {
   STUDENT_ATTENDANCE_GET_REQUEST,
   STUDENT_ATTENDANCE_GET_FAILURE,
   STUDENT_ATTENDANCE_GET_SUCCESS,
+  TODAY_STUDENT_ATTENDANCE_GET_REQUEST,
+  TODAY_STUDENT_ATTENDANCE_GET_FAILURE,
+  TODAY_STUDENT_ATTENDANCE_GET_SUCCESS,
   STUDENT_ATTENDANCE_ADD_FAILURE,
   STUDENT_ATTENDANCE_ADD_REQUEST,
   STUDENT_ATTENDANCE_ADD_SUCCESS,
   SINGLE_STUDENT_ATTENDANCE_GET_FAILURE,
   SINGLE_STUDENT_ATTENDANCE_GET_SUCCESS,
   SINGLE_STUDENT_ATTENDANCE_GET_REQUEST,
+  
 } from "../Constants/Constants";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -71,6 +75,18 @@ export const fetchStudentsAttendence = (values) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: STUDENT_ATTENDANCE_GET_FAILURE,
+    });
+  }
+};
+
+export const fetchTodayStudentsAttendence = () => async (dispatch) => {
+  try {
+    dispatch({ type: TODAY_STUDENT_ATTENDANCE_GET_REQUEST });
+    const { data } = await API.get(`/fetchTodayStudentAttendences`);
+    dispatch({ type: TODAY_STUDENT_ATTENDANCE_GET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: TODAY_STUDENT_ATTENDANCE_GET_FAILURE,
     });
   }
 };

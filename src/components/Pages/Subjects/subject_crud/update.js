@@ -56,7 +56,7 @@ export default function SubjectAdd() {
   const formik = useFormik({
     initialValues: {
       name: Subjects[0].name || "",
-      status: "active",
+      status: Subjects[0].status || "",
       elective: Subjects[0].elective || false,
       semester_id: Subjects[0].semester_id || "",
     },
@@ -111,12 +111,12 @@ export default function SubjectAdd() {
                           lg={4}
                           md={4}
                           xl={4}
-                          style={{ display: "none" }}
                         >
                           <label className="form-label">Status</label>
                           <Form.Select
                             name="status"
                             onChange={formik.handleChange}
+                            value={formik.values.status}
                           >
                             <option>Select Status</option>
                             <option value="active">Active</option>

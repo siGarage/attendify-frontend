@@ -9,7 +9,10 @@ import moment from "moment";
 import { fetchDepartment } from "../../redux/Action/DepartmentAction";
 import { fetchCourse } from "../../redux/Action/CourseAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
-import { fetchStudentsAttendence } from "../../redux/Action/StudentAttendenceAction";
+import {
+  fetchStudentsAttendence,
+  fetchTodayStudentsAttendence,
+} from "../../redux/Action/StudentAttendenceAction";
 // import { Chart } from "react-google-charts";
 import API from "../../service/API";
 export default function Dashboard() {
@@ -17,40 +20,31 @@ export default function Dashboard() {
   const [present, setPresent] = useState(0);
   const [absent, setAbsent] = useState(0);
   useEffect(() => {
-    // attendenceReport();
     dispatch(fetchDepartment());
     dispatch(fetchCourse());
     dispatch(fetchSubject());
     dispatch(fetchStudentsAttendence());
+    dispatch(fetchTodayStudentsAttendence());
   }, []);
 
-  // const attendenceReport = async () => {
-  //   const { data } = await API.get(`/getStudentAttendences`);
-  //   let finalData = data?.filter((item) =>
-  //     moment(item.date)
-  //       .format("DD/MM/YYYY")
-  //       .toLowerCase()
-  //       .includes(today.format("DD/MM/YYYY"))
-  //   );
-  //   if (finalData?.length > 0) {
-  //     let presentData = finalData?.filter(
-  //       (item) => item.attendence_status == "Present"
-  //     );
-  //     setPresent(presentData.length);
-  //     let absentData = finalData?.filter(
-  //       (item) => item.attendence_status !== "Present"
-  //     );
-  //     setAbsent(absentData.length);
-  //   }
-  // };
-
   const today = moment();
-  const { Departments, Courses, Subjects } = useSelector((state) => ({
-    Departments: state?.departments?.departments,
-    Courses: state?.courses?.courses,
-    Subjects: state?.subjects?.subjects,
-    studentAttendece: state?.studentsAttendence?.studentsAttendence,
-  }));
+  const { Departments, Courses, Subjects, TodayAttendance } = useSelector(
+    (state) => ({
+      Departments: state?.departments?.departments,
+      Courses: state?.courses?.courses,
+      Subjects: state?.subjects?.subjects,
+      studentAttendece: state?.studentsAttendence?.studentsAttendence,
+      TodayAttendance: state?.studentsAttendence?.todayAttendance,
+    })
+  );
+  useEffect(() => {
+    const count = TodayAttendance[0]?.reduce((count, attendance) => {
+      console.log(attendance.attendence_status);
+      return attendance.attendence_status === "Present" ? count + 1 : count;
+    }, 0);
+    setPresent(count);
+    setAbsent(TodayAttendance[0].length - count);
+  }, [TodayAttendance]);
   const data = [
     ["Year", "Present", "Absent"],
     ["1st May 2024", 500, 400],
