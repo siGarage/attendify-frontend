@@ -21877,11 +21877,11 @@ body.fixed-header .header {
 }
 
 .header-brand-img {
-    height: 2.25rem;
+    /* height: 2.25rem; */
     line-height: 2rem;
     vertical-align: middle;
     margin-right: 0.5rem;
-    width: auto;
+    width: 10rem;
 }
 
 .header-avatar {
@@ -37045,7 +37045,7 @@ body:not(.horizontal) .side-menu {
     display: -moz-inline-stack;
     display: inline-block;
     zoom: 1;
-    *display: inline;
+    display: inline;
 }
 
 .selectize-control.multi .selectize-input>div {
@@ -41591,7 +41591,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item.lg-complete .lg-object 
 }
 
 .group {
-    *zoom: 1;
+    zoom: 1;
 }
 
 .group:before {
