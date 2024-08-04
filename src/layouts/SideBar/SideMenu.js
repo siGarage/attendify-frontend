@@ -212,24 +212,24 @@ export const MENUITEMS = [
       },
     ],
   },
-  {
-    menutitle: "Other Features",
-    Items: [
-      {
-        title: "Groups",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/group-list`,
-            type: "link",
-            title: "Groups",
-          },
-        ],
-      },
-    ],
-  },
+  // {
+  //   menutitle: "Other Features",
+  //   Items: [
+  //     {
+  //       title: "Groups",
+  //       icon: "user",
+  //       type: "sub",
+  //       active: false,
+  //       children: [
+  //         {
+  //           path: `/group-list`,
+  //           type: "link",
+  //           title: "Groups",
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
 
   {
     menutitle: "Attendance",

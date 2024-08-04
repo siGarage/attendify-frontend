@@ -15,6 +15,7 @@ import { fetchSubject } from "../../../../redux/Action/SubjectAction";
 import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 import { fetchStudentsAttendence } from "../../../../redux/Action/StudentAttendenceAction";
 import { AddStudentAttendenceModal } from "../../../Modal/AddStudentModal";
+import * as Yup from "yup";
 
 export default function StudentAdd() {
   const dispatch = useDispatch();
@@ -204,14 +205,22 @@ export default function StudentAdd() {
     }, []);
     setFinalAttendence(uniqueData);
   }, [StudentAttendence]);
+  const SignupSchema = Yup.object().shape({
+    course_id: Yup.string().required("*Required"),
+    endDate: Yup.string().required("*Required"),
+    fromdate: Yup.string().required("*Required"),
+  });
   const formik = useFormik({
     initialValues: {
       course_id: "",
       semester_id: "",
       type: "",
       subject_id: "",
+      endDate: "",
+      fromdate: "",
     },
-    onSubmit: (values) => {
+    validationSchema: SignupSchema,
+    onSubmit: (values, { resetForm }) => {
       dispatch(fetchStudentsAttendence(values));
     },
   });
@@ -323,6 +332,11 @@ export default function StudentAdd() {
                               })
                             : ""}
                         </select>
+                        {formik.errors.course_id ? (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.course_id}
+                          </div>
+                        ) : null}
                       </Col>
                       {course ? (
                         <Col sm={12} lg={3} md={3} xl={3}>
@@ -433,6 +447,11 @@ export default function StudentAdd() {
                           placeholder="Date"
                           className="form-control required"
                         />
+                        {formik.errors.endDate ? (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.endDate}
+                          </div>
+                        ) : null}
                       </Col>
                     </div>
                     <div className="d-flex justify-content-start">
@@ -444,9 +463,10 @@ export default function StudentAdd() {
                         Submit
                       </Button>
                       <Button
-                        type="submit"
+                        type="button"
                         variant="danger"
                         className="me-1 mt-5"
+                        onClick={formik.resetForm}
                       >
                         Reset
                       </Button>

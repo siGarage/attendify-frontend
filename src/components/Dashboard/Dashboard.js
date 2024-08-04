@@ -43,7 +43,7 @@ export default function Dashboard() {
       return attendance.attendence_status === "Present" ? count + 1 : count;
     }, 0);
     setPresent(count);
-    setAbsent(TodayAttendance[0].length - count);
+    setAbsent(TodayAttendance[0]?.length - count);
   }, [TodayAttendance]);
   const data = [
     ["Year", "Present", "Absent"],
@@ -210,7 +210,7 @@ export default function Dashboard() {
             </Col>
           </Row>
 
-          <Row>
+          {/* <Row>
             <Col xl={8} md={12}>
               <Card className=" overflow-hidden">
                 <Card.Header className="card-header">
@@ -219,17 +219,17 @@ export default function Dashboard() {
                   </div>
                 </Card.Header>
                 <Card.Body className="card-body pb-0 pt-4">
-                  {/* <Chart
+                  <Chart
                     chartType="LineChart"
                     width="100%"
                     height="400px"
                     data={data}
                     options={options}
-                  /> */}
+                  />
                 </Card.Body>
               </Card>
             </Col>
-          </Row>
+          </Row> */}
         </Col>
       </Row>
     </div>
