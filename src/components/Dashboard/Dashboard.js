@@ -12,53 +12,97 @@ import { fetchSubject } from "../../redux/Action/SubjectAction";
 import {
   fetchStudentsAttendence,
   fetchTodayStudentsAttendence,
+  fetchMonthlyAttendence,
 } from "../../redux/Action/StudentAttendenceAction";
-// import { Chart } from "react-google-charts";
+import { Chart } from "react-google-charts";
 import API from "../../service/API";
 export default function Dashboard() {
+  const [month, setMonth] = useState(moment().format("MMMM"));
   const dispatch = useDispatch();
   const [present, setPresent] = useState(0);
   const [absent, setAbsent] = useState(0);
+  const [chartData, setCartData] = useState([]);
   useEffect(() => {
     dispatch(fetchDepartment());
     dispatch(fetchCourse());
     dispatch(fetchSubject());
     dispatch(fetchStudentsAttendence());
     dispatch(fetchTodayStudentsAttendence());
+    let values = { month: month };
+    dispatch(fetchMonthlyAttendence(values));
   }, []);
 
   const today = moment();
-  const { Departments, Courses, Subjects, TodayAttendance } = useSelector(
-    (state) => ({
+  const { Departments, Courses, Subjects, TodayAttendance, MonthlyAttendance } =
+    useSelector((state) => ({
       Departments: state?.departments?.departments,
       Courses: state?.courses?.courses,
       Subjects: state?.subjects?.subjects,
       studentAttendece: state?.studentsAttendence?.studentsAttendence,
       TodayAttendance: state?.studentsAttendence?.todayAttendance,
-    })
-  );
+      MonthlyAttendance: state?.studentsAttendence?.monthlyAttendence,
+    }));
+
   useEffect(() => {
     const count = TodayAttendance[0]?.reduce((count, attendance) => {
-      console.log(attendance.attendence_status);
       return attendance.attendence_status === "Present" ? count + 1 : count;
     }, 0);
     setPresent(count);
     setAbsent(TodayAttendance[0]?.length - count);
   }, [TodayAttendance]);
-  const data = [
-    ["Year", "Present", "Absent"],
-    ["1st May 2024", 500, 400],
-    ["2.06.2024", 425, 75],
-    ["3.06.2024", 987, 0],
-    ["4.06.2024", 800, 187],
-    ["4.06.2024", 900, 87],
-    ["4.06.2024", 600, 87],
-    ["4.06.2024", 900, 87],
-    ["4.06.2024", 600, 87],
-    ["4.06.2024", 400, 87],
-    ["4.06.2024", 200, 87],
-    ["4.06.2024", 800, 87],
-  ];
+
+  useEffect(() => {
+    const uniqueDates = MonthlyAttendance.map((item) => item.a_date).filter(
+      (date, index, self) => self.indexOf(date) === index
+    );
+
+    function countStudentsByStatus(MonthlyAttendance, uniqueDates) {
+      const dateCounts = {};
+      uniqueDates?.forEach((date) => {
+        dateCounts[date] = {
+          present: 0,
+          absent: 0,
+        };
+      });
+      MonthlyAttendance?.forEach((attendance) => {
+        if (uniqueDates.includes(attendance.a_date)) {
+          dateCounts[attendance.a_date][
+            attendance.attendence_status.toLowerCase()
+          ]++;
+        }
+      });
+      return dateCounts;
+    }
+    const data = countStudentsByStatus(MonthlyAttendance, uniqueDates);
+    function convertObjectToArray(data) {
+      return Object.entries(data).map(([date, counts]) => ({
+        date,
+        present: counts.present,
+        absent: counts.absent,
+      }));
+    }
+    const chartData = convertObjectToArray(data);
+    let finalData = [["Year", "Present", "Absent"]];
+    chartData.map((item) => {
+      finalData.push([item.date, item.present, item.absent]);
+    });
+    setCartData(finalData);
+  }, [MonthlyAttendance]);
+
+  // const data = [
+  //   ["Year", "Present", "Absent"],
+  //   ["1st May 2024", 500, 400],
+  //   ["2.06.2024", 425, 75],
+  //   ["3.06.2024", 987, 0],
+  //   ["4.06.2024", 800, 187],
+  //   ["4.06.2024", 900, 87],
+  //   ["4.06.2024", 600, 87],
+  //   ["4.06.2024", 900, 87],
+  //   ["4.06.2024", 600, 87],
+  //   ["4.06.2024", 400, 87],
+  //   ["4.06.2024", 200, 87],
+  //   ["4.06.2024", 800, 87],
+  // ];
 
   const options = {
     title: "Monthly Attendence Performance",
@@ -210,7 +254,7 @@ export default function Dashboard() {
             </Col>
           </Row>
 
-          {/* <Row>
+          <Row>
             <Col xl={8} md={12}>
               <Card className=" overflow-hidden">
                 <Card.Header className="card-header">
@@ -223,13 +267,13 @@ export default function Dashboard() {
                     chartType="LineChart"
                     width="100%"
                     height="400px"
-                    data={data}
+                    data={chartData}
                     options={options}
                   />
                 </Card.Body>
               </Card>
             </Col>
-          </Row> */}
+          </Row>
         </Col>
       </Row>
     </div>

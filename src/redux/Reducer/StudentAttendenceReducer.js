@@ -6,12 +6,14 @@ import {
   SINGLE_STUDENT_ATTENDANCE_GET_REQUEST,
   SINGLE_STUDENT_ATTENDANCE_GET_SUCCESS,
   TODAY_STUDENT_ATTENDANCE_GET_SUCCESS,
+  MONTHLY_ATTENDANCE_GET_SUCCESS,
 } from "../Constants/Constants";
 
 let initState = {
   studentsAttendence: [],
   singleStudentAttendance: [],
   todayAttendance: [],
+  monthlyAttendence: [],
 };
 
 const studentReducer = (state = initState, action) => {
@@ -42,6 +44,11 @@ const studentReducer = (state = initState, action) => {
       return {
         ...state,
         todayAttendance: [action.payload],
+      };
+    case MONTHLY_ATTENDANCE_GET_SUCCESS:
+      return {
+        ...state,
+        monthlyAttendence: [...action.payload],
       };
     default:
       return state;
