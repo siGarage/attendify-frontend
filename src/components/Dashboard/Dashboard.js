@@ -16,8 +16,9 @@ import {
 } from "../../redux/Action/StudentAttendenceAction";
 import { Chart } from "react-google-charts";
 import API from "../../service/API";
+import Spinner from "react-bootstrap/Spinner";
 export default function Dashboard() {
-  const [month, setMonth] = useState(moment().format("MMMM"));
+  const [month, setMonth] = useState(moment().month() + 1);
   const dispatch = useDispatch();
   const [present, setPresent] = useState(0);
   const [absent, setAbsent] = useState(0);
@@ -28,6 +29,7 @@ export default function Dashboard() {
     dispatch(fetchSubject());
     dispatch(fetchStudentsAttendence());
     dispatch(fetchTodayStudentsAttendence());
+
     let values = { month: month };
     dispatch(fetchMonthlyAttendence(values));
   }, []);
@@ -263,13 +265,18 @@ export default function Dashboard() {
                   </div>
                 </Card.Header>
                 <Card.Body className="card-body pb-0 pt-4">
-                  <Chart
-                    chartType="LineChart"
-                    width="100%"
-                    height="400px"
-                    data={chartData}
-                    options={options}
-                  />
+                  {chartData?.length <= 1 ? (
+                    <div className="d-flex justify-content-center">
+                    <Spinner animation="border" variant="primary" /></div>
+                  ) : (
+                    <Chart
+                      chartType="LineChart"
+                      width="100%"
+                      height="400px"
+                      data={chartData}
+                      options={options}
+                    />
+                  )}
                 </Card.Body>
               </Card>
             </Col>
