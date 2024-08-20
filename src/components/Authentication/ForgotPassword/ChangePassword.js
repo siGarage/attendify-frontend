@@ -114,7 +114,7 @@ export default function ChangePassword() {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <div className="d-flex justify-content-center my-3">
+                    {/* <div className="d-flex justify-content-center my-3">
                       <Link to="#" className="social-login  text-center me-4">
                         <i className="fa fa-google"></i>
                       </Link>
@@ -124,7 +124,7 @@ export default function ChangePassword() {
                       <Link to="#" className="social-login  text-center">
                         <i className="fa fa-twitter"></i>
                       </Link>
-                    </div>
+                    </div> */}
                   </Card.Footer>
                 </Form>
               </Col>

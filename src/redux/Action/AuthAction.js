@@ -50,7 +50,7 @@ export const login = (userInfo) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_SUCCESS });
     if (data?.data?.responseUser?.role == 0) {
       toast("Invalid Credentials");
-    } else if (data.status_code) {
+    } else if (data.status_text) {
       sessionStorage.setItem("accessToken", data?.data?.token);
       sessionStorage.setItem("userId", data?.data?.responseUser?._id);
       sessionStorage.setItem("name", data?.data?.responseUser?.name);

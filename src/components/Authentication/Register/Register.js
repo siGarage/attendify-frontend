@@ -188,7 +188,7 @@ export default function Register() {
                 </form>
               </Card.Body>
               <Card.Footer>
-                <div className="d-flex justify-content-center my-3">
+                {/* <div className="d-flex justify-content-center my-3">
                   <Link to="#" className="social-login  text-center me-4">
                     <i className="fa fa-google"></i>
                   </Link>
@@ -198,7 +198,7 @@ export default function Register() {
                   <Link to="#" className="social-login  text-center">
                     <i className="fa fa-twitter"></i>
                   </Link>
-                </div>
+                </div> */}
               </Card.Footer>
             </div>
           </div>

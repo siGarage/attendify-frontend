@@ -33,12 +33,12 @@ export default function ResetPassword() {
     <div onSubmit={formik.handleSubmit} className="login-img">
       <div className="page">
         <div className="dropdown float-end custom-layout">
-          <div
+          {/* <div
             className="demo-icon nav-link icon mt-4 bg-primary"
             onClick={() => custompagesswitcherdata.Swichermainright()}
           >
             <i className="fe fe-settings fa-spin text_primary"></i>
-          </div>
+          </div> */}
         </div>
         <div className="">
           <div
@@ -142,7 +142,7 @@ export default function ResetPassword() {
                     </div>
                   </Card.Body>
                   <Card.Footer>
-                    <div className="d-flex justify-content-center my-3">
+                    {/* <div className="d-flex justify-content-center my-3">
                       <Link to="#" className="social-login  text-center me-4">
                         <i className="fa fa-google"></i>
                       </Link>
@@ -152,7 +152,7 @@ export default function ResetPassword() {
                       <Link to="#" className="social-login  text-center">
                         <i className="fa fa-twitter"></i>
                       </Link>
-                    </div>
+                    </div> */}
                   </Card.Footer>
                 </Form>
               </Col>
