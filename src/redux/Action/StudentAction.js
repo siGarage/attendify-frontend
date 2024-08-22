@@ -77,19 +77,18 @@ export const studentDelete = (id) => async (dispatch) => {
   }
 };
 
-// export const examUpdate = (student) => async (dispatch) => {
-//     try {
-//         dispatch({ type: STUDENT_UPDATE_REQUEST });
-//         const { data } = await API.put(`/examUpdate`, student);
-//         dispatch({ type: STUDENT_UPDATE_SUCCESS, payload: data });
-//         toast.success("student updated successfully.")
-//         return data
-//     } catch (error) {
-//         console.log(error, "error")
-//         toast.error(error)
-//         dispatch({
-//             type: STUDENT_UPDATE_FAILURE,
-//             // payload: error.message && error.message ? error.message : '',
-//         });
-//     }
-// };
+export const updateStudent = (student) => async (dispatch) => {
+  try {
+    dispatch({ type: STUDENT_UPDATE_REQUEST });
+    const { data } = await API.put(`/updateStudent`, student);
+    dispatch({ type: STUDENT_UPDATE_SUCCESS, payload: data });
+    toast.success("Student updated successfully.");
+  } catch (error) {
+    console.log(error, "error");
+    toast.error(error);
+    dispatch({
+      type: STUDENT_UPDATE_FAILURE,
+      // payload: error.message && error.message ? error.message : '',
+    });
+  }
+};

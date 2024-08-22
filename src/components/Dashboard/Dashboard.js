@@ -17,6 +17,8 @@ import {
 import { Chart } from "react-google-charts";
 import API from "../../service/API";
 import Spinner from "react-bootstrap/Spinner";
+import { fetchStudents } from "../../redux/Action/StudentAction";
+import { fetchTeachers } from "../../redux/Action/TeacherAction";
 export default function Dashboard() {
   const [month, setMonth] = useState(moment().month() + 1);
   const dispatch = useDispatch();
@@ -29,21 +31,31 @@ export default function Dashboard() {
     dispatch(fetchSubject());
     dispatch(fetchStudentsAttendence());
     dispatch(fetchTodayStudentsAttendence());
-
+    dispatch(fetchStudents());
+    dispatch(fetchTeachers());
     let values = { month: month };
     dispatch(fetchMonthlyAttendence(values));
   }, []);
 
   const today = moment();
-  const { Departments, Courses, Subjects, TodayAttendance, MonthlyAttendance } =
-    useSelector((state) => ({
-      Departments: state?.departments?.departments,
-      Courses: state?.courses?.courses,
-      Subjects: state?.subjects?.subjects,
-      studentAttendece: state?.studentsAttendence?.studentsAttendence,
-      TodayAttendance: state?.studentsAttendence?.todayAttendance,
-      MonthlyAttendance: state?.studentsAttendence?.monthlyAttendence,
-    }));
+  const {
+    Departments,
+    Courses,
+    Subjects,
+    TodayAttendance,
+    MonthlyAttendance,
+    students,
+    teachers,
+  } = useSelector((state) => ({
+    Departments: state?.departments?.departments,
+    Courses: state?.courses?.courses,
+    Subjects: state?.subjects?.subjects,
+    studentAttendece: state?.studentsAttendence?.studentsAttendence,
+    TodayAttendance: state?.studentsAttendence?.todayAttendance,
+    MonthlyAttendance: state?.studentsAttendence?.monthlyAttendence,
+    students: state?.students?.students,
+    teachers: state?.teachers?.teachers,
+  }));
 
   useEffect(() => {
     const count = TodayAttendance[0]?.reduce((count, attendance) => {
@@ -220,6 +232,70 @@ export default function Dashboard() {
               </Card>
             </Col>
             <Col lg={6} md={12} sm={12} xl={3}>
+              <Card className="card overflow-hidden">
+                <Card.Body className="card-body">
+                  <Row>
+                    <div className="col">
+                      <h6 className="">Total Students</h6>
+                      <h3 className="mb-2 number-font">
+                        {/* $ */}
+                        <CountUp
+                          end={students.length}
+                          separator=","
+                          start={0}
+                          duration={2.94}
+                        />
+                      </h3>
+                      {/* <p className="text-muted mb-0">
+                        <span className="text-success me-1">
+                          <i className="fa fa-book text-success me-1"></i>
+                          <span>0.5% </span>
+                        </span>
+                        last month
+                      </p> */}
+                    </div>
+                    <div className="col col-auto">
+                      <div className="counter-icon bg-info-gradient box-shadow-secondary brround ms-auto">
+                        <i className="fa fa-graduation-cap text-white mb-5 "></i>
+                      </div>
+                    </div>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col lg={6} md={12} sm={12} xl={3}>
+              <Card className="card overflow-hidden">
+                <Card.Body className="card-body">
+                  <Row>
+                    <div className="col">
+                      <h6 className="">Total Teachers</h6>
+                      <h3 className="mb-2 number-font">
+                        {/* $ */}
+                        <CountUp
+                          end={teachers.length}
+                          separator=","
+                          start={0}
+                          duration={2.94}
+                        />
+                      </h3>
+                      {/* <p className="text-muted mb-0">
+                        <span className="text-success me-1">
+                          <i className="fa fa-book text-success me-1"></i>
+                          <span>0.5% </span>
+                        </span>
+                        last month
+                      </p> */}
+                    </div>
+                    <div className="col col-auto">
+                      <div className="counter-icon bg-warning-gradient box-shadow-secondary brround ms-auto">
+                        <i className="fa fa-graduation-cap text-white mb-5 "></i>
+                      </div>
+                    </div>
+                  </Row>
+                </Card.Body>
+              </Card>
+            </Col>
+            <Col lg={6} md={12} sm={12} xl={3}>
               <Card className=" overflow-hidden">
                 <Card.Body className="card-body">
                   <Row>
@@ -267,7 +343,8 @@ export default function Dashboard() {
                 <Card.Body className="card-body pb-0 pt-4">
                   {chartData?.length <= 1 ? (
                     <div className="d-flex justify-content-center">
-                    <Spinner animation="border" variant="primary" /></div>
+                      <Spinner animation="border" variant="primary" />
+                    </div>
                   ) : (
                     <Chart
                       chartType="LineChart"

@@ -212,27 +212,24 @@ export default function StudentProfile() {
                           </p>
                           <p className="mb-0">
                             <strong>Gender:</strong>
-                            {students[0].gender}
+                            {students[0]?.gender}
                           </p>
                           <p className="mb-0">
-                            <strong>Race:</strong>&nbsp;White
-                          </p>
-                          <p className="mb-0">
-                            <strong>Ethnicity:</strong>&nbsp;Hispanic
+                            <strong>Father's Name:</strong>&nbsp; {students[0]?.father_name}
                           </p>
                         </Col>
                         <Col className="p-4 mt-2">
                           <p className="mb-0">
-                            <strong>Batch:</strong>&nbsp;{students[0].batch}
+                            <strong>Batch:</strong>&nbsp;{students[0]?.batch}
                           </p>
-                          <p className="mb-0">
+                          {/* <p className="mb-0">
                             <strong>ELL:</strong>Never Ell
                           </p>
                           <p className="mb-0">
                             <strong>SWD:</strong>&nbsp;
-                          </p>
+                          </p> */}
                           <p className="mb-0">
-                            <strong>Phone:</strong>&nbsp;{students[0].phone_no}
+                            <strong>Phone:</strong>&nbsp;{students[0]?.phone_no}
                           </p>
                         </Col>
                       </Row>

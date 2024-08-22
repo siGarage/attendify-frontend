@@ -1856,7 +1856,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
     },
     {
       name: "HOD",
-      selector: (row) => [row.hod],
+      selector: (row) => [row.TeacherName[0].name],
       sortable: true,
     },
     {
@@ -1872,7 +1872,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
         <span className="" style={{ width: "409px" }}>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <NavLink
-              to={`/update-course/${row?._id}`}
+              to={`/update-department/${row?._id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
@@ -2175,7 +2175,7 @@ export const StudentDataTables = ({ handleShow, Students }) => {
         <span className="" style={{ width: "409px" }}>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <NavLink
-              to={`/update-course/${row?._id}`}
+              to={`/update-student/${row?._id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>

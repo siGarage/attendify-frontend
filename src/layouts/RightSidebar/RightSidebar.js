@@ -53,13 +53,13 @@ export function RightSidebar() {
           </div>
         </div>
         <div className="panel-body tabs-menu-body latest-tasks p-0 border-0">
-          <div className="tabs-menu border-bottom"></div>
+          {/* <div className="tabs-menu border-bottom"></div> */}
           <Tabs
             defaultActiveKey="side1"
             className="nav panel-tabs tab-content rightside flex-nowrap"
             variant=""
           >
-            <Tab eventKey="side1" title="Profile">
+            <Tab eventKey="side1">
               <div className="tab-pane active" id="side1">
                 <div className="card-body text-center">
                   <div className="dropdown user-pro-body">

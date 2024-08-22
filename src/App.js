@@ -30,9 +30,11 @@ import CreateSemester from "./components/Pages/Semester/semester_crud/add";
 import UpdateSemester from "./components/Pages/Semester/semester_crud/update";
 import Department from "./components/Pages/Department/Department";
 import CreateDepartment from "./components/Pages/Department/department_crud/add";
+import UpdateDepartment from "./components/Pages/Department/department_crud/update";
 import Groups from "./components/Pages/Groups/Groups";
 import CreateGroup from "./components/Pages/Groups/group_crud/add";
 import CreateStudent from "./components/Pages/Student/Student_crud/add";
+import UpdateStudent from "./components/Pages/Student/Student_crud/update";
 import CreateTeacher from "./components/Pages/Teacher/Teacher_crud/add";
 import Students from "./components/Pages/Student/Student";
 import TeacherAttendence from "./components/Pages/TeacherAttendence/TeacherAttendence";
@@ -81,9 +83,14 @@ function App() {
               />
               <Route path={"/department-list"} element={<Department />} />
               <Route path={"/add-department"} element={<CreateDepartment />} />
+              <Route
+                path={"/update-department/:id"}
+                element={<UpdateDepartment />}
+              />
               <Route path={"/group-list"} element={<Groups />} />
               <Route path={"/add-group"} element={<CreateGroup />} />
               <Route path={"/add-student"} element={<CreateStudent />} />
+              <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
               <Route path={"/student-list"} element={<Students />} />
               <Route

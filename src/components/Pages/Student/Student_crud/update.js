@@ -2,11 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import "../../../../App.css";
 import { Col, Row, Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { DropImg } from "../../Property/StepForm/component/DropImg";
-import { createTeacher } from "../../../../redux/Action/TeacherAction";
+import { updateStudent } from "../../../../redux/Action/StudentAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
@@ -17,21 +16,27 @@ export default function TeacherAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editor = useRef(null);
-  const [content, setContent] = useState("");
-  const { Courses, Semester } = useSelector((state) => ({
+  const params = useParams();
+  const { Courses, Semester, students } = useSelector((state) => ({
     Courses: state?.courses?.courses,
     Semester: state?.semesters?.semesters,
+    students: state?.students?.students?.filter(
+      (item) => item?._id == params?.id
+    ),
   }));
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
-    alternate_no: Yup.number(),
+    gender: Yup.string().required("*Required"),
+    roll_no: Yup.number().required("*Required"),
+    batch: Yup.string().required("*Required"),
+    semester_id: Yup.string().required("*Required"),
+    course_id: Yup.string().required("*Required"),
+    father_name: Yup.string().required("*Required"),
+    guardian_no: Yup.number(),
     current_address: Yup.string().required("*Required"),
     permanent_address: Yup.string().required("*Required"),
-    department_id: Yup.string().required("*Required"),
-    designation: Yup.string().required("*Required"),
     email: Yup.string().email("Invalid email").required("*Required"),
-    phone_no: Yup.number().required("*Required"),
   });
   useEffect(() => {
     dispatch(fetchCourse());
@@ -39,25 +44,25 @@ export default function TeacherAdd() {
   }, []);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      department_id: "",
-      alternate_no: "",
-      email: "",
-      semester_id: "",
-      designation: "",
-      gender: "",
-      dob: "",
-      permanent_address: "",
-      current_address: "",
+      name: students[0].name || "",
+      guardian_no: students[0].guardian_no || "",
+      father_name: students[0].father_name || "",
+      email: students[0].email || "",
+      semester_id: students[0].semester_id || "",
+      course_id: students[0].course_id || "",
+      gender: students[0].gender || "",
+      dob: students[0].dob || "",
+      batch: students[0].batch || "",
+      roll_no: students[0].roll_no || "",
+      phone_no: students[0].phone_no || "",
+      permanent_address: students[0].permanent_address || "",
+      current_address: students[0].current_address || "",
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      values = {
-        ...values,
-        notes: content,
-      };
-      dispatch(createTeacher(values));
-      navigate("/teacher-list");
+      values = { ...values, id: params?.id };
+      dispatch(updateStudent(values));
+      navigate("/student-list");
     },
   });
   return (
@@ -67,7 +72,7 @@ export default function TeacherAdd() {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Teacher</Card.Title>
+                <Card.Title as="h3">Update Student</Card.Title>
               </Card.Header>
               <Col sm={12} lg={12} md={12} xl={12}>
                 <Card>
@@ -107,7 +112,7 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        
+
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Date Of Birth</label>
                           <input
@@ -124,14 +129,31 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
+
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Employee Id</label>
+                          <label className="form-label">Batch</label>
                           <input
-                            type="number"
+                            type="text"
+                            name="batch"
+                            onChange={formik.handleChange}
+                            value={formik.values.batch}
+                            placeholder="Batch"
+                            className="form-control required"
+                          />
+                          {formik.errors.batch ? (
+                            <div style={{ color: "red" }}>
+                              {formik.errors.batch}
+                            </div>
+                          ) : null}
+                        </Col>
+                        <Col sm={12} lg={3} md={3} xl={3}>
+                          <label className="form-label">Roll no</label>
+                          <input
+                            type="text"
                             name="roll_no"
                             onChange={formik.handleChange}
                             value={formik.values.roll_no}
-                            placeholder="Employee Id"
+                            placeholder="Roll Number"
                             className="form-control required"
                           />
                           {formik.errors.roll_no ? (
@@ -156,7 +178,7 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        {/* <Col sm={12} lg={3} md={3} xl={3}>
+                        <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Father Name</label>
                           <input
                             type="text"
@@ -171,7 +193,7 @@ export default function TeacherAdd() {
                               {formik.errors.father_name}
                             </div>
                           ) : null}
-                        </Col> */}
+                        </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <Form.Group>
                             <Form.Label>Phone Number</Form.Label>
@@ -192,19 +214,19 @@ export default function TeacherAdd() {
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <Form.Group>
-                            <Form.Label>Alternate Number</Form.Label>
+                            <Form.Label>Guardian Number</Form.Label>
                             <input
                               type="number"
-                              name="alternate_no"
+                              name="guardian_no"
                               onChange={formik.handleChange}
                               value={formik.values.guardian_no}
                               placeholder="Alternate Number"
                               className="form-control required"
                             />
                           </Form.Group>
-                          {formik.errors.alternate_no ? (
+                          {formik.errors.guardian_no ? (
                             <div style={{ color: "red" }}>
-                              {formik.errors.alternate_no}
+                              {formik.errors.guardian_no}
                             </div>
                           ) : null}
                         </Col>
@@ -243,45 +265,56 @@ export default function TeacherAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Department Id</label>
-                          <input
-                            type="number"
-                            name="department_id"
+                          <label className="form-label">Course</label>
+                          <select
                             onChange={formik.handleChange}
-                            value={formik.values.department_id}
-                            placeholder="Department Id"
+                            value={formik.values.course_id}
                             className="form-control required"
-                          />
-                          {formik.errors.department_id ? (
+                            name="course_id"
+                          >
+                            <option>Please Select Course</option>
+                            {Courses?.length > 0
+                              ? Courses?.map((course) => {
+                                  return (
+                                    <option value={course?._id}>
+                                      {course?.name}
+                                    </option>
+                                  );
+                                })
+                              : ""}
+                          </select>
+                          {formik.errors.course_id &&
+                          formik.touched.course_id ? (
                             <div style={{ color: "red" }}>
-                              {formik.errors.department_id}
+                              {formik.errors.semester_id}
                             </div>
                           ) : null}
                         </Col>
-                        
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Designation</label>
-                          <input
-                            type="text"
-                            name="designation"
+                          <label className="form-label">Phase</label>
+                          <select
                             onChange={formik.handleChange}
-                            value={formik.values.designation}
-                            placeholder="Designation"
+                            value={formik.values.semester_id}
                             className="form-control required"
-                          />
-                          {formik.errors.designation ? (
+                            name="semester_id"
+                          >
+                            <option>Please Select Phase</option>
+                            {Semester?.length > 0
+                              ? Semester?.map((course) => {
+                                  return (
+                                    <option value={course?._id}>
+                                      {course?.name}
+                                    </option>
+                                  );
+                                })
+                              : ""}
+                          </select>
+                          {formik.errors.semester_id &&
+                          formik.touched.semester_id ? (
                             <div style={{ color: "red" }}>
-                              {formik.errors.designation}
+                              {formik.errors.semester_id}
                             </div>
                           ) : null}
-                        </Col>
-                        <Col sm={12} lg={12} md={12} xl={12}>
-                          <label className="fw-bold mt-5 ">Notes</label>
-                          <JoditEditor
-                            ref={editor}
-                            value={content}
-                            onChange={(newContent) => setContent(newContent)}
-                          />
                         </Col>
                       </div>
                       <Button

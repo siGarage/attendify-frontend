@@ -58,19 +58,19 @@ export const departmentDelete = (id) => async (dispatch) => {
   }
 };
 
-// export const examUpdate = (department) => async (dispatch) => {
-//     try {
-//         dispatch({ type: DEPARTMENT_UPDATE_REQUEST });
-//         const { data } = await API.put(`/examUpdate`, department);
-//         dispatch({ type: DEPARTMENT_UPDATE_SUCCESS, payload: data });
-//         toast.success("department updated successfully.")
-//         return data
-//     } catch (error) {
-//         console.log(error, "error")
-//         toast.error(error)
-//         dispatch({
-//             type: DEPARTMENT_UPDATE_FAILURE,
-//             // payload: error.message && error.message ? error.message : '',
-//         });
-//     }
-// };
+export const updateDepartment = (department) => async (dispatch) => {
+  try {
+    dispatch({ type: DEPARTMENT_UPDATE_REQUEST });
+    const { data } = await API.put(`/updateDepartment`, department);
+    dispatch({ type: DEPARTMENT_UPDATE_SUCCESS, payload: data });
+    toast.success("Department updated successfully.");
+    return data;
+  } catch (error) {
+    console.log(error, "error");
+    toast.error(error);
+    dispatch({
+      type: DEPARTMENT_UPDATE_FAILURE,
+      // payload: error.message && error.message ? error.message : '',
+    });
+  }
+};
