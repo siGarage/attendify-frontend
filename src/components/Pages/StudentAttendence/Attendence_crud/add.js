@@ -19,6 +19,7 @@ export default function StudentAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [course, setCourse] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [semester, setSemester] = useState(false);
   const [subject, setSubject] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -353,58 +354,60 @@ export default function StudentAdd() {
                           </div>
                         ) : null}
                       </Col>
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Phase</label>
-                          <select
-                            onChange={formik.handleChange}
-                            value={formik.values.semester_id}
-                            className="form-control required"
-                            name="semester_id"
-                            id="semester_id"
-                          >
-                            <option value="">Please Select Phase</option>
-                            {Semester?.length > 0
-                              ? Semester?.map((semester) => {
-                                  return (
-                                    <option value={semester?._id}>
-                                      {semester?.name}
-                                    </option>
-                                  );
-                                })
-                              : ""}
-                          </select>
-                          {formik.errors.semester_id && formik.touched.semester_id ? (
-                            <div className="red_color">
-                              {formik.errors.semester_id}
-                            </div>
-                          ) : null}
-                        </Col>
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Subject</label>
-                          <select
-                            onChange={formik.handleChange}
-                            value={formik.values.subject_id}
-                            className="form-control required"
-                            name="subject_id"
-                            id="subject_id"
-                          >
-                            <option value="">Please Select Subject</option>
-                            {Subjects?.length > 0
-                              ? Subjects?.map((subject) => {
-                                  return (
-                                    <option value={subject?._id}>
-                                      {subject?.name}
-                                    </option>
-                                  );
-                                })
-                              : ""}
-                          </select>
-                          {formik.errors.subject_id && formik.touched.subject_id ? (
-                            <div className="red_color">
-                              {formik.errors.subject_id}
-                            </div>
-                          ) : null}
-                        </Col>
+                      <Col sm={12} lg={3} md={3} xl={3}>
+                        <label className="form-label">Phase</label>
+                        <select
+                          onChange={formik.handleChange}
+                          value={formik.values.semester_id}
+                          className="form-control required"
+                          name="semester_id"
+                          id="semester_id"
+                        >
+                          <option value="">Please Select Phase</option>
+                          {Semester?.length > 0
+                            ? Semester?.map((semester) => {
+                                return (
+                                  <option value={semester?._id}>
+                                    {semester?.name}
+                                  </option>
+                                );
+                              })
+                            : ""}
+                        </select>
+                        {formik.errors.semester_id &&
+                        formik.touched.semester_id ? (
+                          <div className="red_color">
+                            {formik.errors.semester_id}
+                          </div>
+                        ) : null}
+                      </Col>
+                      <Col sm={12} lg={3} md={3} xl={3}>
+                        <label className="form-label">Subject</label>
+                        <select
+                          onChange={formik.handleChange}
+                          value={formik.values.subject_id}
+                          className="form-control required"
+                          name="subject_id"
+                          id="subject_id"
+                        >
+                          <option value="">Please Select Subject</option>
+                          {Subjects?.length > 0
+                            ? Subjects?.map((subject) => {
+                                return (
+                                  <option value={subject?._id}>
+                                    {subject?.name}
+                                  </option>
+                                );
+                              })
+                            : ""}
+                        </select>
+                        {formik.errors.subject_id &&
+                        formik.touched.subject_id ? (
+                          <div className="red_color">
+                            {formik.errors.subject_id}
+                          </div>
+                        ) : null}
+                      </Col>
 
                       {/* {subject ? (
                         <Col sm={12} lg={3} md={3} xl={3}>
@@ -462,18 +465,33 @@ export default function StudentAdd() {
                       </Col>
                     </div>
                     <div className="d-flex justify-content-start">
-                      <Button
-                        type="submit"
-                        variant="primary"
-                        className="me-1 mt-5"
-                      >
-                        Submit
-                      </Button>
+                      {isDisabled ? (
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          className="me-1 mt-5"
+                          disabled
+                        >
+                          Submit
+                        </Button>
+                      ) : (
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          className="me-1 mt-5"
+                        >
+                          Submit
+                        </Button>
+                      )}
+
                       <Button
                         type="button"
                         variant="danger"
                         className="me-1 mt-5"
-                        onClick={formik.resetForm}
+                        onClick={() => {
+                          formik.resetForm();
+                          setFinalAttendence([]);
+                        }}
                       >
                         Reset
                       </Button>
