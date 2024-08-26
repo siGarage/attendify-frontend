@@ -224,6 +224,7 @@ export default function StudentAdd() {
     validationSchema: SignupSchema,
     onSubmit: (values) => {
       setIsDisabled(true);
+      setFinalAttendence([]);
       dispatch(fetchStudentsAttendence(values));
     },
   });
