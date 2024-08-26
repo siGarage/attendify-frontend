@@ -37,6 +37,7 @@ import CreateStudent from "./components/Pages/Student/Student_crud/add";
 import CreateSingleStudent from "./components/Pages/Student/Student_crud/single_add.js";
 import UpdateStudent from "./components/Pages/Student/Student_crud/update";
 import CreateTeacher from "./components/Pages/Teacher/Teacher_crud/add";
+import UpdateTeacher from "./components/Pages/Teacher/Teacher_crud/update";
 import Students from "./components/Pages/Student/Student";
 import TeacherAttendence from "./components/Pages/TeacherAttendence/TeacherAttendence";
 import CreateStudentAttendence from "./components/Pages/StudentAttendence/Attendence_crud/add";
@@ -94,6 +95,7 @@ function App() {
               <Route path={"/add-single-student"} element={<CreateSingleStudent />} />
               <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
+              <Route path={"/update-teacher/:id"} element={<UpdateTeacher />} />
               <Route path={"/student-list"} element={<Students />} />
               <Route
                 path={"/student-profile/:id/:course/:semester"}
@@ -119,7 +121,7 @@ function App() {
             </Route>
           </>
         ) : (
-          <Route path="*" element={<Navigate to="/login" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         )}
       </Routes>
     </>

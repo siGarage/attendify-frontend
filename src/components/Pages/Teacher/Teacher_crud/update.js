@@ -2,28 +2,31 @@ import React, { useEffect, useState, useRef } from "react";
 import { useFormik } from "formik";
 import "../../../../App.css";
 import { Col, Row, Card, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { DropImg } from "../../Property/StepForm/component/DropImg";
 import { createTeacher } from "../../../../redux/Action/TeacherAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
-import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 
 export default function TeacherAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
   const editor = useRef(null);
-  const [content, setContent] = useState("");
-  const { Courses, Semester, Departments } = useSelector((state) => ({
+  const { Courses, Semester, teachers, Departments } = useSelector((state) => ({
     Courses: state?.courses?.courses,
-    Semester: state?.semesters?.semesters,
     Departments: state?.departments?.departments,
+    Semester: state?.semesters?.semesters,
+    teachers: state?.teachers?.teachers.filter(
+      (item) => item?._id == params?.id
+    ),
   }));
+  const [content, setContent] = useState(teachers[0]?.notes || "");
+
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
@@ -38,21 +41,20 @@ export default function TeacherAdd() {
   useEffect(() => {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
-    dispatch(fetchDepartment());
   }, []);
   const formik = useFormik({
     initialValues: {
-      name: "",
-      department_id: "",
-      alternate_no: "",
-      email: "",
-      semester_id: "",
-      designation: "",
-      gender: "",
-      dob: "",
-      roll_no: "",
-      permanent_address: "",
-      current_address: "",
+      name: teachers[0]?.name || "",
+      department_id: teachers[0]?.department_id || "",
+      alternate_no: teachers[0]?.alternate_no || "",
+      roll_no: teachers[0]?.roll_no || "",
+      email: teachers[0]?.email || "",
+      semester_id: teachers[0]?.semester_id || "",
+      designation: teachers[0]?.designation || "",
+      gender: teachers[0]?.gender || "",
+      dob: teachers[0]?.dob || "",
+      permanent_address: teachers[0]?.permanent_address || "",
+      current_address: teachers[0]?.current_address || "",
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
@@ -71,7 +73,7 @@ export default function TeacherAdd() {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Teacher</Card.Title>
+                <Card.Title as="h3">Update Teacher</Card.Title>
               </Card.Header>
               <Col sm={12} lg={12} md={12} xl={12}>
                 <Card>
@@ -248,23 +250,14 @@ export default function TeacherAdd() {
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Department Id</label>
-                          <select
+                          <input
+                            type="number"
+                            name="department_id"
                             onChange={formik.handleChange}
                             value={formik.values.department_id}
+                            placeholder="Department Id"
                             className="form-control required"
-                            name="department_id"
-                          >
-                            <option>Please Select Department</option>
-                            {Departments?.length > 0
-                              ? Departments?.map((dep) => {
-                                  return (
-                                    <option value={dep?._id}>
-                                      {dep?.name}
-                                    </option>
-                                  );
-                                })
-                              : ""}
-                          </select>
+                          />
                           {formik.errors.department_id ? (
                             <div style={{ color: "red" }}>
                               {formik.errors.department_id}

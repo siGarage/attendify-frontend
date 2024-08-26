@@ -2480,7 +2480,7 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
         <span className="" style={{ width: "409px" }}>
           <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
             <NavLink
-              to={`/update-course/${row?._id}`}
+              to={`/update-teacher/${row?._id}`}
               className="btn btn-primary btn-sm rounded-11 me-2"
             >
               <i>
