@@ -205,6 +205,8 @@ export default function StudentAdd() {
   }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
+    semester_id: Yup.string().required("*Required"),
+    subject_id: Yup.string().required("*Required"),
     endDate: Yup.string().required("*Required"),
     fromdate: Yup.string().required("*Required"),
   });
@@ -351,7 +353,6 @@ export default function StudentAdd() {
                           </div>
                         ) : null}
                       </Col>
-                      {course ? (
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Phase</label>
                           <select
@@ -372,16 +373,12 @@ export default function StudentAdd() {
                                 })
                               : ""}
                           </select>
-                          {/* {formik.errors.course && formik.touched.course ? (
+                          {formik.errors.semester_id && formik.touched.semester_id ? (
                             <div className="red_color">
-                              {formik.errors.course}
+                              {formik.errors.semester_id}
                             </div>
-                          ) : null} */}
+                          ) : null}
                         </Col>
-                      ) : (
-                        ""
-                      )}
-                      {semester ? (
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Subject</label>
                           <select
@@ -402,17 +399,14 @@ export default function StudentAdd() {
                                 })
                               : ""}
                           </select>
-                          {/* {formik.errors.course && formik.touched.course ? (
+                          {formik.errors.subject_id && formik.touched.subject_id ? (
                             <div className="red_color">
-                              {formik.errors.course}
+                              {formik.errors.subject_id}
                             </div>
-                          ) : null} */}
+                          ) : null}
                         </Col>
-                      ) : (
-                        ""
-                      )}
 
-                      {subject ? (
+                      {/* {subject ? (
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Type</label>
                           <select
@@ -431,7 +425,7 @@ export default function StudentAdd() {
                         </Col>
                       ) : (
                         ""
-                      )}
+                      )} */}
                       <Col sm={12} lg={3} md={3} xl={3}>
                         <label className="form-label">From</label>
                         <input
