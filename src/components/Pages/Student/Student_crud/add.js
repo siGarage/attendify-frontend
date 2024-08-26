@@ -10,6 +10,7 @@ import { createStudent } from "../../../../redux/Action/StudentAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { createStudentByCSV } from "../../../../redux/Action/StudentAction";
+import file from "../../../../assets/add_student.csv";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
@@ -55,14 +56,27 @@ export default function StudentAdd() {
       dispatch(createStudentByCSV(formData));
     },
   });
+  const handleDownloadClick = () => {
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = "add_stundent.csv"; // Replace with your desired filename
+    link.click();
+  };
+
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
-        <Row className=" row-sm">
+        <Row className=" row-sm mt-3">
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header>
-                <Card.Title as="h3">Add Student</Card.Title>
+                <div className="d-flex w-100 justify-content-between">
+                  <Card.Title as="h3">Add Student</Card.Title>
+                  <Button onClick={handleDownloadClick}>
+                    Download CSV template
+                  </Button>
+                </div>
               </Card.Header>
               <Col sm={12} lg={12} md={12} xl={12}>
                 <Card>

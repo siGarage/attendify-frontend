@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as datatable from "../../../data/Table/datatable/datatable";
 import { Link, useNavigate } from "react-router-dom";
-import { Row, Card, Col, Breadcrumb } from "react-bootstrap";
+import { Row, Card, Col, Breadcrumb, Dropdown } from "react-bootstrap";
 import { UserDetailModal } from "../../Modal/UserDetailModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -20,6 +20,7 @@ export default function Students() {
     students: state?.students?.students,
   }));
   const [show, setShow] = useState(false);
+  const [run, setRun] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({});
@@ -44,12 +45,13 @@ export default function Students() {
   const userDeleteAction = () => {
     setShow(false);
     dispatch(studentDelete(deleteId));
-    dispatch(fetchStudents());
+    setRun(true);
   };
 
   useEffect(() => {
     dispatch(fetchStudents());
-  }, []);
+    setRun(false);
+  }, [run]);
 
   const handleShow = (id) => {
     setDeleteId(id);
@@ -84,15 +86,27 @@ export default function Students() {
           </Breadcrumb>
         </div>
         <div className="ms-auto pageheader-btn">
-          <Link
-            to="/add-student"
+          <Dropdown>
+            <Dropdown.Toggle variant="primary" id="dropdown-basic">
+              Add Student
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item href="/add-single-student">Single</Dropdown.Item>
+              <Dropdown.Item href="/add-student">
+                Multiple
+              </Dropdown.Item>
+            </Dropdown.Menu>{" "}
+             
+          </Dropdown>
+          {/* <Link
+            to=""
             className="btn btn-primary btn-icon text-white me-3"
           >
             <span>
               <i className="fe fe-plus"></i>&nbsp;
             </span>
             Add Students
-          </Link>
+          </Link> */}
         </div>
       </div>
       <Row className=" row-sm">

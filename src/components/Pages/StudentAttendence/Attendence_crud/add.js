@@ -2,19 +2,17 @@ import React, { useEffect, useState, useRef } from "react";
 import * as datatable from "../../../../data/Table/datatable/datatable";
 import { useFormik } from "formik";
 import "../../../../App.css";
-import { Col, Row, Card, Button } from "react-bootstrap";
+import { Col, Row, Card, Button, Dropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { DropImg } from "../../Property/StepForm/component/DropImg";
-import { createStudentAttendence } from "../../../../redux/Action/StudentAttendenceAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { fetchStudents } from "../../../../redux/Action/StudentAction";
 import { fetchSubject } from "../../../../redux/Action/SubjectAction";
-import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 import { fetchStudentsAttendence } from "../../../../redux/Action/StudentAttendenceAction";
 import { AddStudentAttendenceModal } from "../../../Modal/AddStudentModal";
+import file from "../../../../assets/add_student_attendance.csv";
 import * as Yup from "yup";
 
 export default function StudentAdd() {
@@ -287,6 +285,13 @@ export default function StudentAdd() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
   };
+  const handleDownloadClick = () => {
+    // Create a temporary anchor element
+    const link = document.createElement("a");
+    link.href = file;
+    link.download = "add_stundent_attendance.csv"; // Replace with your desired filename
+    link.click();
+  };
   return (
     <div>
       <AddStudentAttendenceModal
@@ -296,17 +301,25 @@ export default function StudentAdd() {
         handleClose={handleClose}
       />
       <form onSubmit={formik.handleSubmit}>
-        <Row className="row-sm">
+        <Row className="row-sm mt-3">
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-between">
                 <Card.Title as="h3">Filter Student Attendance</Card.Title>
-                <button
-                  onClick={() => handleShow()}
-                  className="btn btn-primary"
-                >
-                  Add Attendence
-                </button>
+                <div className="d-flex">
+                  <button
+                    onClick={() => handleDownloadClick()}
+                    className="btn btn-primary me-2"
+                  >
+                    Download CSV template
+                  </button>
+                  <button
+                    onClick={() => handleShow()}
+                    className="btn btn-primary me-2"
+                  >
+                    Add Attendance
+                  </button>
+                </div>
               </Card.Header>
               <Col sm={12} lg={12} md={12} xl={12}>
                 <Card className="removeShadow">

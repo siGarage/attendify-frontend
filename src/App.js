@@ -34,6 +34,7 @@ import UpdateDepartment from "./components/Pages/Department/department_crud/upda
 import Groups from "./components/Pages/Groups/Groups";
 import CreateGroup from "./components/Pages/Groups/group_crud/add";
 import CreateStudent from "./components/Pages/Student/Student_crud/add";
+import CreateSingleStudent from "./components/Pages/Student/Student_crud/single_add.js";
 import UpdateStudent from "./components/Pages/Student/Student_crud/update";
 import CreateTeacher from "./components/Pages/Teacher/Teacher_crud/add";
 import Students from "./components/Pages/Student/Student";
@@ -90,6 +91,7 @@ function App() {
               <Route path={"/group-list"} element={<Groups />} />
               <Route path={"/add-group"} element={<CreateGroup />} />
               <Route path={"/add-student"} element={<CreateStudent />} />
+              <Route path={"/add-single-student"} element={<CreateSingleStudent />} />
               <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
               <Route path={"/student-list"} element={<Students />} />
