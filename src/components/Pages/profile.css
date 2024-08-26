@@ -78,3 +78,15 @@
   color: white; /* Set text color (optional, for visibility) */
   font-size: 30px; /* Adjust font size as needed */
 }
+.p-color-letter {
+  display: inline-block; /* Ensures inline behavior for the circle */
+  padding-top: 30px;
+  width: 100px; /* Adjust width and height as needed */
+  height: 100px;
+  text-align: center; /* Centers the letter vertically */
+  line-height: 40px; /* Aligns the letter horizontally */
+  border-radius: 50%; /* Creates a circle */
+  background-color: #6259ca; /* Set desired background color */
+  color: white; /* Set text color (optional, for visibility) */
+  font-size: 50px; /* Adjust font size as needed */
+}

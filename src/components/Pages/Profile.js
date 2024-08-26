@@ -3,14 +3,12 @@ import user8 from "../../assets/images/profile__.png";
 import { Tabs, Tab, Breadcrumb, Card, Row, Col, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import "./profile.css";
 import {
   fetchLoginUserById,
   fetchUserById,
   userUpdate,
 } from "../../redux/Action/AuthAction";
 import { useDispatch, useSelector } from "react-redux";
-import profile from "../../assets/images/profile.jpg";
 // import { EditProfileModal } from "../../Modal/EditProfileModal";
 import parse from "html-react-parser";
 
@@ -63,6 +61,9 @@ export default function Profile() {
       }
     });
   };
+  function getFirstLetter(str) {
+    return str?.charAt(0);
+  }
 
   return (
     <div>
@@ -84,170 +85,136 @@ export default function Profile() {
       </div>
 
       <Row id="user-profile">
-        <Col lg={6} md={6} xl={6} sm={12}>
-          <Card className="bg-transparent shadow-none border-0">
-            <Card.Body className="bg-white small-radius">
+        <Col lg={12}>
+          <Card className=" bg-transparent shadow-none border-0">
+            <Card.Body className=" bg-white">
               <div className="wideget-user">
                 <Row>
-                  <Col lg={3} md={3} xl={3} sm={12}>
-                    <img
-                      className="rounded"
-                      src={profile}
-                      width={100}
-                      height={100}
-                    />
+                  <Col lg={12} md={12} xl={6}>
+                    <div className="wideget-user-desc d-sm-flex">
+                      <div
+                        style={{ position: "relative" }}
+                        className="wideget-user-img"
+                      >
+                        <input
+                          type="file"
+                          onChange={(e) =>
+                            handleUpdateProfile(
+                              profileData && {
+                                ...profileData[0],
+                                image: e.currentTarget.files[0],
+                              }
+                            )
+                          }
+                          className="input-file-up profile_img_hover"
+                          name="image"
+                        />
+                        {
+                          // profileData && profileData[0]?.image != undefined ?
+                          // <img className="profileImgMain" crossorigin="anonymous" src="http://localhost:5500/images/1682767874495-JSS_Logo.png" alt="img" /> :
+                          // <img className="" src={user8} alt="img" />
+                          <span className="p-color-letter">
+                            {getFirstLetter(profileData?.email?.toUpperCase())}
+                          </span>
+                          // :
+                          // <img className="" src={user8} alt="img" />
+
+                          // <img className="profileImgMain" crossorigin="anonymous" src={profileData?.image?`${process.env.BASE_URL}/images/${profileData?.image}`:`http://localhost:5500/images/1682767874495-JSS_Logo.png`} alt="img" /> :
+                          // <img className="" src={user8} alt="img" />
+                        }
+                      </div>
+                      <div className="user-wrap">
+                        <h4>{profileData?.name?.toUpperCase()}</h4>
+                        <h6 className="text-muted mb-3">
+                          {/* Member Since: {moment(profileData && profileData[0]?.createdAt).format("MMM Do YY")} */}
+                          Member Since:{" "}
+                          {moment(profileData?.created_at).format("MMM Do YY")}
+                        </h6>
+                      </div>
+                    </div>
                   </Col>
-                  <Col lg={9} md={9} xl={9} sm={12} xs={12}>
-                    <Row>
-                      <Col>
-                        <h4 className="mb-0">
-                          <strong>Kritika Rana</strong>
-                        </h4>
-                      </Col>
-                      <Col className="d-flex justify-content-end">
-                        <h4 className="mb-0">
-                          <strong>7</strong>
-                        </h4>
-                      </Col>
-                    </Row>
-                    <Row className="border-bottom border-dark">
-                      <Col>1234567</Col>
-                      <Col className="d-flex justify-content-end">MBBS</Col>
-                    </Row>
-                    <Row>
-                      <Col className="p-4 mt-2 border-end border-dark">
-                        <p className="mb-0">
-                          <strong>Born:</strong>&nbsp;2000.03.11
-                        </p>
-                        <p className="mb-0">
-                          <strong>Gender:</strong>Male
-                        </p>
-                        <p className="mb-0">
-                          <strong>Race:</strong>&nbsp;White
-                        </p>
-                        <p className="mb-0">
-                          <strong>Ethnicity:</strong>&nbsp;Hispanic
-                        </p>
-                      </Col>
-                      <Col className="p-4 mt-2">
-                        <p className="mb-0">
-                          <strong>Gifted:</strong>&nbsp;N
-                        </p>
-                        <p className="mb-0">
-                          <strong>ELL:</strong>Never Ell
-                        </p>
-                        <p className="mb-0">
-                          <strong>SWD:</strong>&nbsp;
-                        </p>
-                        <p className="mb-0">
-                          <strong>504:</strong>&nbsp;
-                        </p>
-                      </Col>
-                    </Row>
+                  <Col lg={12} md={12} xl={6}>
+                    <div className="text-xl-right mt-4 mt-xl-0">
+                      {/* <Link
+                        to={`${process.env.PUBLIC_URL}/pages/mailInbox/`}
+                        className="btn btn-white me-1"
+                      >
+                        Message
+                      </Link> */}
+                      <Link
+                        // onClick={handleClickOpen("paper", profileData && profileData[0])}
+                        // to={`${process.env.PUBLIC_URL}/pages/editProfile/`}
+
+                        // onClick={handleClickOpen("paper", profileData)}
+                        to={`${process.env.PUBLIC_URL}/editProfile/${profileData?._id}`}
+                        className="btn btn-primary me-1"
+                      >
+                        Edit Profile
+                      </Link>
+                    </div>
                   </Col>
                 </Row>
               </div>
             </Card.Body>
-          </Card>
-        </Col>
-        <Col lg={3} md={3} xl={63} sm={12}>
-          <Card className="bg-transparent shadow-none border-0">
-            <Card.Body className="bg-white small-radius">
-              <div className="wideget-user">
-                <Row>
-                  <Col
-                    lg={12}
-                    md={12}
-                    xl={12}
-                    sm={12}
-                    className="border-bottom border-dark"
-                  >
-                    <h4>
-                      <strong>Attendence</strong>
-                    </h4>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col
-                    lg={6}
-                    md={6}
-                    xl={6}
-                    sm={6}
-                    className="mt-2 border-end border-dark"
-                  >
-                    <h3 className="text-success mt-7 mb-5">
-                      <strong>98.11%</strong>
-                    </h3>
-                  </Col>
-                  <Col
-                    lg={6}
-                    md={6}
-                    xl={6}
-                    sm={6}
-                    className="mt-2 border-dark text-center"
-                  >
-                    <h5 className="text-warning mt-5 mb-0 ">
-                      <strong>2.5</strong>
-                    </h5>
-                    <h6 className="mt-0">Absent</h6>
-                    <h5 className="text-warning mt-5 mb-0 ">
-                      <strong>0</strong>
-                    </h5>
-                    <h6 className="mt-0">Tandy</h6>
-                  </Col>
-                </Row>
+            <div className="border-top ">
+              <div className="wideget-user-tab">
+                <div className="tab-menu-heading">
+                  <div className="tabs-menu1 profiletabs">
+                    <Tabs
+                      variant="Tabs"
+                      defaultActiveKey="Profile"
+                      id=" tab-51"
+                      className="tab-content tabesbody "
+                    >
+                      <Tab eventKey="Profile" title="Profile">
+                        <div className="tab-pane profiletab show">
+                          <div id="profile-log-switch">
+                            <Card>
+                              <Card.Body className="bg-white">
+                                <div className="media-heading">
+                                  <h5>
+                                    <strong>Personal Information</strong>
+                                  </h5>
+                                </div>
+                                <div className="table-responsive p-1">
+                                  <Table className="table row table-borderless">
+                                    <tbody className="col-lg-12 col-xl-6 p-0">
+                                      <tr>
+                                        <td>
+                                          <strong>{`Full Name : `}</strong>
+                                          {/* {profileData && profileData[0]?.name} */}
+                                          {profileData?.name}
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <strong>{`Email : `}</strong>
+                                          {/* {profileData && profileData[0]?.email} */}
+                                          {profileData?.email}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                    <tbody className="col-lg-12 col-xl-6 p-0">
+                                      <tr>
+                                        <td>
+                                          <strong>Phone :</strong>
+                                          {/* {profileData && profileData[0]?.contact_no} */}
+                                          {profileData?.phone}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </Table>
+                                </div>
+                              </Card.Body>
+                            </Card>
+                          </div>
+                        </div>
+                      </Tab>
+                    </Tabs>
+                  </div>
+                </div>
               </div>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col lg={3} md={3} xl={63} sm={12}>
-          <Card className="bg-transparent shadow-none border-0">
-            <Card.Body className="bg-white small-radius">
-              <div className="wideget-user">
-                <Row>
-                  <Col
-                    lg={12}
-                    md={12}
-                    xl={12}
-                    sm={12}
-                    className="border-bottom border-dark"
-                  >
-                    <h4>
-                      <strong>Referrals</strong>
-                    </h4>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col
-                    lg={6}
-                    md={6}
-                    xl={6}
-                    sm={6}
-                    className="mt-2 border-end border-dark"
-                  >
-                    <h3 className="text-success mt-7 mb-5">
-                      <strong>0</strong>
-                    </h3>
-                  </Col>
-                  <Col
-                    lg={6}
-                    md={6}
-                    xl={6}
-                    sm={6}
-                    className="mt-2 border-dark text-center"
-                  >
-                    <h5 className="text-warning mt-5 mb-0 ">
-                      <strong>0</strong>
-                    </h5>
-                    <h6 className="mt-0">Minor</h6>
-                    <h5 className="text-warning mt-5 mb-0 ">
-                      <strong>0</strong>
-                    </h5>
-                    <h6 className="mt-0">Major</h6>
-                  </Col>
-                </Row>
-              </div>
-            </Card.Body>
+            </div>
           </Card>
         </Col>
       </Row>

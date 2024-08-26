@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -21,19 +21,20 @@ const SignupSchema = Yup.object().shape({
 export default function Register() {
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
-      contact_no: '',
+      phone: '',
       password: '',
       confirm_password:""
     },
     validationSchema: SignupSchema,
     onSubmit: values => {
       dispatch(register(values,"register"));
-      //alert(JSON.stringify(values, null, 2));
+      navigate("/");
     },
   });
   return (
@@ -101,13 +102,13 @@ export default function Register() {
                     <input
                       className="input100"
                       type="text"
-                      name="contact_no"
+                      name="phone"
                       placeholder="Contact Number"
                       onChange={formik.handleChange}
-                      value={formik.values.contact_no}
+                      value={formik.values.phone}
                     />
-                    {formik.errors.contact_no && formik.touched.contact_no ? (
-                      <div>{formik.errors.contact_no}</div>
+                    {formik.errors.phone && formik.touched.phone ? (
+                      <div>{formik.errors.phone}</div>
                     ) : null}
                     <span className="focus-input100"></span>
                     <span className="symbol-input100">

@@ -12,25 +12,24 @@ export const register = (userInfo, forregister) => async (dispatch) => {
   try {
     dispatch({ type: USER_REGISTER_REQUEST });
     const { data } = await API.post(`/userCreate`, userInfo);
-    if (data.status_code) {
-      if (forregister == "register") {
-        sessionStorage.setItem("accessToken", data?.data?.token);
-        sessionStorage.setItem("userId", data?.data?.responseUser?._id);
-        sessionStorage.setItem("name", data?.data?.responseUser?.name);
-        sessionStorage.setItem("role", data?.data?.responseUser?.role);
-        sessionStorage.setItem("email", data?.data?.responseUser?.email);
-        sessionStorage.setItem("contact_no", data?.data?.responseUser?.contact_no);
-        sessionStorage.setItem("createdAt", data?.data?.responseUser?.created_at);
-        sessionStorage.setItem("image", data?.data?.responseUser?.image);
-        window.location.href = '/dashboard';
-      } else {
-        dispatch({ type: USER_REGISTER_SUCCESS, payload: data?.data });
-        toast.success("User added successfully.")
-      }
-
-    } else {
-      toast.error(data?.message)
-    }
+    toast.success("User added successfully.")
+    // if (data.status_code) {
+      // if (forregister == "register") {
+      //   sessionStorage.setItem("accessToken", data?.data?.token);
+      //   sessionStorage.setItem("userId", data?.data?.responseUser?._id);
+      //   sessionStorage.setItem("name", data?.data?.responseUser?.name);
+      //   sessionStorage.setItem("role", data?.data?.responseUser?.role);
+      //   sessionStorage.setItem("email", data?.data?.responseUser?.email);
+      //   sessionStorage.setItem("contact_no", data?.data?.responseUser?.contact_no);
+      //   sessionStorage.setItem("createdAt", data?.data?.responseUser?.created_at);
+      //   sessionStorage.setItem("image", data?.data?.responseUser?.image);
+      //   window.location.href = '/dashboard';
+      // } else {
+      //   dispatch({ type: USER_REGISTER_SUCCESS, payload: data?.data });
+      // }
+    // } else {
+    //   toast.error(data?.message)
+    // }
   } catch (error) {
     dispatch({
       type: USER_REGISTER_FAILURE,
