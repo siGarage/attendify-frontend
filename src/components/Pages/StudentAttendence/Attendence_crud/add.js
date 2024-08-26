@@ -203,6 +203,7 @@ export default function StudentAdd() {
       return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
     }, []);
     setFinalAttendence(uniqueData);
+    setIsDisabled(false);
   }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
@@ -221,7 +222,8 @@ export default function StudentAdd() {
       fromdate: "",
     },
     validationSchema: SignupSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
+      setIsDisabled(true);
       dispatch(fetchStudentsAttendence(values));
     },
   });
