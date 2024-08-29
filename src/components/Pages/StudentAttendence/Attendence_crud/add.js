@@ -23,6 +23,8 @@ export default function StudentAdd() {
   const [semester, setSemester] = useState(false);
   const [subject, setSubject] = useState(false);
   const [deleteId, setDeleteId] = useState();
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
   const [finalAttendence, setFinalAttendence] = useState([]);
   const [show, setShow] = useState(false);
   const { Courses, Semester, Subjects, StudentAttendence, Students } =
@@ -137,14 +139,16 @@ export default function StudentAdd() {
         // Loop through student's subjects object
         for (const subjectName in studentData.subjects) {
           const subjectData = studentData.subjects[subjectName];
-          student.subjects.push({
-            name: subjectName,
-            present: subjectData.present,
-            absent: subjectData.absent,
-            percentage: subjectData.percentage,
-          });
+          const nameSet = new Set(student.subjects.map((item) => item.name));
+          if (!nameSet.has(subjectName)) {
+            student.subjects.push({
+              name: subjectName,
+              present: subjectData.present,
+              absent: subjectData.absent,
+              percentage: subjectData.percentage,
+            });
+          }
         }
-
         studentArray.push(student); // Add student object to the final array
       }
 
@@ -156,7 +160,6 @@ export default function StudentAdd() {
       if (!studentData || studentData.length === 0) {
         return studentData; // Handle empty or invalid data
       }
-
       const firstStudent = studentData[0]; // Get the first student object
       const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
 
@@ -184,7 +187,6 @@ export default function StudentAdd() {
         subjectWithKeys.id = data.id;
         subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
         subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
-
         results.push(subjectWithKeys);
       }
       return results;
@@ -195,14 +197,17 @@ export default function StudentAdd() {
       const id = item.a_date;
       finalAttendenceArray.push(...combinedResults);
     });
-    const uniqueData = finalAttendenceArray.reduce((acc, current) => {
-      // Check if any existing object in 'acc' has all the same properties as 'current'
-      const isDuplicate = acc.some((obj) =>
-        Object.keys(current).every((key) => current[key] === obj[key])
-      );
-      return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
-    }, []);
-    setFinalAttendence(uniqueData);
+    setFinalAttendence(modifiedArray);
+
+    // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
+    //   // Check if any existing object in 'acc' has all the same properties as 'current'
+    //   const isDuplicate = acc.some((obj) =>
+    //     Object.keys(current).every((key) => current[key] === obj[key])
+    //   );
+    //   return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
+    // }, []);
+
+    // setFinalAttendence(uniqueData);
     setIsDisabled(false);
   }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
@@ -223,6 +228,8 @@ export default function StudentAdd() {
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
+      setFromDate(values.fromdate);
+      setToDate(values.endDate);
       setIsDisabled(true);
       setFinalAttendence([]);
       dispatch(fetchStudentsAttendence(values));
@@ -510,7 +517,18 @@ export default function StudentAdd() {
         <div className="table-responsive">
           <Card>
             <Card.Header>
-              <div className="w-100 d-flex justify-content-end">
+              <div className="w-100 d-flex justify-content-between">
+                <div>
+                  <h4>
+                    Subject:
+                    {finalAttendence[0].subjects
+                      ? finalAttendence[0].subjects[0]?.name?.split("-")[0]
+                      : ""}
+                  </h4>
+                  <p>
+                    From Date:{fromDate} to {toDate}
+                  </p>
+                </div>
                 <button onClick={exportCSV} className="btn btn-warning">
                   Export as CSV
                 </button>

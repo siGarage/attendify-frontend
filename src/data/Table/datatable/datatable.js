@@ -2245,42 +2245,120 @@ export const StudentAttendenceDataTables = ({
     },
     {
       name: "NAME",
-      selector: (row) => [row.studentName],
+      selector: (row) => [row.name],
       sortable: true,
     },
+    // {
+    //   name: "SUBJECT",
+    //   selector: (row) => [row.name?.split("-")[0]],
+    // },
     {
-      name: "SUBJECT",
-      selector: (row) => [row.name?.split("-")[0]],
-    },
-    {
-      name: "TYPE",
-      selector: (row) => [row.name?.split("-")[1]],
-      sortable: true,
-    },
-    {
-      name: "PRESENT",
-      selector: (row) => [row.present],
-      sortable: true,
-    },
-    {
-      name: "ABSENT",
-      selector: (row) => [row.absent],
-      sortable: true,
-    },
-    {
-      name: "PERCENTAGE",
-      selector: (row) => [row.percentage],
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (cell) => convertPercentage(cell.percentage) >= 75.0, // Example condition
-          style: { color: "green" ,backgroundColor:"#90EE90"},
-        },
-        {
-          when: (cell) => convertPercentage(cell.percentage) < 75.0, // Example condition
-          style: { color: "red",backgroundColor:"#FF7F7F" },
-        },
+      name: "Theory(P)",
+      selector: (row) => [
+        row.subjects[0]?.name?.split("-")[1] == "Theory"
+          ? row.subjects[0]?.present || "-"
+          : "-",
       ],
+      sortable: true,
+    },
+    {
+      name: "Theory(A)",
+      selector: (row) => [
+        row.subjects[0]?.name?.split("-")[1] == "Theory"
+          ? row.subjects[0]?.absent || "-"
+          : "-",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Theory(%)",
+      selector: (row) => [
+        row.subjects[0]?.name?.split("-")[1] == "Theory"
+          ? row.subjects[0]?.percentage || "-"
+          : "-",
+      ],
+      sortable: true
+    },
+    {
+      name: "Practical(P)",
+      selector: (row) => [row.subjects[1]?.present || "-"],
+      sortable: true,
+    },
+    {
+      name: "Practical(A)",
+      selector: (row) => [row.subjects[1]?.absent || "-"],
+      sortable: true,
+    },
+    {
+      name: "Practical(%)",
+      selector: (row) => [row.subjects[1]?.percentage || "-"],
+      sortable: true,
+    },
+    {
+      name: "Others(P)",
+      selector: (row) => [
+        row.subjects[2]?.name?.split("-")[1] == "Others"
+          ? row.subjects[2]?.present || "-"
+          : "-",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Others(A)",
+      selector: (row) => [
+        row.subjects[2]?.name?.split("-")[1] == "Others"
+          ? row.subjects[2]?.absent || "-"
+          : "-",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Others(%)",
+      selector: (row) => [
+        row.subjects[2]?.name?.split("-")[1] == "Others"
+          ? row.subjects[2]?.percentage || "-"
+          : "-",
+      ],
+      sortable: true,
+      // conditionalCellStyles: [
+      //   {
+      //     when: (cell) =>
+      //       convertPercentage(cell.subjects[2]?.percentage) >= 75.0, // Example condition
+      //     style: { color: "green", backgroundColor: "#90EE90" },
+      //   },
+      //   {
+      //     when: (cell) =>
+      //       convertPercentage(cell.subjects[2]?.percentage) < 75.0, // Example condition
+      //     style: { color: "red", backgroundColor: "#FF7F7F" },
+      //   },
+      // ],
+    },
+    {
+      name: "Clinicals(P)",
+      selector: (row) => [
+        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
+          ? row.subjects[3]?.present || "-"
+          : "-",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Clinicals(A)",
+      selector: (row) => [
+        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
+          ? row.subjects[3]?.absent || "-"
+          : "-",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Clinicals(%)",
+      selector: (row) => [
+        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
+          ? row.subjects[3]?.percentage || "-"
+          : "-",
+      ],
+      sortable: true,
     },
   ];
   return (

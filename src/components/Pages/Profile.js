@@ -199,7 +199,7 @@ export default function Profile() {
                                         <td>
                                           <strong>Phone :</strong>
                                           {/* {profileData && profileData[0]?.contact_no} */}
-                                          {profileData?.phone}
+                                          {profileData?.phone_no}
                                         </td>
                                       </tr>
                                     </tbody>

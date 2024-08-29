@@ -38,7 +38,7 @@ export default function EditorUpdate() {
     initialValues: {
       name: users[0].name || "",
       email: users[0].email || "",
-      contact_no: users[0].phone || "",
+      phone_no: users[0].phone_no || "",
     },
     onSubmit: (values) => {
       let _id = params?.id;
@@ -98,16 +98,16 @@ export default function EditorUpdate() {
                           <label className="fw-bold mt-5 ">Phone</label>
                           <input
                             type="number"
-                            name="phone"
+                            name="phone_no"
                             onChange={formik.handleChange}
-                            value={formik.values.phone}
-                            placeholder="phone"
+                            value={formik.values.phone_no}
+                            placeholder="phone_no"
                             className="form-control required"
                           />
-                          {formik.errors.phone &&
-                          formik.touched.phone ? (
+                          {formik.errors.phone_no &&
+                          formik.touched.phone_no ? (
                             <div style={{ color: "red" }}>
-                              {formik.errors.phone}
+                              {formik.errors.phone_no}
                             </div>
                           ) : null}
                           {editEditorPic ? (
