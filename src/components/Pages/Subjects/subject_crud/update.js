@@ -31,9 +31,9 @@ export default function SubjectAdd() {
   const [spracticalPermission, setPracticalPermission] = useState(
     Subjects[0].practical || false
   );
-  const [sothersPermission, setOthersPermission] = useState(
-    Subjects[0].others || false
-  );
+  const [secePermission, setEcePermission] = useState(Subjects[0].ece || false);
+  const [saetcomPermission, setAetcomPermission] = useState(Subjects[0].aetcom || false);
+  const [sfapPermission, setFapPermission] = useState(Subjects[0].fap || false);
   const [sclinicalsPermission, setClinicalPermission] = useState(
     Subjects[0].clinical || false
   );
@@ -47,11 +47,17 @@ export default function SubjectAdd() {
   const handleSetPrcaticalPermission = (val) => {
     setPracticalPermission(val);
   };
-  const handleSetOthersPermission = (val) => {
-    setOthersPermission(val);
-  };
   const handleSetClinicalsPermission = (val) => {
     setClinicalPermission(val);
+  };
+  const handleSetEcePermission = (val) => {
+    setEcePermission(val);
+  };
+  const handleSetAetcomPermission = (val) => {
+    setAetcomPermission(val);
+  };
+  const handleSetFapPermission = (val) => {
+    setFapPermission(val);
   };
   const formik = useFormik({
     initialValues: {
@@ -68,7 +74,9 @@ export default function SubjectAdd() {
         description: content,
         theory: stheoryPermission,
         practical: spracticalPermission,
-        others: sothersPermission,
+        ece: secePermission,
+        aetcom: saetcomPermission,
+        fap: sfapPermission,
         clinical: sclinicalsPermission,
       };
       dispatch(updateSubject(values));
@@ -106,12 +114,7 @@ export default function SubjectAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col
-                          sm={12}
-                          lg={4}
-                          md={4}
-                          xl={4}
-                        >
+                        <Col sm={12} lg={4} md={4} xl={4}>
                           <label className="form-label">Status</label>
                           <Form.Select
                             name="status"
@@ -179,7 +182,9 @@ export default function SubjectAdd() {
                               <th>Theory</th>
                               <th>Practical</th>
                               <th>Clinicals</th>
-                              <th>Others</th>
+                              <th>Ece</th>
+                              <th>Aetcom</th>
+                              <th>Fap</th>
                             </tr>
                             <tr>
                               <td>
@@ -202,8 +207,20 @@ export default function SubjectAdd() {
                               </td>
                               <td>
                                 <ReactSwitch
-                                  checked={sothersPermission}
-                                  onChange={handleSetOthersPermission}
+                                  checked={secePermission}
+                                  onChange={handleSetEcePermission}
+                                />
+                              </td>
+                              <td>
+                                <ReactSwitch
+                                  checked={saetcomPermission}
+                                  onChange={handleSetAetcomPermission}
+                                />
+                              </td>
+                              <td>
+                                <ReactSwitch
+                                  checked={sfapPermission}
+                                  onChange={handleSetFapPermission}
                                 />
                               </td>
                             </tr>

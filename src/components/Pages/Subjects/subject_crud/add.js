@@ -17,7 +17,9 @@ export default function SubjectAdd() {
   const [content, setContent] = useState("");
   const [stheoryPermission, setTheoryPermission] = useState(false);
   const [spracticalPermission, setPracticalPermission] = useState(false);
-  const [sothersPermission, setOthersPermission] = useState(false);
+  const [secePermission, setEcePermission] = useState(false);
+  const [saetcomPermission, setAetcomPermission] = useState(false);
+  const [sfapPermission, setFapPermission] = useState(false);
   const [sclinicalsPermission, setClinicalPermission] = useState(false);
   const { Semester } = useSelector((state) => ({
     Semester: state?.semesters?.semesters,
@@ -31,11 +33,16 @@ export default function SubjectAdd() {
   const handleSetPrcaticalPermission = (val) => {
     setPracticalPermission(val);
   };
-  const handleSetOthersPermission = (val) => {
-    setOthersPermission(val);
+  const handleSetEcePermission = (val) => {
+    setEcePermission(val);
+  };
+  const handleSetAetcomPermission = (val) => {
+    setAetcomPermission(val);
+  };
+  const handleSetFapPermission = (val) => {
+    setFapPermission(val);
   };
   const handleSetClinicalsPermission = (val) => {
-    console.log(val);
     setClinicalPermission(val);
   };
   const formik = useFormik({
@@ -51,7 +58,9 @@ export default function SubjectAdd() {
         description: content,
         theory: stheoryPermission,
         practical: spracticalPermission,
-        others: sothersPermission,
+        ece: secePermission,
+        aetcom: saetcomPermission,
+        fap: sfapPermission,
         clinical: sclinicalsPermission,
       };
       dispatch(createSubject(values));
@@ -154,13 +163,17 @@ export default function SubjectAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={12} md={12} xl={12}>
-                          <label className="fw-bold mt-5 ">Permission</label>
+                          <label className="fw-bold mt-5 ">
+                            Type of Subject
+                          </label>
                           <table className="w-100 mt-3">
                             <tr>
                               <th>Theory</th>
                               <th>Practical</th>
                               <th>Clinicals</th>
-                              <th>Others</th>
+                              <th>Ece</th>
+                              <th>Aetcom</th>
+                              <th>Fap</th>
                             </tr>
                             <tr>
                               <td>
@@ -183,8 +196,20 @@ export default function SubjectAdd() {
                               </td>
                               <td>
                                 <ReactSwitch
-                                  checked={sothersPermission}
-                                  onChange={handleSetOthersPermission}
+                                  checked={secePermission}
+                                  onChange={handleSetEcePermission}
+                                />
+                              </td>
+                              <td>
+                                <ReactSwitch
+                                  checked={saetcomPermission}
+                                  onChange={handleSetAetcomPermission}
+                                />
+                              </td>
+                              <td>
+                                <ReactSwitch
+                                  checked={sfapPermission}
+                                  onChange={handleSetFapPermission}
                                 />
                               </td>
                             </tr>

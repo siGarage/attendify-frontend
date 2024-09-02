@@ -50,7 +50,7 @@ export default function TeacherAdd() {
       designation: "",
       gender: "",
       dob: "",
-      roll_no: "",
+      emp_id: "",
       permanent_address: "",
       current_address: "",
     },
@@ -132,15 +132,15 @@ export default function TeacherAdd() {
                           <label className="form-label">Employee Id</label>
                           <input
                             type="number"
-                            name="roll_no"
+                            name="emp_id"
                             onChange={formik.handleChange}
-                            value={formik.values.roll_no}
+                            value={formik.values.emp_id}
                             placeholder="Employee Id"
                             className="form-control required"
                           />
-                          {formik.errors.roll_no ? (
+                          {formik.errors.emp_id ? (
                             <div style={{ color: "red" }}>
-                              {formik.errors.roll_no}
+                              {formik.errors.emp_id}
                             </div>
                           ) : null}
                         </Col>

@@ -53,17 +53,17 @@ export default function StudentProfile() {
         conditionalCellStyles: [
           {
             when: (cell) => cell.days[index + 1] == "Present", // Example condition
-            style: { backgroundColor: "#90EE90" },
+            style: { backgroundColor: "#00FF00" },
           },
           {
             when: (cell) => cell.days[index + 1] == "Absent",
-            style: { backgroundColor: "#FF7F7F" },
+            style: { backgroundColor: "#FF0000" },
           },
           {
             when: (cell) =>
               cell.days[index + 1] !== "Present" &&
               cell.days[index + 1] !== "Absent",
-            style: { backgroundColor: "#F5E793" },
+            style: { backgroundColor: "#FFFF00" },
           },
         ],
       })),
