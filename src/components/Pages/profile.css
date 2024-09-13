@@ -10,10 +10,10 @@
   appearance: none;
 
   /* Set green background color */
-  background-color: #90ee90;
+  background-color: #00FF00;
 
   /* Add a border (optional) */
-  border: 1px solid #5ffe03;
+  border: 1px solid #00FF00;
 
   /* Add rounded corners for a smoother look */
   border-radius: 3px;
@@ -25,10 +25,10 @@
   appearance: none;
 
   /* Set green background color */
-  background-color: #ff7f7f;
+  background-color: #FF0000;
 
   /* Add a border (optional) */
-  border: 1px solid #ff7f7f;
+  border: 1px solid #FF0000;
 
   /* Add rounded corners for a smoother look */
   border-radius: 3px;
@@ -40,10 +40,10 @@
   appearance: none;
 
   /* Set green background color */
-  background-color: #f5e793;
+  background-color: #FFFF00;
 
   /* Add a border (optional) */
-  border: 1px solid #f5e793;
+  border: 1px solid #FFFF00;
 
   /* Add rounded corners for a smoother look */
   border-radius: 3px;

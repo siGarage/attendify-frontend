@@ -2255,69 +2255,81 @@ export const StudentAttendenceDataTables = ({
     {
       name: "Theory(P)",
       selector: (row) => [
-        row.subjects[0]?.name?.split("-")[1] == "Theory"
-          ? row.subjects[0]?.present || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Theory"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
     {
       name: "Theory(A)",
       selector: (row) => [
-        row.subjects[0]?.name?.split("-")[1] == "Theory"
-          ? row.subjects[0]?.absent || "-"
-          : "-",
+          row.subjects?.filter(
+            (subject) => subject.name.split("-")[1] === "Theory"
+          )[0]?.absent||"-"
       ],
       sortable: true,
     },
     {
       name: "Theory(%)",
       selector: (row) => [
-        row.subjects[0]?.name?.split("-")[1] == "Theory"
-          ? row.subjects[0]?.percentage || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Theory"
+        )[0]?.percentage||"-"
       ],
-      sortable: true
+      sortable: true,
     },
     {
       name: "Practical(P)",
-      selector: (row) => [row.subjects[1]?.present || "-"],
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Practical"
+        )[0]?.present||"-"
+      ],
       sortable: true,
     },
     {
       name: "Practical(A)",
-      selector: (row) => [row.subjects[1]?.absent || "-"],
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Practical"
+        )[0]?.absent||"-"
+      ],
       sortable: true,
     },
     {
       name: "Practical(%)",
-      selector: (row) => [row.subjects[1]?.percentage || "-"],
-      sortable: true,
-    },
-    {
-      name: "Others(P)",
       selector: (row) => [
-        row.subjects[2]?.name?.split("-")[1] == "Others"
-          ? row.subjects[2]?.present || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Practical"
+        )[0]?.percentage||"-"
       ],
       sortable: true,
     },
     {
-      name: "Others(A)",
+      name: "Ece(P)",
       selector: (row) => [
-        row.subjects[2]?.name?.split("-")[1] == "Others"
-          ? row.subjects[2]?.absent || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Ece"
+        )[0]?.present||"-"
       ],
       sortable: true,
     },
     {
-      name: "Others(%)",
+      name: "Ece(A)",
       selector: (row) => [
-        row.subjects[2]?.name?.split("-")[1] == "Others"
-          ? row.subjects[2]?.percentage || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Ece"
+        )[0]?.absent||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Ece(%)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Ece"
+        )[0]?.percentage||"-"
       ],
       sortable: true,
       // conditionalCellStyles: [
@@ -2336,27 +2348,81 @@ export const StudentAttendenceDataTables = ({
     {
       name: "Clinicals(P)",
       selector: (row) => [
-        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
-          ? row.subjects[3]?.present || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Clinicals"
+        )[0]?.present||"-"
       ],
       sortable: true,
     },
     {
       name: "Clinicals(A)",
       selector: (row) => [
-        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
-          ? row.subjects[3]?.absent || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Clinicals"
+        )[0]?.absent||"-"
       ],
       sortable: true,
     },
     {
       name: "Clinicals(%)",
       selector: (row) => [
-        row.subjects[3]?.name?.split("-")[1] == "Clinicals"
-          ? row.subjects[3]?.percentage || "-"
-          : "-",
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Clinicals"
+        )[0]?.percentage||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Aetcom(P)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Aetcom"
+        )[0]?.present||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Aetcom(A)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Aetcom"
+        )[0]?.absent||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Aetcom(%)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Aetcom"
+        )[0]?.percentage||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Fap(P)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Fap"
+        )[0]?.present||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Fap(A)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Fap"
+        )[0]?.absent||"-"
+      ],
+      sortable: true,
+    },
+    {
+      name: "Fap(%)",
+      selector: (row) => [
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Fap"
+        )[0]?.percentage||"-"
       ],
       sortable: true,
     },

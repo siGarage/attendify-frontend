@@ -162,14 +162,12 @@ export default function StudentAdd() {
       }
       const firstStudent = studentData[0]; // Get the first student object
       const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
-
       const duplicatedSubject = {
         ...firstSubject, // Copy all properties from the first subject
       };
 
       // Add the duplicated subject to the first student's subjects array
       firstStudent.subjects.push(duplicatedSubject);
-
       return studentData; // Return the modified student data array
     }
     const modifiedArray = DuplicateFirstSubject(studentArray);
@@ -278,14 +276,65 @@ export default function StudentAdd() {
     const header = {
       id: "Roll No",
       student: "Name",
-      course: "Course",
-      phase: "Phase",
-      subject: "Subject",
-      type: "Type",
-      date: "Date",
-      attendance_status: "Attendence Status",
+      theory_P: "Theory_P",
+      theory_A: "Theory_A",
+      theory_Pre: "Theory_Pre",
+      practical_P: "Practical_P",
+      practical_A: "Practical_A",
+      practical_Pre: "Practical_Pre",
+      ece_P: "Ece_P",
+      ece_A: "Ece_A",
+      ece_Pre: "Ece_Pre",
+      Aetcom_P: "Aetcom_P",
+      Aetcom_A: "Aetcom_A",
+      Aetcom_Pre: "Aetcom_Pre",
+      Fap_P: "Fap_P",
+      Fap_A: "Fap_A",
+      Fap_Pre: "Fap_Pre",
     };
-    const newArray = [header, ...finalAttendence];
+    const transformSubjects = finalAttendence.map((student, index) => {
+      let transformed = {
+        id: index + 1,
+        name: student.name,
+        roll: student.roll,
+      };
+      student.subjects.forEach((subject) => {
+        const subjectKey = subject.name.split("-")[1]; // Extracting key like 'Practical', 'Ece', etc.
+        transformed[`${subjectKey}-P`] = subject.present;
+        transformed[`${subjectKey}-A`] = subject.absent;
+        transformed[`${subjectKey}-Pre`] = subject.percentage;
+      });
+      return transformed;
+    });
+
+    // Extract the subjects dynamically from the first student in transformSubjects
+    const subjects = Object.keys(transformSubjects[0]).filter(
+      (key) => key !== "id" && key !== "name" && key !== "roll"
+    );
+
+    // Function to filter the header based on subjects
+    const filteredHeader = Object.keys(header).reduce((filtered, key) => {
+      const subjectName = key.split("_")[0]; // Extracts subject name before the underscore (e.g., 'theory' from 'theory_P')
+
+      if (
+        subjects.some((sub) =>
+          sub.toLowerCase().includes(subjectName.toLowerCase())
+        )
+      ) {
+        filtered[key] = header[key];
+      }
+      return filtered;
+    }, {});
+
+    const newArray = [
+      {
+        id: "S no.",
+        student: "Name",
+        roll:"Roll No",
+        ...filteredHeader,
+      },
+      ...transformSubjects,
+    ];
     const csv = newArray.map((row) => Object.values(row).join(",")).join("\n");
     // Create a download link and trigger click
     const blob = new Blob([csv], { type: "text/csv" });
@@ -529,7 +578,7 @@ export default function StudentAdd() {
                     From Date:{fromDate} to {toDate}
                   </p>
                 </div>
-                <button onClick={exportCSV} className="btn btn-warning">
+                <button onClick={exportCSV} className="btn btn-primary h-50">
                   Export as CSV
                 </button>
               </div>

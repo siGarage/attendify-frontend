@@ -142,7 +142,9 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                     <option value="Theory">Theory</option>
                     <option value="Clinical">Clinical</option>
                     <option value="Practical">Practical</option>
-                    <option value="Others">Others</option>
+                    <option value="Ece">Ece</option>
+                    <option value="Aetcom">Aetcom</option>
+                    <option value="Fap">Fap</option>
                   </select>
                 </Col>
               </Row>

@@ -14,7 +14,7 @@ import {
   fetchTodayStudentsAttendence,
   fetchMonthlyAttendence,
 } from "../../redux/Action/StudentAttendenceAction";
-import { Chart } from "react-google-charts";
+// import { Chart } from "react-google-charts";
 import API from "../../service/API";
 import Spinner from "react-bootstrap/Spinner";
 import { fetchStudents } from "../../redux/Action/StudentAction";
@@ -345,14 +345,14 @@ export default function Dashboard() {
                     <div className="d-flex justify-content-center">
                       <Spinner animation="border" variant="primary" />
                     </div>
-                  ) : (
-                    <Chart
-                      chartType="LineChart"
-                      width="100%"
-                      height="400px"
-                      data={chartData}
-                      options={options}
-                    />
+                  ) : (""
+                    // <Chart
+                    //   chartType="LineChart"
+                    //   width="100%"
+                    //   height="400px"
+                    //   data={chartData}
+                    //   options={options}
+                    // />
                   )}
                 </Card.Body>
               </Card>

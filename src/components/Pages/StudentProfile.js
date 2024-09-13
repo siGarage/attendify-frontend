@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import user8 from "../../assets/images/profile__.png";
 import { Tabs, Tab, Breadcrumb, Card, Row, Col, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import "./profile.css";
 import { useDispatch, useSelector } from "react-redux";
-import profile from "../../assets/images/profile.jpg";
 import { fetchStudents } from "../../redux/Action/StudentAction";
 import { fetchCourse } from "../../redux/Action/CourseAction";
-import Courses from "./Course/Course";
 import { fetchSemester } from "../../redux/Action/SemesterAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
 import DataTable from "react-data-table-component";
 import { fetchSingleStudentsAttendence } from "../../redux/Action/StudentAttendenceAction";
-import { escape } from "validator";
 
 export default function StudentProfile() {
   const dispatch = useDispatch();
@@ -21,6 +17,7 @@ export default function StudentProfile() {
   const [finalAttendence, setFinalAttendence] = React.useState([]);
   const [topAttendence, setTopAttendence] = React.useState([]);
   const [month, setMonth] = React.useState(moment().format("MMMM"));
+  const [year, setYear] = React.useState(moment().format("YYYY"));
   const [type, setType] = React.useState("Theory");
   const { students, Courses, Semesters, StudentAttendence, Subjects } =
     useSelector((state) => ({
@@ -36,6 +33,11 @@ export default function StudentProfile() {
       Subjects: state?.subjects?.subjects,
       StudentAttendence: state?.studentsAttendence?.singleStudentAttendance,
     }));
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const handleYearChange = (date) => {
+    setSelectedYear(date.getFullYear());
+  };
 
   const columns = [
     {
@@ -72,14 +74,14 @@ export default function StudentProfile() {
   useEffect(() => {
     if (params.id.length > 0) {
       let typeValue = type;
-      let value = { id: params.id, type: typeValue, month: month };
+      let value = { id: params.id, type: typeValue, month: month, year: year };
       dispatch(fetchSingleStudentsAttendence(value));
     }
     dispatch(fetchStudents());
     dispatch(fetchCourse());
     dispatch(fetchSubject());
     dispatch(fetchSemester());
-  }, [month, type]);
+  }, [month, type, year]);
   useEffect(() => {
     if (finalAttendence?.length > 0) {
       function calculateAttendance(scheduleData) {
@@ -146,9 +148,8 @@ export default function StudentProfile() {
           days: StudentAttendence[0]
             .filter((innerObj) => innerObj.subject_id === obj.subject_id)
             .reduce((accumulatedAttendance, innerObj) => {
-              // console.log(accumulatedAttendance);
               accumulatedAttendance[takeLastTwoAlphas(innerObj.a_date)] =
-                innerObj.attendence_status;
+                innerObj.attendance_status;
               return accumulatedAttendance;
             }, {}),
         }));
@@ -215,7 +216,8 @@ export default function StudentProfile() {
                             {students[0]?.gender}
                           </p>
                           <p className="mb-0">
-                            <strong>Father's Name:</strong>&nbsp; {students[0]?.father_name}
+                            <strong>Father's Name:</strong>&nbsp;{" "}
+                            {students[0]?.father_name}
                           </p>
                         </Col>
                         <Col className="p-4 mt-2">
@@ -363,16 +365,14 @@ export default function StudentProfile() {
           <Card.Title>
             <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center justify-content-between">
               <h3>Attendance for Month: {month}</h3>
-              <div c>
+              <div>
                 <select
                   className="border-none"
-                  onChange={(e) => setType(e.target.value)}
-                  value={type}
+                  onChange={(e) => setYear(e.target.value)}
+                  value={year}
                 >
-                  <option value="Theory">Theory</option>
-                  <option value="Practical">Practical</option>
-                  <option value="Clinical">Clinical</option>
-                  <option value="Others">Others</option>
+                  <option value="2024">2024</option>
+                  <option value="2025">2025</option>
                 </select>
                 <select
                   className="border-none"
@@ -391,6 +391,18 @@ export default function StudentProfile() {
                   <option value="October">October</option>
                   <option value="November">November</option>
                   <option value="December">December</option>
+                </select>
+                <select
+                  className="border-none"
+                  onChange={(e) => setType(e.target.value)}
+                  value={type}
+                >
+                  <option value="Theory">Theory</option>
+                  <option value="Practical">Practical</option>
+                  <option value="Clinical">Clinical</option>
+                  <option value="Ece">Ece</option>
+                  <option value="Aetcom">Aetcom</option>
+                  <option value="Fap">Fap</option>
                 </select>
               </div>
             </div>
