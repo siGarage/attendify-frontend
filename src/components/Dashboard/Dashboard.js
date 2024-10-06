@@ -81,7 +81,7 @@ export default function Dashboard() {
       MonthlyAttendance?.forEach((attendance) => {
         if (uniqueDates.includes(attendance.a_date)) {
           dateCounts[attendance.a_date][
-            attendance.attendence_status.toLowerCase()
+            attendance?.attendence_status?.toLowerCase()
           ]++;
         }
       });

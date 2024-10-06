@@ -318,7 +318,7 @@ export default function StudentAdd() {
 
       if (
         subjects.some((sub) =>
-          sub.toLowerCase().includes(subjectName.toLowerCase())
+          sub?.toLowerCase().includes(subjectName?.toLowerCase())
         )
       ) {
         filtered[key] = header[key];
