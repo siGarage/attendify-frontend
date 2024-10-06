@@ -28,6 +28,7 @@ export default function TeacherAdd() {
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
     alternate_no: Yup.number(),
+    emp_id:Yup.number().required("*Required"),
     current_address: Yup.string().required("*Required"),
     permanent_address: Yup.string().required("*Required"),
     department_id: Yup.string().required("*Required"),
