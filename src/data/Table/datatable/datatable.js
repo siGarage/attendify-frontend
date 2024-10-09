@@ -2149,6 +2149,11 @@ export const SemesterDataTables = ({ handleShow, Semesters }) => {
 export const StudentDataTables = ({ handleShow, Students }) => {
   const columns = [
     {
+      name: "Roll NO.",
+      selector: (row) => [row.roll_no],
+      sortable: true,
+    },
+    {
       name: "NAME",
       selector: (row) => [row.name],
       sortable: true,
@@ -2165,6 +2170,18 @@ export const StudentDataTables = ({ handleShow, Students }) => {
     {
       name: "FATHER NAME",
       selector: (row) => [row.father_name],
+      sortable: true,
+    },
+    {
+      name: "Finger ID",
+      selector: (row) => [
+        row.finger_id_1 && row.finger_id_2 && row.finger_id_3 ? "Yes" : "No",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Face ID",
+      selector: (row) => [row.face_id?"Yes":"No"],
       sortable: true,
     },
     {
@@ -2264,9 +2281,9 @@ export const StudentAttendenceDataTables = ({
     {
       name: "Theory(A)",
       selector: (row) => [
-          row.subjects?.filter(
-            (subject) => subject.name.split("-")[1] === "Theory"
-          )[0]?.absent||"-"
+        row.subjects?.filter(
+          (subject) => subject.name.split("-")[1] === "Theory"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2275,7 +2292,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Theory"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
     },
@@ -2284,7 +2301,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Practical"
-        )[0]?.present||"-"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
@@ -2293,7 +2310,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Practical"
-        )[0]?.absent||"-"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2302,7 +2319,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Practical"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
     },
@@ -2311,7 +2328,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Ece"
-        )[0]?.present||"-"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
@@ -2320,7 +2337,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Ece"
-        )[0]?.absent||"-"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2329,7 +2346,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Ece"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
       // conditionalCellStyles: [
@@ -2350,7 +2367,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Clinicals"
-        )[0]?.present||"-"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
@@ -2359,7 +2376,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Clinicals"
-        )[0]?.absent||"-"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2368,7 +2385,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Clinicals"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
     },
@@ -2377,7 +2394,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Aetcom"
-        )[0]?.present||"-"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
@@ -2386,7 +2403,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Aetcom"
-        )[0]?.absent||"-"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2395,7 +2412,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Aetcom"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
     },
@@ -2404,7 +2421,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Fap"
-        )[0]?.present||"-"
+        )[0]?.present || "-",
       ],
       sortable: true,
     },
@@ -2413,7 +2430,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Fap"
-        )[0]?.absent||"-"
+        )[0]?.absent || "-",
       ],
       sortable: true,
     },
@@ -2422,7 +2439,7 @@ export const StudentAttendenceDataTables = ({
       selector: (row) => [
         row.subjects?.filter(
           (subject) => subject.name.split("-")[1] === "Fap"
-        )[0]?.percentage||"-"
+        )[0]?.percentage || "-",
       ],
       sortable: true,
     },
@@ -2613,7 +2630,7 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
     },
     {
       name: "DEPARTMENT",
-      selector: (row) => [row.department_id],
+      selector: (row) => [row.departmentName[0].name],
       sortable: true,
     },
     {

@@ -94,7 +94,6 @@ export default function StudentAdd() {
     const csv = finalAttendence
       .map((row) => Object.values(row).join(","))
       .join("\n");
-
     // Create a download link and trigger click
     const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);

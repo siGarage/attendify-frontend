@@ -8,16 +8,21 @@ import {
   fetchTeachers,
   teacherDelete
 } from "../../../redux/Action/TeacherAction";
+import {
+  fetchDepartment
+} from "../../../redux/Action/DepartmentAction";
 import {} from "../../../redux/Action/AuthAction";
 import { SimpleModal } from "../../Modal/SimpleModal";
 import { WarningModal } from "../../Modal/WarningModal";
+import Departemnt from "../Department/Department";
 export default function Teachers() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { teachers } = useSelector((state) => ({
+  const { teachers,Departments } = useSelector((state) => ({
     users: state?.userAuth?.users,
     exams: state?.exam?.exams,
     teachers: state?.teachers?.teachers,
+    Departments: state?.departments?.departments
   }));
   const [show, setShow] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
@@ -25,6 +30,7 @@ export default function Teachers() {
   const [userData, setUserData] = React.useState({});
   const [scroll, setScroll] = React.useState("paper");
   const [editUser, setEditUser] = useState();
+  const [finalTeacher, setFinalTeacher] = useState([]);
   const [deleteId, setDeleteId] = useState();
   const handleClose = () => setShow(false);
 
@@ -40,7 +46,18 @@ export default function Teachers() {
     //     })
     //     .catch(err => console.log(err))
   };
-
+  useEffect(() => {
+    const Tea = teachers?.map((tea) => {
+      return {
+        ...tea,
+        departmentName: Departments?.filter(({ _id }) => tea.department_id === _id),
+      };
+    });
+    if (Tea?.length > 0) {
+      setFinalTeacher(Tea);
+    }
+  }, [Departments, teachers]);
+  console.log(finalTeacher,"test");
   const userDeleteAction = () => {
     setShow(false);
     dispatch(teacherDelete(deleteId));
@@ -49,6 +66,7 @@ export default function Teachers() {
 
   useEffect(() => {
     dispatch(fetchTeachers());
+    dispatch(fetchDepartment());
   }, []);
 
   const handleShow = (id) => {
@@ -103,7 +121,6 @@ export default function Teachers() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                {console.log(teachers,'teachers')}
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
                   handleOpenUserModal={handleOpenUserModal}
@@ -111,7 +128,7 @@ export default function Teachers() {
                   userDeleteAction={userDeleteAction}
                   handleOpen={handleOpen}
                   handleClickOpen={handleClickOpen}
-                  Teachers={teachers}
+                  Teachers={finalTeacher}
                 />
               </div>
             </Card.Body>

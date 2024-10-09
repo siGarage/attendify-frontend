@@ -9,6 +9,7 @@ import studentAttendenceReducer from "./Reducer/StudentAttendenceReducer";
 import teacherAttendenceReducer from "./Reducer/TeacherAttendenceReducer";
 import teacherReducer from "./Reducer/TeacherReducer";
 import departmentReducer from "./Reducer/DepartmentReducer";
+import bioMetricReducer from "./Reducer/BiometricReducer";
 const reducer = combineReducers({
   userAuth: userAuthReducer,
   courses: courseReducer,
@@ -20,5 +21,6 @@ const reducer = combineReducers({
   teachersAttendence: teacherAttendenceReducer,
   departments:departmentReducer,
   teachers: teacherReducer,
+  bios: bioMetricReducer,
 });
 export default reducer;
