@@ -50,7 +50,6 @@ export default function Students() {
         mergedArray.push(student);
       }
     });
-    console.log(mergedArray);
     return mergedArray;
   }
 
@@ -187,6 +186,9 @@ export default function Students() {
                             </div>
                           ) : null}
                         </Col>
+                        <Col sm={12} lg={1} md={1} xl={1} className="d-flex align-items-center">
+                          <p>OR</p>
+                        </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Roll No.</label>
                           <input
@@ -211,7 +213,7 @@ export default function Students() {
                           variant="primary"
                           className="me-1 mt-5"
                         >
-                          Submit
+                          Search
                         </Button>
 
                         <Button
