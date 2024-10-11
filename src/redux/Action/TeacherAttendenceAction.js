@@ -42,10 +42,10 @@ export const createTeacherAttendence =
     }
   };
 
-export const fetchTeachersAttendence = () => async (dispatch) => {
+export const fetchTeachersAttendence = (values) => async (dispatch) => {
   try {
     dispatch({ type: TEACHER_ATTENDANCE_GET_REQUEST });
-    const { data } = await API.get(`/getTeacherAttendences`);
+    const { data } = await API.post(`/getTeacherAttendences`, values);
     dispatch({ type: TEACHER_ATTENDANCE_GET_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
