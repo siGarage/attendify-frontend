@@ -373,7 +373,7 @@ export default function TeacherAttendanceList() {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-between">
-                <Card.Title as="h3">Filter Teacher Attendance</Card.Title>
+                <Card.Title className="h3">Filter Teacher Attendance</Card.Title>
                 <div className="d-flex">
                   <button
                     onClick={() => handleDownloadClick()}

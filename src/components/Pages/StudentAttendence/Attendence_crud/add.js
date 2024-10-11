@@ -62,7 +62,7 @@ export default function StudentAdd() {
         const student = extractNamesById(Students, item.student_id)[0];
         const subject = extractNamesById(Subjects, item.subject_id)[0];
         const studentroll = extractRollNoById(Students, item.student_id)[0];
-        const attendance_status = item.attendence_status;
+        const attendance_status = item.attendance_status;
         const type = item.type;
         data = {
           studentroll,
@@ -96,7 +96,6 @@ export default function StudentAdd() {
         if (!studentData.subjects[subjectKey]) {
           studentData.subjects[subjectKey] = { present: 0, absent: 0 };
         }
-
         const subjectData = studentData.subjects[subjectKey];
         if (attendance_status === "Present") {
           subjectData.present++;
