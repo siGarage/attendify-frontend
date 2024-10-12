@@ -12,6 +12,7 @@ import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
+import "yup-phone";
 import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 
 export default function TeacherAdd() {
@@ -24,17 +25,20 @@ export default function TeacherAdd() {
     Semester: state?.semesters?.semesters,
     Departments: state?.departments?.departments,
   }));
+  const phoneRegExp =
+    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
+    dob: Yup.string().required("*Required"),
     alternate_no: Yup.number(),
-    emp_id:Yup.number().required("*Required"),
+    emp_id: Yup.number().required("*Required"),
     current_address: Yup.string().required("*Required"),
     permanent_address: Yup.string().required("*Required"),
     department_id: Yup.string().required("*Required"),
     designation: Yup.string().required("*Required"),
     email: Yup.string().email("Invalid email").required("*Required"),
-    phone_no: Yup.number().required("*Required"),
+    phone_no: Yup.string().phone("*Invalid number").required("*Required"),
   });
   useEffect(() => {
     dispatch(fetchCourse());
@@ -248,7 +252,7 @@ export default function TeacherAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Department Id</label>
+                          <label className="form-label">Department </label>
                           <select
                             onChange={formik.handleChange}
                             value={formik.values.department_id}

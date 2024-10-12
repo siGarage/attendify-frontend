@@ -137,7 +137,7 @@ export default function SubjectAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={4} md={4} xl={4}>
-                          <label className="form-label">Course</label>
+                          <label className="form-label">Phase</label>
                           <select
                             onChange={formik.handleChange}
                             value={formik.values.semester_id}

@@ -18,9 +18,11 @@ import * as Yup from "yup";
 export default function StudentAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [course, setCourse] = useState(false);
+  const [course, setCourse] = useState("");
+  const [finalPhase, setFinalPhase] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [semester, setSemester] = useState(false);
+  const [semester, setSemester] = useState("");
+  const [finalSubject, setFinalSubjects] = useState([]);
   const [subject, setSubject] = useState(false);
   const [deleteId, setDeleteId] = useState();
   const [fromDate, setFromDate] = useState("");
@@ -240,20 +242,21 @@ export default function StudentAdd() {
       formik.values.subject_id = "";
       formik.values.type = "";
       setCourse(false);
-      setSemester(false);
       setSubject(false);
     }
   }, [formik.values.course_id]);
+  useEffect(() => {
+    let finalPhaseData = Semester?.filter(
+      (p) => p.course_id === formik.values.course_id
+    );
+    setFinalPhase([...finalPhaseData]);
+  }, [formik.values.course_id]);
 
   useEffect(() => {
-    if (formik.values.semester_id.length > 0) {
-      setSemester(true);
-    } else {
-      formik.values.type = "";
-      formik.values.subject_id = "";
-      setSemester(false);
-      setSubject(false);
-    }
+    let finalSubjectData = Subjects?.filter(
+      (s) => s.semester_id === formik.values.semester_id
+    );
+    setFinalSubjects([...finalSubjectData]);
   }, [formik.values.semester_id]);
 
   useEffect(() => {
@@ -329,7 +332,7 @@ export default function StudentAdd() {
       {
         id: "S no.",
         student: "Name",
-        roll:"Roll No",
+        roll: "Roll No",
         ...filteredHeader,
       },
       ...transformSubjects,
@@ -422,8 +425,8 @@ export default function StudentAdd() {
                           id="semester_id"
                         >
                           <option value="">Please Select Phase</option>
-                          {Semester?.length > 0
-                            ? Semester?.map((semester) => {
+                          {finalPhase?.length > 0
+                            ? finalPhase?.map((semester) => {
                                 return (
                                   <option value={semester?._id}>
                                     {semester?.name}
@@ -449,8 +452,8 @@ export default function StudentAdd() {
                           id="subject_id"
                         >
                           <option value="">Please Select Subject</option>
-                          {Subjects?.length > 0
-                            ? Subjects?.map((subject) => {
+                          {finalSubject?.length > 0
+                            ? finalSubject?.map((subject) => {
                                 return (
                                   <option value={subject?._id}>
                                     {subject?.name}

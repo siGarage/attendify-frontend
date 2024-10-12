@@ -15,23 +15,25 @@ export default function TeacherAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editor = useRef(null);
+  const [course, setCourse] = useState("");
+  const [finalPhase, setFinalPhase] = useState([]);
+  const [isDisabled, setIsDisabled] = useState(false);
   const { Courses, Semester } = useSelector((state) => ({
     Courses: state?.courses?.courses,
     Semester: state?.semesters?.semesters,
   }));
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
-    phone_no: Yup.number().required("*Required"),
-    guardian_no: Yup.number().required("*Required"),
-    gender:Yup.string().required("*Required"),
-    dob:Yup.string().required("*Required"),
+    guardian_no:  Yup.string().phone("*Invalid number").required("*Required"),
+    gender: Yup.string().required("*Required"),
+    dob: Yup.string().required("*Required"),
     father_name: Yup.string().required("*Required"),
     current_address: Yup.string().required("*Required"),
     permanent_address: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
     course_id: Yup.string().required("*Required"),
     email: Yup.string().email("*Invalid email").required("*Required"),
-    phone_no: Yup.number().required("*Required"),
+    phone_no: Yup.string().phone("*Invalid number").required("*Required"),
     roll_no: Yup.number().required("*Required"),
   });
   useEffect(() => {
@@ -57,6 +59,12 @@ export default function TeacherAdd() {
       navigate("/student-list");
     },
   });
+  useEffect(() => {
+    let finalPhaseData = Semester?.filter(
+      (p) => p.course_id === formik.values.course_id
+    );
+    setFinalPhase([...finalPhaseData]);
+  }, [formik.values.course_id]);
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -241,7 +249,7 @@ export default function TeacherAdd() {
                         </Col>
 
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Course Id</label>
+                          <label className="form-label">Course </label>
                           <select
                             onChange={formik.handleChange}
                             value={formik.values.course_id}
@@ -266,7 +274,7 @@ export default function TeacherAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Semester Id</label>
+                          <label className="form-label">Semester </label>
                           {/* <input
                             type="number"
                             name="semester_id"
@@ -282,8 +290,8 @@ export default function TeacherAdd() {
                             name="semester_id"
                           >
                             <option>Please Select Phase</option>
-                            {Semester?.length > 0
-                              ? Semester?.map((course) => {
+                            {finalPhase?.length > 0
+                              ? finalPhase?.map((course) => {
                                   return (
                                     <option value={course?._id}>
                                       {course?.name}
