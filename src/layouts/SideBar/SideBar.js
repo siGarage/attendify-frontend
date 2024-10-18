@@ -1,9 +1,9 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { MENUITEMS, MENUITEMS2, PROPERTYMANAGERMENUITEMS, EDITORMENUITEMS,SUPERADMINMENUITEMS } from "./SideMenu";
+import { MENUITEMS,HODMENUITEMS,ADMINMENUITEMS,FACULTYMENUITEMS } from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars";
 const Sidebar = () => {
-  const MENU = ["9"].includes(sessionStorage.getItem("role")) ? SUPERADMINMENUITEMS : ["1"].includes(sessionStorage.getItem("role")) ? PROPERTYMANAGERMENUITEMS : ["3"].includes(sessionStorage.getItem("role")) ? EDITORMENUITEMS : MENUITEMS;
+  const MENU = ["3"].includes(sessionStorage.getItem("role")) ? FACULTYMENUITEMS : ["2"].includes(sessionStorage.getItem("role")) ? HODMENUITEMS : ["1"].includes(sessionStorage.getItem("role")) ? ADMINMENUITEMS : MENUITEMS;
   const [mainmenu, setMainMenu] = useState(MENU);
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);

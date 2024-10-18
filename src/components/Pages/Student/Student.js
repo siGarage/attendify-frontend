@@ -186,7 +186,7 @@ export default function Students() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={1} md={1} xl={1} className="d-flex align-items-center">
+                        <Col sm={12} lg={1} md={1} xl={1} className="d-flex align-items-center" style={{marginTop:"30px",marginLeft:"10px"}}>
                           <p>OR</p>
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>

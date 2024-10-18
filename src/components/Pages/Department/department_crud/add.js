@@ -30,7 +30,7 @@ export default function CourseAdd() {
   const [confirmSubject, setconfirmSubject] = useState([]);
   const { Users, teachers } = useSelector((state) => ({
     Users: state?.userAuth?.users,
-    teachers: state?.teachers?.teachers,
+    teachers: state?.teachers?.teachers
   }));
   useEffect(() => {
     dispatch(fetchUsers());
@@ -43,7 +43,7 @@ export default function CourseAdd() {
     },
     onSubmit: (values) => {
       values = { ...values, notes: content };
-        dispatch(createDepartment(values));
+      dispatch(createDepartment(values));
       navigate("/department-list");
     },
   });
@@ -91,7 +91,7 @@ export default function CourseAdd() {
                             {teachers?.length > 0
                               ? teachers?.map((teacher) => {
                                   return (
-                                    <option value={teacher?._id}>
+                                    <option value={teacher?.user_id}>
                                       {teacher?.name}
                                     </option>
                                   );

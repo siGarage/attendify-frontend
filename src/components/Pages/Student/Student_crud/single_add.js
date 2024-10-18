@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import "../../../../App.css";
 import { Col, Row, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import ReactSwitch from "react-switch";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { createStudent } from "../../../../redux/Action/StudentAction";
@@ -16,7 +17,9 @@ export default function TeacherAdd() {
   const navigate = useNavigate();
   const editor = useRef(null);
   const [course, setCourse] = useState("");
+  const [parmamentAd, setParmanentAd] = useState("");
   const [finalPhase, setFinalPhase] = useState([]);
+  const [spracticalPermission, setPracticalPermission] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const { Courses, Semester } = useSelector((state) => ({
     Courses: state?.courses?.courses,
@@ -24,39 +27,68 @@ export default function TeacherAdd() {
   }));
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
-    guardian_no:  Yup.string().phone("*Invalid number").required("*Required"),
+    guardian_no: Yup.string().phone("*Invalid number").required("*Required"),
     gender: Yup.string().required("*Required"),
     dob: Yup.string().required("*Required"),
     father_name: Yup.string().required("*Required"),
     current_address: Yup.string().required("*Required"),
-    permanent_address: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
     course_id: Yup.string().required("*Required"),
     email: Yup.string().email("*Invalid email").required("*Required"),
     phone_no: Yup.string().phone("*Invalid number").required("*Required"),
     roll_no: Yup.number().required("*Required"),
+    permanent_address: Yup.string().when("isSameAddress", {
+      is: false,
+      then: Yup.string().required("Permanent address is required"),
+    }),
   });
+
   useEffect(() => {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
   }, []);
+
   const formik = useFormik({
     initialValues: {
       name: "",
-      department_id: "",
       guardian_no: "",
       email: "",
       semester_id: "",
+      permanent_address: "",
+      phone_no: "",
+      course_id: "",
       gender: "",
       dob: "",
-      permanent_address: "",
+      father_name:"",
       current_address: "",
       roll_no: "",
+      isSameAddress: false,
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      dispatch(createStudent(values));
-      navigate("/student-list");
+      if (values.isSameAddress) {
+        let data = {
+          name: values.name,
+          guardian_no: values.guardian_no,
+          email: values.email,
+          course_id: values.course_id,
+          semester_id: values.semester_id,
+          gender: values.gender,
+          phone_no: values.phone_no,
+          father_name:values.father_name,
+          dob: values.dob,
+          current_address: values.current_address,
+          permanent_address: values.current_address,
+          roll_no: values.roll_no,
+          role: "4",
+        };
+        dispatch(createStudent(data));
+        navigate("/student-list");
+      } else {
+        values = { ...values, role: "4" };
+        dispatch(createStudent(values));
+        navigate("/student-list");
+      }
     },
   });
   useEffect(() => {
@@ -65,6 +97,10 @@ export default function TeacherAdd() {
     );
     setFinalPhase([...finalPhaseData]);
   }, [formik.values.course_id]);
+  // const samepermanentAdd = (event) => {
+  //   const newValue = event.target.value;
+  //   console.log(newValue);
+  // };
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -213,42 +249,8 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Current Address</label>
-                          <input
-                            type="text"
-                            name="current_address"
-                            onChange={formik.handleChange}
-                            value={formik.values.current_address}
-                            placeholder="Current Address"
-                            className="form-control required"
-                          />
-                          {formik.errors.current_address ? (
-                            <div style={{ color: "red" }}>
-                              {formik.errors.current_address}
-                            </div>
-                          ) : null}
-                        </Col>
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">
-                            Permanent Address
-                          </label>
-                          <input
-                            type="text"
-                            name="permanent_address"
-                            onChange={formik.handleChange}
-                            value={formik.values.permanent_address}
-                            placeholder="Permanent Address"
-                            className="form-control required"
-                          />
-                          {formik.errors.permanent_address ? (
-                            <div style={{ color: "red" }}>
-                              {formik.errors.permanent_address}
-                            </div>
-                          ) : null}
-                        </Col>
 
-                        <Col sm={12} lg={3} md={3} xl={3}>
+                        <Col sm={12} lg={6} md={6} xl={6}>
                           <label className="form-label">Course </label>
                           <select
                             onChange={formik.handleChange}
@@ -273,7 +275,7 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={3} md={3} xl={3}>
+                        <Col sm={12} lg={6} md={6} xl={6}>
                           <label className="form-label">Semester </label>
                           {/* <input
                             type="number"
@@ -305,6 +307,57 @@ export default function TeacherAdd() {
                               {formik.errors.semester_id}
                             </div>
                           ) : null}
+                        </Col>
+                        <Col sm={12} lg={5} md={5} xl={5}>
+                          <label className="form-label">Current Address</label>
+                          <input
+                            type="text"
+                            name="current_address"
+                            onChange={formik.handleChange}
+                            value={formik.values.current_address}
+                            placeholder="Current Address"
+                            className="form-control required"
+                          />
+                          {formik.errors.current_address ? (
+                            <div style={{ color: "red" }}>
+                              {formik.errors.current_address}
+                            </div>
+                          ) : null}
+                        </Col>
+                        <Col sm={12} lg={5} md={5} xl={5}>
+                          <label className="form-label">
+                            Permanent Address
+                          </label>
+                          <input
+                            type="text"
+                            name="permanent_address"
+                            onChange={formik.handleChange}
+                            value={formik.values.permanent_address}
+                            placeholder="Permanent Address"
+                            className="form-control required"
+                          />
+                          {formik.errors.permanent_address ? (
+                            <div style={{ color: "red" }}>
+                              {formik.errors.permanent_address}
+                            </div>
+                          ) : null}
+                        </Col>
+                        <Col sm={12} lg={2} md={2} xl={2}>
+                          <label className="form-label">
+                            (Same as Current Address)
+                          </label>
+                          <input
+                            type="checkbox"
+                            id="isSameAddress"
+                            name="isSameAddress"
+                            checked={formik.values.isSameAddress}
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                          />
+                          {/* <ReactSwitch
+                            checked={spracticalPermission}
+                            onChange={handleSetPrcaticalPermission}
+                          /> */}
                         </Col>
                       </div>
                       <Button

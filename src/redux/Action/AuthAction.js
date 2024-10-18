@@ -91,12 +91,12 @@ export const login = (userInfo) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
     const { data } = await API.post(`/userLogin`, userInfo);
-    console.log(data, "kartik");
     dispatch({ type: USER_LOGIN_SUCCESS });
     if (data.status_text == "success") {
       sessionStorage.setItem("accessToken", data?.data?.token);
       sessionStorage.setItem("userId", data?.data?.responseUser?._id);
       sessionStorage.setItem("name", data?.data?.responseUser?.name);
+      sessionStorage.setItem("role", data?.data?.responseUser?.role);
       sessionStorage.setItem("email", data?.data?.responseUser?.email);
       sessionStorage.setItem(
         "contact_no",

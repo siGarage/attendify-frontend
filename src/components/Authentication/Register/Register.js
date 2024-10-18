@@ -1,46 +1,46 @@
 import React from "react";
 import { Card } from "react-bootstrap";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as custompagesswitcherdata from "../../../data/Switcher/Custompagesswitcherdata";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../../redux/Action/AuthAction";
 
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 const SignupSchema = Yup.object().shape({
   name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  contact_no: Yup.string().matches(phoneRegExp, 'Phone number is not valid')
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  contact_no: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
 });
 
 export default function Register() {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirm_password:""
+      name: "",
+      email: "",
+      phone: "",
+      password: "",
+      confirm_password: "",
     },
     validationSchema: SignupSchema,
-    onSubmit: values => {
-      dispatch(register(values,"register"));
+    onSubmit: (values) => {
+      values = { ...values, role: "1" };
+      dispatch(register(values, "register"));
       navigate("/");
     },
   });
   return (
     <div onSubmit={formik.handleSubmit} className="login-img">
       <div className="page">
-    
         {/* <div className="" onClick={() => custompagesswitcherdata.Swichermainrightremove()}> */}
         <div>
           <div className="col col-login mx-auto">
@@ -57,9 +57,7 @@ export default function Register() {
               <Card.Body>
                 <form className="login100-form validate-form">
                   <span className="login100-form-title">Registration</span>
-                  <div
-                    className="wrap-input100 validate-input"
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="text"
@@ -76,9 +74,7 @@ export default function Register() {
                       <i className="mdi mdi-account" aria-hidden="true"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="text"
@@ -95,10 +91,7 @@ export default function Register() {
                       <i className="zmdi zmdi-email" aria-hidden="true"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
-
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="text"
@@ -115,10 +108,7 @@ export default function Register() {
                       <i className="icon icon-phone"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
-
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="password"
@@ -136,10 +126,7 @@ export default function Register() {
                       <i className="zmdi zmdi-lock" aria-hidden="true"></i>
                     </span>
                   </div>
-                  <div
-                    className="wrap-input100 validate-input"
-
-                  >
+                  <div className="wrap-input100 validate-input">
                     <input
                       className="input100"
                       type="password"
@@ -149,7 +136,8 @@ export default function Register() {
                       onChange={formik.handleChange}
                       value={formik.values.confirm_password}
                     />
-                    {formik.errors.confirm_password && formik.touched.confirm_password ? (
+                    {formik.errors.confirm_password &&
+                    formik.touched.confirm_password ? (
                       <div>{formik.errors.confirm_password}</div>
                     ) : null}
                     <span className="focus-input100"></span>
@@ -162,7 +150,7 @@ export default function Register() {
                     <span className="custom-control-label">
                       Agree the
                       <Link to={`${process.env.PUBLIC_URL}/pages/terms/`}>
-                         terms and policy
+                        terms and policy
                       </Link>
                     </span>
                   </label>
@@ -178,10 +166,7 @@ export default function Register() {
                   <div className="text-center pt-3">
                     <p className="text-dark mb-0">
                       Already have account?
-                      <Link
-                        to={`/`}
-                        className="text-primary ms-1"
-                      >
+                      <Link to={`/`} className="text-primary ms-1">
                         Sign In
                       </Link>
                     </p>

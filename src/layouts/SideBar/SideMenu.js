@@ -279,7 +279,7 @@ export const MENUITEMS = [
   },
 ];
 
-export const MENUITEMS2 = [
+export const ADMINMENUITEMS = [
   {
     menutitle: "MAIN",
     Items: [
@@ -293,213 +293,30 @@ export const MENUITEMS2 = [
     ],
   },
   {
-    menutitle: "Pages",
+    menutitle: "Attendance",
     Items: [
       {
-        title: "College",
+        title: "Attendance",
         icon: "user",
         type: "sub",
         active: false,
         children: [
           {
-            path: `/college-list`,
+            path: `/student-attendance-list`,
             type: "link",
-            title: "All College",
+            title: "Student Attendance",
           },
           {
-            path: `/guest`,
+            path: `/teacher-attendance-list`,
             type: "link",
-            title: "Add College",
+            title: "Teacher Attendance",
           },
         ],
       },
     ],
   },
   {
-    menutitle: "Other Features",
-    Items: [
-      {
-        title: "Status",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/status`,
-            type: "link",
-            title: "Status",
-          },
-        ],
-      },
-    ],
-  },
-];
-export const PROPERTYMANAGERMENUITEMS = [
-  {
-    menutitle: "MAIN",
-    Items: [
-      {
-        path: `/dashboard`,
-        icon: "home",
-        type: "link",
-        active: true,
-        title: "Dashboard",
-      },
-    ],
-  },
-  {
-    menutitle: "Pages",
-    Items: [
-      {
-        title: "Claim Property",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/claim-school-property-list`,
-            type: "link",
-            title: "School Properties",
-          },
-          {
-            path: `/claim-coaching-property-list`,
-            type: "link",
-            title: "Coaching Properties",
-          },
-        ],
-      },
-      {
-        title: "My Property",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/my-school-property-list`,
-            type: "link",
-            title: "My School Properties",
-          },
-          {
-            path: `/my-coaching-property-list`,
-            type: "link",
-            title: "My Coaching Properties",
-          },
-        ],
-      },
-    ],
-  },
-];
-export const EDITORMENUITEMS = [
-  {
-    menutitle: "MAIN",
-    Items: [
-      {
-        path: `/dashboard`,
-        icon: "home",
-        type: "link",
-        active: true,
-        title: "Dashboard",
-      },
-    ],
-  },
-  {
-    menutitle: "Pages",
-    Items: [
-      {
-        title: "Property",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/university-property-list`,
-            type: "link",
-            title: "University Properties",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "College properties",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "Online Learning",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "Eduversity",
-          },
-          {
-            path: `/add-property`,
-            type: "link",
-            title: "Add Property",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    menutitle: "Other Features",
-    Items: [
-      {
-        title: "Status",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/status`,
-            type: "link",
-            title: "Status",
-          },
-        ],
-      },
-      {
-        title: "Property Type",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/property-type`,
-            type: "link",
-            title: "Property Type",
-          },
-        ],
-      },
-      {
-        title: "Categories",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/category-list`,
-            type: "link",
-            title: "Category",
-          },
-        ],
-      },
-    ],
-  },
-];
-export const SUPERADMINMENUITEMS = [
-  {
-    menutitle: "MAIN",
-    Items: [
-      {
-        path: `/dashboard`,
-        icon: "home",
-        type: "link",
-        active: true,
-        title: "Dashboard",
-      },
-    ],
-  },
-  {
-    menutitle: "Pages",
+    menutitle: "Users",
     Items: [
       {
         title: "Users",
@@ -508,70 +325,88 @@ export const SUPERADMINMENUITEMS = [
         active: false,
         children: [
           {
-            path: `/property-manager`,
-            type: "link",
-            title: "Property Managers",
-          },
-          {
-            path: `/guest`,
+            path: `/Student-list`,
             type: "link",
             title: "Students",
           },
           {
-            path: `editor`,
+            path: `/Teacher-list`,
             type: "link",
-            title: "Editors",
-          },
-          {
-            path: `/agent`,
-            type: "link",
-            title: "Agent",
-          },
-          {
-            path: `cyber-partner`,
-            type: "link",
-            title: "Cyber Partners",
-          },
-          {
-            path: `caller`,
-            type: "link",
-            title: "Callers",
-          },
-        ],
-      },
-      {
-        title: "Property",
-        icon: "user",
-        type: "sub",
-        active: false,
-        children: [
-          {
-            path: `/university-property-list`,
-            type: "link",
-            title: "University Properties",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "College properties",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "Online Learning",
-          },
-          {
-            path: `/property-list`,
-            type: "link",
-            title: "Eduversity",
-          },
-          {
-            path: `/add-property`,
-            type: "link",
-            title: "Add Property",
+            title: "Teachers",
           },
         ],
       },
     ],
   },
+];
+
+export const FACULTYMENUITEMS = [
+  {
+    menutitle: "MAIN",
+    Items: [
+      {
+        path: `/dashboard`,
+        icon: "home",
+        type: "link",
+        active: true,
+        title: "Dashboard",
+      },
+    ],
+  },
+  {
+    menutitle: "Attendance",
+    Items: [
+      {
+        title: "Attendance",
+        icon: "user",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `/student-attendance-list`,
+            type: "link",
+            title: "Student Attendance",
+          },
+        ],
+      },
+    ],
+  }
+];
+
+export const HODMENUITEMS = [
+  {
+    menutitle: "MAIN",
+    Items: [
+      {
+        path: `/dashboard`,
+        icon: "home",
+        type: "link",
+        active: true,
+        title: "Dashboard",
+      },
+    ],
+  },
+  {
+    menutitle: "Attendance",
+    Items: [
+      {
+        title: "Attendance",
+        icon: "user",
+        type: "sub",
+        active: false,
+        children: [
+          {
+            path: `/student-attendance-list`,
+            type: "link",
+            title: "Student Attendance",
+          },
+          {
+            path: `/teacher-attendance-list`,
+            type: "link",
+            title: "Teacher Attendance",
+          },
+        ],
+      },
+    ],
+  }
 ];

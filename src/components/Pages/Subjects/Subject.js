@@ -3,19 +3,25 @@ import * as datatable from "../../../data/Table/datatable/datatable";
 import { Link } from "react-router-dom";
 import { Row, Card, Col, Breadcrumb } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
 import {
   fetchSubject,
   subjectDelete,
 } from "../../../redux/Action/SubjectAction";
+import { fetchSemester } from "../../../redux/Action/SemesterAction";
 import { WarningModal } from "../../Modal/WarningModal";
+import { ContactlessOutlined } from "@mui/icons-material";
 export default function Subjects() {
   const dispatch = useDispatch();
-  const { Subjects } = useSelector((state) => ({
+  const { Subjects, Semesters } = useSelector((state) => ({
     Subjects: state?.subjects?.subjects,
+    Semesters: state?.semesters?.semesters,
   }));
   const [show, setShow] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
+  const [finalSubject, setFinalSubject] = React.useState([]);
+  // const [semesterId, setSemesterId] = React.useState("");
   const [editUser, setEditUser] = useState();
   const [deleteId, setDeleteId] = useState();
 
@@ -23,6 +29,11 @@ export default function Subjects() {
     setEditUser(row);
     setOpen(true);
     setScroll(scrollType);
+  };
+  const setSemesterId = (event) => {
+    const newValue = event.target.value;
+    let finalData = Subjects?.filter((s) => s.semester_id == newValue);
+    setFinalSubject(finalData);
   };
   const handleStatusUpdate = (row) => {
     // dispatch(userUpdate({ ...row, type: "user" }))
@@ -41,13 +52,25 @@ export default function Subjects() {
 
   useEffect(() => {
     dispatch(fetchSubject());
+    dispatch(fetchSemester());
   }, []);
 
   const handleShow = (id) => {
     setDeleteId(id);
     setShow(true);
   };
-
+  // const formik = useFormik({
+  //   initialValues: {
+  //     semester_id: "",
+  //   },
+  //   onSubmit: (values) => {
+  //     setSemesterId(values.semester_id);
+  //   },
+  // });
+  // useEffect(() => {
+  //   let finalData = Subjects?.filter((s) => s.semester_id == semesterId);
+  //   console.log(finalData);
+  // }, [semesterId.length > 0]);
   return (
     <div>
       <div className="page-header">
@@ -78,6 +101,32 @@ export default function Subjects() {
         </div>
       </div>
       <Row className=" row-sm">
+        <Col sm={12} lg={12} md={12} xl={12}>
+          <Card className="removeShadow">
+            <Row className="p-3">
+              <div className="row">
+                <Col sm={12} lg={3} md={3} xl={3}>
+                  <label className="form-label">Phase</label>
+                  <select
+                    onChange={setSemesterId}
+                    className="form-control required"
+                    name="course_id"
+                    id="course_id"
+                  >
+                    <option value="">Please Select Phase</option>
+                    {Semesters?.length > 0
+                      ? Semesters?.map((course) => {
+                          return (
+                            <option value={course?._id}>{course?.name}</option>
+                          );
+                        })
+                      : ""}
+                  </select>
+                </Col>
+              </div>
+            </Row>
+          </Card>
+        </Col>
         <Col lg={12}>
           <Card>
             <Card.Header>
@@ -90,7 +139,7 @@ export default function Subjects() {
                   handleShow={handleShow}
                   userDeleteAction={userDeleteAction}
                   handleClickOpen={handleClickOpen}
-                  Subjects={Subjects}
+                  Subjects={finalSubject}
                 />
               </div>
             </Card.Body>

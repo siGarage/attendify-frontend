@@ -64,7 +64,9 @@ export default function TeacherAdd() {
       values = {
         ...values,
         notes: content,
+        role:"3"
       };
+      console.log(values);
       dispatch(createTeacher(values));
       navigate("/teacher-list");
     },
