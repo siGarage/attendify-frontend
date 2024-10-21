@@ -2627,6 +2627,15 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
       name: "NAME",
       selector: (row) => [row.name],
       sortable: true,
+      cell: (row) => (
+        <span className="" style={{ width: "409px" }}>
+          <NavLink
+            to={`/teacher-profile/${row?._id}/${row.course_id}/${row.semester_id}`}
+          >
+            {row.name}
+          </NavLink>
+        </span>
+      ),
     },
     {
       name: "DEPARTMENT",

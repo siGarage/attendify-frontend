@@ -410,3 +410,18 @@ export const HODMENUITEMS = [
     ],
   }
 ];
+
+export const SIMPLEMENUITEMS = [
+  {
+    menutitle: "MAIN",
+    Items: [
+      {
+        path: `/dashboard`,
+        icon: "home",
+        type: "link",
+        active: true,
+        title: "Dashboard",
+      },
+    ],
+  }
+];

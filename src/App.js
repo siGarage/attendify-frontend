@@ -5,7 +5,9 @@ import ResetPassword from "./components/Authentication/ForgotPassword/ResetPassw
 import Login from "./components/Authentication/Login/Login";
 import Profile from "./components/Pages/Profile";
 import StudentProfile from "./components/Pages/StudentProfile";
+import TeacherProfile from "./components/Pages/TeacherProfile";
 import Register from "./components/Authentication/Register/Register";
+import SuperAdmin from "./components/Authentication/SuperAdmin/SuperAdmin.js";
 import Dashboard from "./components/Dashboard/Dashboard";
 import EditProfile from "./components/Pages/profileEdit/EditProfile";
 import Editors from "./components/Pages/User/Editors";
@@ -55,7 +57,7 @@ function App() {
         <Route path={"/forgotPassword"} element={<ForgotPassword />} />
         <Route path={"/resetPassword"} element={<ResetPassword />} />
         <Route path={"/changePassword/:id"} element={<ChangePassword />} />
-
+        <Route path={"/super-admin-ams"} element={<SuperAdmin />} />
         {authenticate ? (
           <>
             {" "}
@@ -92,7 +94,10 @@ function App() {
               <Route path={"/group-list"} element={<Groups />} />
               <Route path={"/add-group"} element={<CreateGroup />} />
               <Route path={"/add-student"} element={<CreateStudent />} />
-              <Route path={"/add-single-student"} element={<CreateSingleStudent />} />
+              <Route
+                path={"/add-single-student"}
+                element={<CreateSingleStudent />}
+              />
               <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
               <Route path={"/update-teacher/:id"} element={<UpdateTeacher />} />
@@ -100,6 +105,10 @@ function App() {
               <Route
                 path={"/student-profile/:id/:course/:semester"}
                 element={<StudentProfile />}
+              />
+              <Route
+                path={"/teacher-profile/:id/:course/:semester"}
+                element={<TeacherProfile />}
               />
               <Route
                 path={"/student-attendance-list"}

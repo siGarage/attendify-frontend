@@ -1,9 +1,23 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { MENUITEMS,HODMENUITEMS,ADMINMENUITEMS,FACULTYMENUITEMS } from "./SideMenu";
+import {
+  MENUITEMS,
+  HODMENUITEMS,
+  ADMINMENUITEMS,
+  FACULTYMENUITEMS,
+  SIMPLEMENUITEMS
+} from "./SideMenu";
 import { Link, NavLink } from "react-router-dom";
 import { Scrollbars } from "react-custom-scrollbars";
 const Sidebar = () => {
-  const MENU = ["3"].includes(sessionStorage.getItem("role")) ? FACULTYMENUITEMS : ["2"].includes(sessionStorage.getItem("role")) ? HODMENUITEMS : ["1"].includes(sessionStorage.getItem("role")) ? ADMINMENUITEMS : MENUITEMS;
+  const MENU = ["3"].includes(sessionStorage.getItem("role"))
+    ? FACULTYMENUITEMS
+    : ["2"].includes(sessionStorage.getItem("role"))
+    ? HODMENUITEMS
+    : ["1"].includes(sessionStorage.getItem("role"))
+    ? ADMINMENUITEMS
+    : ["0"].includes(sessionStorage.getItem("role"))
+    ? MENUITEMS
+    : SIMPLEMENUITEMS;
   const [mainmenu, setMainMenu] = useState(MENU);
   useEffect(() => {
     const currentUrl = window.location.pathname.slice(0, -1);
@@ -155,7 +169,6 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className="main-sidemenu">
-
             <ul className="side-menu" id="sidebar-main">
               {MENU.map((Item, i) => (
                 <Fragment key={i}>
@@ -164,15 +177,17 @@ const Sidebar = () => {
                   </li>
                   {Item.Items.map((menuItem, i) => (
                     <li
-                      className={`slide ${menuItem.active ? "is-expanded" : ""
-                        }`}
+                      className={`slide ${
+                        menuItem.active ? "is-expanded" : ""
+                      }`}
                       key={i}
                     >
                       {menuItem.type === "link" ? (
                         <NavLink
                           to={menuItem.path + "/"}
-                          className={`side-menu__item ${menuItem.active ? "active" : ""
-                            }`}
+                          className={`side-menu__item ${
+                            menuItem.active ? "active" : ""
+                          }`}
                           onClick={() => {
                             setNavActive(menuItem);
                             toggletNavActive(menuItem);
@@ -199,8 +214,9 @@ const Sidebar = () => {
                       {menuItem.type === "sub" ? (
                         <NavLink
                           to={menuItem.path + "/"}
-                          className={`side-menu__item ${menuItem.active ? "active" : ""
-                            }`}
+                          className={`side-menu__item ${
+                            menuItem.active ? "active" : ""
+                          }`}
                           onClick={(event) => {
                             event.preventDefault();
                             setNavActive(menuItem);
@@ -232,10 +248,10 @@ const Sidebar = () => {
                           style={
                             menuItem.active
                               ? {
-                                opacity: 1,
-                                transition: "opacity 500ms ease-in",
-                                display: "block",
-                              }
+                                  opacity: 1,
+                                  transition: "opacity 500ms ease-in",
+                                  display: "block",
+                                }
                               : { display: "none" }
                           }
                         >
@@ -322,7 +338,6 @@ const Sidebar = () => {
                 </Fragment>
               ))}
             </ul>
-
           </div>
         </Scrollbars>
       </aside>

@@ -9,6 +9,7 @@ import {
   departmentDelete,
 } from "../../../redux/Action/DepartmentAction";
 import { WarningModal } from "../../Modal/WarningModal";
+import Teachers from "../Teacher/Teacher";
 export default function Departemnt() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -34,13 +35,14 @@ export default function Departemnt() {
     const Dep = Departments?.map((dep) => {
       return {
         ...dep,
-        TeacherName: teachers?.filter(({ _id }) => dep.hod === _id),
+        TeacherName: teachers?.filter((teacher) => teacher.user_id === dep.hod),
       };
     });
     if (Dep?.length > 0) {
       setFinalDepartment(Dep);
     }
-  }, [teachers, Departments]);
+  }, []);
+  console.log(finalDepartment);
   const userDeleteAction = () => {
     dispatch(departmentDelete(deleteId));
     setShow(false);

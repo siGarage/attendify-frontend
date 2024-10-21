@@ -12,6 +12,9 @@ import {
   TEACHER_ATTENDANCE_ADD_FAILURE,
   TEACHER_ATTENDANCE_ADD_REQUEST,
   TEACHER_ATTENDANCE_ADD_SUCCESS,
+  SINGLE_TEACHER_ATTENDANCE_GET_REQUEST,
+  SINGLE_TEACHER_ATTENDANCE_GET_SUCCESS,
+  SINGLE_TEACHER_ATTENDANCE_GET_FAILURE
 } from "../Constants/Constants";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -63,6 +66,17 @@ export const teacherAttendenceDelete = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TEACHER_ATTENDANCE_DELETE_FAILURE,
+    });
+  }
+};
+export const fetchSingleTeacherAttendence = (values) => async (dispatch) => {
+  try {
+    dispatch({ type: SINGLE_TEACHER_ATTENDANCE_GET_REQUEST });
+    const { data } = await API.post(`/fetchSingleTeacherAttendences`, values);
+    dispatch({ type: SINGLE_TEACHER_ATTENDANCE_GET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: SINGLE_TEACHER_ATTENDANCE_GET_FAILURE,
     });
   }
 };

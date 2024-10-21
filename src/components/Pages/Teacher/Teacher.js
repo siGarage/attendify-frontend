@@ -57,7 +57,6 @@ export default function Teachers() {
       setFinalTeacher(Tea);
     }
   }, [Departments, teachers]);
-  console.log(finalTeacher,"test");
   const userDeleteAction = () => {
     setShow(false);
     dispatch(teacherDelete(deleteId));
