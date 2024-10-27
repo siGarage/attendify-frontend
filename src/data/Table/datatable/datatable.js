@@ -2181,9 +2181,7 @@ export const StudentDataTables = ({ handleShow, Students }) => {
     },
     {
       name: "Face ID",
-      selector: (row) => [
-        row.face_id !== undefined ? (row.face_id ? "Yes" : "No") : "",
-      ],
+      selector: (row) => [row.face_id !== undefined ? "Yes" : "No"],
       sortable: true,
     },
     {
