@@ -111,9 +111,9 @@ export default function Students() {
         }
         return matches;
       });
-      // Update state or render filtered data directly
-      // };
+      console.log(bios);
       let dataFinal = mergeArrays(filteredData, bios);
+      // console.log(dataFinal);
       setFilteredData(dataFinal);
     },
   });
