@@ -42,7 +42,7 @@ export default function Students() {
     const mergedArray = [];
     filteredData.forEach((student) => {
       const matchingStudent = bios.find(
-        (item) => item.student_id === student._id
+        (item) => item.user_id === student._id
       );
       if (matchingStudent) {
         mergedArray.push({ ...student, ...matchingStudent });
@@ -110,10 +110,8 @@ export default function Students() {
           matches = matches && student.roll_no.toString() === values.roll_no;
         }
         return matches;
-      });
-      console.log(bios);
+      })
       let dataFinal = mergeArrays(filteredData, bios);
-      // console.log(dataFinal);
       setFilteredData(dataFinal);
     },
   });
