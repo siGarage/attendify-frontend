@@ -2186,7 +2186,7 @@ export const StudentDataTables = ({ handleShow, Students }) => {
     },
     {
       name: "ACTION",
-      selector: (row) => [row.action],
+      selector: (row) => console.log(row.face_id),
       sortable: true,
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
