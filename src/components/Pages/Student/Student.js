@@ -59,7 +59,6 @@ export default function Students() {
     setFilteredData(tdata);
   }, []);
 
-  console.log(filteredData);
   const handleStatusUpdate = (row) => {
     // dispatch(userUpdate({ ...row, type: "user" }))
     //     .then(() => {
