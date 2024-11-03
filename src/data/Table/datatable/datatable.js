@@ -2638,8 +2638,20 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
       ),
     },
     {
+      name: "Finger ID",
+      selector: (row) => [
+        row.finger_id_1 && row.finger_id_2 && row.finger_id_3 ? "Yes" : "No",
+      ],
+      sortable: true,
+    },
+    {
+      name: "Face ID",
+      selector: (row) => [row.face_id !== undefined ? "Yes" : "No"],
+      sortable: true,
+    },
+    {
       name: "DEPARTMENT",
-      selector: (row) => [row.departmentName[0].name],
+      selector: (row) => [row.departmentName[0]?.name],
       sortable: true,
     },
     {

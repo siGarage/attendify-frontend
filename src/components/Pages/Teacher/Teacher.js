@@ -6,11 +6,9 @@ import { UserDetailModal } from "../../Modal/UserDetailModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTeachers,
-  teacherDelete
+  teacherDelete,
 } from "../../../redux/Action/TeacherAction";
-import {
-  fetchDepartment
-} from "../../../redux/Action/DepartmentAction";
+import { fetchDepartment } from "../../../redux/Action/DepartmentAction";
 import {} from "../../../redux/Action/AuthAction";
 import { SimpleModal } from "../../Modal/SimpleModal";
 import { WarningModal } from "../../Modal/WarningModal";
@@ -18,11 +16,12 @@ import Departemnt from "../Department/Department";
 export default function Teachers() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { teachers,Departments } = useSelector((state) => ({
+  const { teachers, Departments, bios } = useSelector((state) => ({
     users: state?.userAuth?.users,
     exams: state?.exam?.exams,
     teachers: state?.teachers?.teachers,
-    Departments: state?.departments?.departments
+    Departments: state?.departments?.departments,
+    bios: state?.bios?.bio,
   }));
   const [show, setShow] = useState(false);
   const [showUserProfile, setShowUserProfile] = useState(false);
@@ -46,15 +45,30 @@ export default function Teachers() {
     //     })
     //     .catch(err => console.log(err))
   };
+  function mergeArrays(filteredData, bios) {
+    const mergedArray = [];
+    filteredData.forEach((teacher) => {
+      const matchingTeacher = bios.find((item) => item.user_id === teacher._id);
+      if (matchingTeacher) {
+        mergedArray.push({ ...teacher, ...matchingTeacher });
+      } else {
+        mergedArray.push(teacher);
+      }
+    });
+    return mergedArray;
+  }
   useEffect(() => {
     const Tea = teachers?.map((tea) => {
       return {
         ...tea,
-        departmentName: Departments?.filter(({ _id }) => tea.department_id === _id),
+        departmentName: Departments?.filter(
+          ({ _id }) => tea.department_id === _id
+        ),
       };
     });
     if (Tea?.length > 0) {
-      setFinalTeacher(Tea);
+      let dataFinal = mergeArrays(Tea, bios);
+      setFinalTeacher(dataFinal);
     }
   }, [Departments, teachers]);
   const userDeleteAction = () => {
@@ -140,7 +154,6 @@ export default function Teachers() {
         show={show}
         handleShow={handleShow}
         handleClose={handleClose}
-
       />
       <UserDetailModal
         setShow={setShowUserProfile}
