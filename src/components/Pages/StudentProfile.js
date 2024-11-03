@@ -86,14 +86,12 @@ export default function StudentProfile() {
     if (finalAttendence?.length > 0) {
       function calculateAttendance(scheduleData) {
         const attendance = {};
-
         scheduleData.forEach((course) => {
           const courseName = course.name;
           attendance[courseName] = {
             presentDays: 0,
             absentDays: 0,
           };
-
           for (const day in course.days) {
             if (course.days[day] === "Present") {
               attendance[courseName].presentDays++;
@@ -153,11 +151,16 @@ export default function StudentProfile() {
               return accumulatedAttendance;
             }, {}),
         }));
-
-      console.log(subjectsArray);
       setFinalAttendence(subjectsArray);
     }
   }, [StudentAttendence[0], Subjects]);
+
+  useEffect(() => {
+    dispatch(fetchStudents());
+    dispatch(fetchCourse());
+    dispatch(fetchSubject());
+    dispatch(fetchSemester());
+  }, []);
   function getFirstLetter(str) {
     return str.charAt(0);
   }
