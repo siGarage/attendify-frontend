@@ -13,6 +13,7 @@ import {} from "../../../redux/Action/AuthAction";
 import { SimpleModal } from "../../Modal/SimpleModal";
 import { WarningModal } from "../../Modal/WarningModal";
 import Departemnt from "../Department/Department";
+import { fetchBiometric } from "../../../redux/Action/BiometricAction";
 export default function Teachers() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,7 +50,6 @@ export default function Teachers() {
     const mergedArray = [];
     filteredData.forEach((teacher) => {
       const matchingTeacher = bios.find((item) => item.user_id == teacher._id);
-      console.log(matchingTeacher);
       if (matchingTeacher) {
         mergedArray.push({ ...teacher, ...matchingTeacher });
       } else {
@@ -69,7 +69,6 @@ export default function Teachers() {
     });
     if (Tea?.length > 0) {
       let dataFinal = mergeArrays(Tea, bios);
-      console.log(dataFinal);
       setFinalTeacher(dataFinal);
     }
   }, [Departments, teachers]);
@@ -82,6 +81,7 @@ export default function Teachers() {
   useEffect(() => {
     dispatch(fetchTeachers());
     dispatch(fetchDepartment());
+    dispatch(fetchBiometric());
   }, []);
 
   const handleShow = (id) => {
