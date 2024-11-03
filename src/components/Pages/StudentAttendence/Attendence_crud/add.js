@@ -57,7 +57,6 @@ export default function StudentAdd() {
     let finalRAttendence = [];
     if (StudentAttendence.length > 0 && Students.length > 0) {
       StudentAttendence?.map((item) => {
-        console.log(item?.student_id,Students);
         let data = {};
         const date = item.a_date;
         const course = extractNamesById(Courses, item?.course_id)[0];
