@@ -128,6 +128,13 @@ export default function StudentProfile() {
     const dateParts = str.split("-");
     return parseInt(dateParts[2], 10);
   }
+  
+  useEffect(() => {
+    dispatch(fetchStudents());
+    dispatch(fetchCourse());
+    dispatch(fetchSemester());
+    dispatch(fetchSubject());
+  }, []);
 
   useEffect(() => {
     if (Subjects.length < 0 && StudentAttendence[0].length < 0) {
@@ -155,17 +162,12 @@ export default function StudentProfile() {
     }
   }, [StudentAttendence[0], Subjects]);
 
-  useEffect(() => {
-    dispatch(fetchStudents());
-    dispatch(fetchCourse());
-    dispatch(fetchSubject());
-    dispatch(fetchSemester());
-  }, []);
   function getFirstLetter(str) {
     return str.charAt(0);
   }
   return (
     <div className="mt-2">
+      {console.log(students,Courses,Semesters)}
       {students?.length && Courses?.length && Semesters?.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>
