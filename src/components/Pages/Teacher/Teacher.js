@@ -68,6 +68,7 @@ export default function Teachers() {
     });
     if (Tea?.length > 0) {
       let dataFinal = mergeArrays(Tea, bios);
+      console.log(dataFinal);
       setFinalTeacher(dataFinal);
     }
   }, [Departments, teachers]);
