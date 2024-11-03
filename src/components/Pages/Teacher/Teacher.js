@@ -55,6 +55,11 @@ export default function Teachers() {
     return mergedArray;
   }
   useEffect(() => {
+    dispatch(fetchTeachers());
+    dispatch(fetchDepartment());
+    dispatch(fetchBiometric());
+  }, []);
+  useEffect(() => {
     console.log("kartik");
     dispatch(fetchBiometric());
     const Tea = teachers?.map((tea) => {
@@ -76,12 +81,6 @@ export default function Teachers() {
     dispatch(teacherDelete(deleteId));
     dispatch(fetchTeachers());
   };
-
-  useEffect(() => {
-    dispatch(fetchTeachers());
-    dispatch(fetchDepartment());
-    dispatch(fetchBiometric());
-  }, []);
 
   const handleShow = (id) => {
     setDeleteId(id);
