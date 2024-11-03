@@ -43,6 +43,7 @@ export default function Teachers() {
     //     .catch(err => console.log(err))
   };
   function mergeArrays(filteredData, bios) {
+    console.log(filteredData, bios);
     const mergedArray = [];
     filteredData.forEach((teacher) => {
       const matchingTeacher = bios.find((item) => item?.user_id == teacher?._id);
@@ -59,9 +60,10 @@ export default function Teachers() {
     dispatch(fetchDepartment());
     dispatch(fetchBiometric());
   }, []);
+
   useEffect(() => {
-    console.log("kartik");
     dispatch(fetchBiometric());
+    dispatch(fetchTeachers());
     const Tea = teachers?.map((tea) => {
       return {
         ...tea,
@@ -72,7 +74,6 @@ export default function Teachers() {
     });
     if (Tea?.length > 0) {
       let dataFinal = mergeArrays(Tea, bios);
-      console.log(dataFinal);
       setFinalTeacher(dataFinal);
     }
   }, [Departments, teachers]);
