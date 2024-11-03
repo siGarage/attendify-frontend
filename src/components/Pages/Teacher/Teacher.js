@@ -62,8 +62,7 @@ export default function Teachers() {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchBiometric());
-    dispatch(fetchTeachers());
+    console.log(teachers,bios);
     const Tea = teachers?.map((tea) => {
       return {
         ...tea,
