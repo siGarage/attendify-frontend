@@ -163,9 +163,7 @@ export default function StudentProfile() {
   }
   return (
     <div className="mt-2">
-      {console.log(students.length && Courses.length && Semesters.length)}
-      {console.log(students, Courses, Semesters)}
-      {students.length && Courses.length && Semesters.length > 0 ? (
+      {students?.length && Courses?.length && Semesters?.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>
             <Card className="bg-transparent shadow-none border-0">
