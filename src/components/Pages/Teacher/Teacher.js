@@ -9,14 +9,10 @@ import {
   teacherDelete,
 } from "../../../redux/Action/TeacherAction";
 import { fetchDepartment } from "../../../redux/Action/DepartmentAction";
-import {} from "../../../redux/Action/AuthAction";
-import { SimpleModal } from "../../Modal/SimpleModal";
 import { WarningModal } from "../../Modal/WarningModal";
-import Departemnt from "../Department/Department";
 import { fetchBiometric } from "../../../redux/Action/BiometricAction";
 export default function Teachers() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { teachers, Departments, bios } = useSelector((state) => ({
     users: state?.userAuth?.users,
     exams: state?.exam?.exams,
@@ -47,10 +43,9 @@ export default function Teachers() {
     //     .catch(err => console.log(err))
   };
   function mergeArrays(filteredData, bios) {
-    console.log(bios);
     const mergedArray = [];
     filteredData.forEach((teacher) => {
-      const matchingTeacher = bios.find((item) => item.user_id == teacher._id);
+      const matchingTeacher = bios.find((item) => item?.user_id == teacher?._id);
       if (matchingTeacher) {
         mergedArray.push({ ...teacher, ...matchingTeacher });
       } else {
@@ -65,7 +60,7 @@ export default function Teachers() {
       return {
         ...tea,
         departmentName: Departments?.filter(
-          ({ _id }) => tea.department_id === _id
+          ({ _id }) => tea?.department_id === _id
         ),
       };
     });

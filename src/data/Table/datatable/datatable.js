@@ -2630,9 +2630,9 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
           <NavLink
-            to={`/teacher-profile/${row?._id}/${row.course_id}/${row.semester_id}`}
+            to={`/teacher-profile/${row?._id}/${row?.course_id}/${row?.semester_id}`}
           >
-            {row.name}
+            {row?.name}
           </NavLink>
         </span>
       ),
@@ -2640,13 +2640,13 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
     {
       name: "Finger ID",
       selector: (row) => [
-        row.finger_id_1 && row.finger_id_2 && row.finger_id_3 ? "Yes" : "No",
+        row?.finger_id_1 && row?.finger_id_2 && row?.finger_id_3 ? "Yes" : "No",
       ],
       sortable: true,
     },
     {
       name: "Face ID",
-      selector: (row) => [row.face_id !== undefined ? "Yes" : "No"],
+      selector: (row) => [row?.face_id ? "Yes" : "No"],
       sortable: true,
     },
     {
