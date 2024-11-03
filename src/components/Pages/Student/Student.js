@@ -229,6 +229,7 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
+              {console.log(filteredData)}
               <div className="table-responsive">
                 <datatable.StudentDataTables
                   handleStatusUpdate={handleStatusUpdate}

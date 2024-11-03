@@ -86,12 +86,14 @@ export default function StudentProfile() {
     if (finalAttendence?.length > 0) {
       function calculateAttendance(scheduleData) {
         const attendance = {};
+
         scheduleData.forEach((course) => {
           const courseName = course.name;
           attendance[courseName] = {
             presentDays: 0,
             absentDays: 0,
           };
+
           for (const day in course.days) {
             if (course.days[day] === "Present") {
               attendance[courseName].presentDays++;
@@ -128,13 +130,6 @@ export default function StudentProfile() {
     const dateParts = str.split("-");
     return parseInt(dateParts[2], 10);
   }
-  
-  useEffect(() => {
-    dispatch(fetchStudents());
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchSubject());
-  }, []);
 
   useEffect(() => {
     if (Subjects.length < 0 && StudentAttendence[0].length < 0) {
@@ -158,17 +153,17 @@ export default function StudentProfile() {
               return accumulatedAttendance;
             }, {}),
         }));
+
+      console.log(subjectsArray);
       setFinalAttendence(subjectsArray);
     }
   }, [StudentAttendence[0], Subjects]);
-
   function getFirstLetter(str) {
     return str.charAt(0);
   }
   return (
     <div className="mt-2">
-      {console.log(students,Courses,Semesters)}
-      {students?.length && Courses?.length && Semesters?.length > 0 ? (
+      {students.length && Courses.length && Semesters.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>
             <Card className="bg-transparent shadow-none border-0">
