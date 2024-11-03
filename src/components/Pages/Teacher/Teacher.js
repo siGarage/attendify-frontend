@@ -55,6 +55,7 @@ export default function Teachers() {
     return mergedArray;
   }
   useEffect(() => {
+    console.log("kartik");
     dispatch(fetchBiometric());
     const Tea = teachers?.map((tea) => {
       return {
@@ -66,6 +67,7 @@ export default function Teachers() {
     });
     if (Tea?.length > 0) {
       let dataFinal = mergeArrays(Tea, bios);
+      console.log(dataFinal);
       setFinalTeacher(dataFinal);
     }
   }, [Departments, teachers]);
