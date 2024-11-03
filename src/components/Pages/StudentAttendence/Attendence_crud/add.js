@@ -56,16 +56,16 @@ export default function StudentAdd() {
   useEffect(() => {
     let finalRAttendence = [];
     if (StudentAttendence.length > 0) {
-      StudentAttendence.map((item) => {
+      StudentAttendence?.map((item) => {
         let data = {};
         const date = item.a_date;
-        const course = extractNamesById(Courses, item.course_id)[0];
-        const phase = extractNamesById(Semester, item.semester_id)[0];
-        const student = extractNamesById(Students, item.student_id)[0];
-        const subject = extractNamesById(Subjects, item.subject_id)[0];
-        const studentroll = extractRollNoById(Students, item.student_id)[0];
-        const attendance_status = item.attendance_status;
-        const type = item.type;
+        const course = extractNamesById(Courses, item?.course_id)[0];
+        const phase = extractNamesById(Semester, item?.semester_id)[0];
+        const student = extractNamesById(Students, item?.student_id)[0];
+        const subject = extractNamesById(Subjects, item?.subject_id)[0];
+        const studentroll = extractRollNoById(Students, item?.student_id)[0];
+        const attendance_status = item?.attendance_status;
+        const type = item?.type;
         data = {
           studentroll,
           student,
@@ -81,7 +81,7 @@ export default function StudentAdd() {
     }
     function calculateAttendancePercentageByStudent(data) {
       const studentAttendance = {};
-      data.forEach((entry) => {
+      data?.forEach((entry) => {
         const { studentroll, student, subject, type, attendance_status } =
           entry;
         const studentKey = `${studentroll}-${student}`;
@@ -121,6 +121,7 @@ export default function StudentAdd() {
 
       return studentAttendance;
     }
+    console.log(finalRAttendence);
     const attendanceByType =
       calculateAttendancePercentageByStudent(finalRAttendence);
 
@@ -587,7 +588,6 @@ export default function StudentAdd() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                {console.log(finalAttendence)}
                 <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
                   handleShow={handleShow}
