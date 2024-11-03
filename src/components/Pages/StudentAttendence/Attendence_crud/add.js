@@ -587,6 +587,7 @@ export default function StudentAdd() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
+                {console.log(finalAttendence)}
                 <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
                   handleShow={handleShow}

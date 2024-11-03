@@ -2257,12 +2257,12 @@ export const StudentAttendenceDataTables = ({
   const columns = [
     {
       name: "Roll No",
-      selector: (row) => [row.roll],
+      selector: (row) => [row?.roll],
       sortable: true,
     },
     {
       name: "NAME",
-      selector: (row) => [row.name],
+      selector: (row) => [row?.name],
       sortable: true,
     },
     // {
