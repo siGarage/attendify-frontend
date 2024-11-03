@@ -214,7 +214,7 @@ export default function StudentAdd() {
       dispatch(fetchSubject());
       dispatch(fetchStudents());
     }
-  }, [StudentAttendence]);
+  }, [StudentAttendence, Students]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
