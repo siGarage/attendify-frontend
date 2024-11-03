@@ -55,7 +55,7 @@ export default function StudentAdd() {
 
   useEffect(() => {
     let finalRAttendence = [];
-    if (StudentAttendence.length > 0) {
+    if (StudentAttendence.length > 0 && Students.length > 0) {
       StudentAttendence?.map((item) => {
         let data = {};
         const date = item.a_date;
@@ -78,137 +78,142 @@ export default function StudentAdd() {
         };
         finalRAttendence.push(data);
       });
-    }
-    function calculateAttendancePercentageByStudent(data) {
-      const studentAttendance = {};
-      data?.forEach((entry) => {
-        const { studentroll, student, subject, type, attendance_status } =
-          entry;
-        const studentKey = `${studentroll}-${student}`;
-        const subjectKey = `${subject}-${type}`;
-        if (!studentAttendance[studentKey]) {
-          studentAttendance[studentKey] = {
-            student,
-            roll: studentroll,
-            subjects: {},
-          };
-        }
 
-        const studentData = studentAttendance[studentKey];
-        if (!studentData.subjects[subjectKey]) {
-          studentData.subjects[subjectKey] = { present: 0, absent: 0 };
-        }
-        const subjectData = studentData.subjects[subjectKey];
-        if (attendance_status === "Present") {
-          subjectData.present++;
-        } else {
-          subjectData.absent++;
-        }
-      });
+      function calculateAttendancePercentageByStudent(data) {
+        const studentAttendance = {};
+        data?.forEach((entry) => {
+          const { studentroll, student, subject, type, attendance_status } =
+            entry;
+          const studentKey = `${studentroll}-${student}`;
+          const subjectKey = `${subject}-${type}`;
+          if (!studentAttendance[studentKey]) {
+            studentAttendance[studentKey] = {
+              student,
+              roll: studentroll,
+              subjects: {},
+            };
+          }
 
-      // Calculate percentage for each subject within each student
-      for (const studentKey in studentAttendance) {
-        const studentData = studentAttendance[studentKey];
-        for (const subjectKey in studentData.subjects) {
+          const studentData = studentAttendance[studentKey];
+          if (!studentData.subjects[subjectKey]) {
+            studentData.subjects[subjectKey] = { present: 0, absent: 0 };
+          }
           const subjectData = studentData.subjects[subjectKey];
-          const total = subjectData.present + subjectData.absent;
-          subjectData.percentage =
-            total === 0
-              ? "N/A"
-              : ((subjectData.present / total) * 100).toFixed(1) + "%";
-        }
-      }
+          if (attendance_status === "Present") {
+            subjectData.present++;
+          } else {
+            subjectData.absent++;
+          }
+        });
 
-      return studentAttendance;
-    }
-    console.log(finalRAttendence);
-    const attendanceByType =
-      calculateAttendancePercentageByStudent(finalRAttendence);
-
-    function ObjectToArray(data) {
-      const studentArray = [];
-
-      // Loop through object keys (student IDs)
-      for (const studentId in data) {
-        const studentData = data[studentId]; // Get student object for current ID
-        const student = {
-          id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
-          name: studentData.student,
-          roll: studentData.roll,
-          subjects: [], // Initialize subjects array for current student
-        };
-
-        // Loop through student's subjects object
-        for (const subjectName in studentData.subjects) {
-          const subjectData = studentData.subjects[subjectName];
-          const nameSet = new Set(student.subjects.map((item) => item.name));
-          if (!nameSet.has(subjectName)) {
-            student.subjects.push({
-              name: subjectName,
-              present: subjectData.present,
-              absent: subjectData.absent,
-              percentage: subjectData.percentage,
-            });
+        // Calculate percentage for each subject within each student
+        for (const studentKey in studentAttendance) {
+          const studentData = studentAttendance[studentKey];
+          for (const subjectKey in studentData.subjects) {
+            const subjectData = studentData.subjects[subjectKey];
+            const total = subjectData.present + subjectData.absent;
+            subjectData.percentage =
+              total === 0
+                ? "N/A"
+                : ((subjectData.present / total) * 100).toFixed(1) + "%";
           }
         }
-        studentArray.push(student); // Add student object to the final array
+
+        return studentAttendance;
       }
+      const attendanceByType =
+        calculateAttendancePercentageByStudent(finalRAttendence);
 
-      return studentArray;
-    }
-    const studentArray = ObjectToArray(attendanceByType);
+      function ObjectToArray(data) {
+        const studentArray = [];
 
-    function DuplicateFirstSubject(studentData) {
-      if (!studentData || studentData.length === 0) {
-        return studentData; // Handle empty or invalid data
-      }
-      const firstStudent = studentData[0]; // Get the first student object
-      const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
-      const duplicatedSubject = {
-        ...firstSubject, // Copy all properties from the first subject
-      };
+        // Loop through object keys (student IDs)
+        for (const studentId in data) {
+          const studentData = data[studentId]; // Get student object for current ID
+          const student = {
+            id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
+            name: studentData.student,
+            roll: studentData.roll,
+            subjects: [], // Initialize subjects array for current student
+          };
 
-      // Add the duplicated subject to the first student's subjects array
-      firstStudent.subjects.push(duplicatedSubject);
-      return studentData; // Return the modified student data array
-    }
-    const modifiedArray = DuplicateFirstSubject(studentArray);
-
-    function extractSubjectDetails(data) {
-      const results = [];
-      for (const subject of data.subjects) {
-        const subjectWithKeys = { ...subject }; // Spread subject object
-        for (const key in subject) {
-          // Combine subject key and value
-          subjectWithKeys[key] = subject[key];
+          // Loop through student's subjects object
+          for (const subjectName in studentData.subjects) {
+            const subjectData = studentData.subjects[subjectName];
+            const nameSet = new Set(student.subjects.map((item) => item.name));
+            if (!nameSet.has(subjectName)) {
+              student.subjects.push({
+                name: subjectName,
+                present: subjectData.present,
+                absent: subjectData.absent,
+                percentage: subjectData.percentage,
+              });
+            }
+          }
+          studentArray.push(student); // Add student object to the final array
         }
 
-        // Add outer object properties without prefix
-        subjectWithKeys.id = data.id;
-        subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
-        subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
-        results.push(subjectWithKeys);
+        return studentArray;
       }
-      return results;
+      const studentArray = ObjectToArray(attendanceByType);
+
+      function DuplicateFirstSubject(studentData) {
+        if (!studentData || studentData.length === 0) {
+          return studentData; // Handle empty or invalid data
+        }
+        const firstStudent = studentData[0]; // Get the first student object
+        const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
+        const duplicatedSubject = {
+          ...firstSubject, // Copy all properties from the first subject
+        };
+
+        // Add the duplicated subject to the first student's subjects array
+        firstStudent.subjects.push(duplicatedSubject);
+        return studentData; // Return the modified student data array
+      }
+      const modifiedArray = DuplicateFirstSubject(studentArray);
+
+      function extractSubjectDetails(data) {
+        const results = [];
+        for (const subject of data.subjects) {
+          const subjectWithKeys = { ...subject }; // Spread subject object
+          for (const key in subject) {
+            // Combine subject key and value
+            subjectWithKeys[key] = subject[key];
+          }
+
+          // Add outer object properties without prefix
+          subjectWithKeys.id = data.id;
+          subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
+          subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
+          results.push(subjectWithKeys);
+        }
+        return results;
+      }
+      let finalAttendenceArray = [];
+      modifiedArray.map((item) => {
+        const combinedResults = extractSubjectDetails(item);
+        const id = item.a_date;
+        finalAttendenceArray.push(...combinedResults);
+      });
+      setFinalAttendence(modifiedArray);
+
+      // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
+      //   // Check if any existing object in 'acc' has all the same properties as 'current'
+      //   const isDuplicate = acc.some((obj) =>
+      //     Object.keys(current).every((key) => current[key] === obj[key])
+      //   );
+      //   return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
+      // }, []);
+
+      // setFinalAttendence(uniqueData);
+      setIsDisabled(false);
+    } else {
+      dispatch(fetchCourse());
+      dispatch(fetchSemester());
+      dispatch(fetchSubject());
+      dispatch(fetchStudents());
     }
-    let finalAttendenceArray = [];
-    modifiedArray.map((item) => {
-      const combinedResults = extractSubjectDetails(item);
-      const id = item.a_date;
-      finalAttendenceArray.push(...combinedResults);
-    });
-    setFinalAttendence(modifiedArray);
-
-    // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
-    //   // Check if any existing object in 'acc' has all the same properties as 'current'
-    //   const isDuplicate = acc.some((obj) =>
-    //     Object.keys(current).every((key) => current[key] === obj[key])
-    //   );
-    //   return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
-    // }, []);
-
-    // setFinalAttendence(uniqueData);
-    setIsDisabled(false);
   }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
