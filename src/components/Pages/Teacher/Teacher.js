@@ -47,10 +47,9 @@ export default function Teachers() {
   };
   function mergeArrays(filteredData, bios) {
     const mergedArray = [];
-    console.log(filteredData);
     filteredData.forEach((teacher) => {
-      console.log(teacher._id);
-      const matchingTeacher = bios.find((item) => item._id === teacher._id);
+      const matchingTeacher = bios.find((item) => console.log(item.user_id,teacher._id));
+      console.log(matchingTeacher);
       if (matchingTeacher) {
         mergedArray.push({ ...teacher, ...matchingTeacher });
       } else {
