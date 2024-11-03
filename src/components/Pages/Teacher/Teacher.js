@@ -46,7 +46,9 @@ export default function Teachers() {
     console.log(filteredData, bios);
     const mergedArray = [];
     filteredData.forEach((teacher) => {
-      const matchingTeacher = bios.find((item) => item?.user_id == teacher?._id);
+      const matchingTeacher = bios.find(
+        (item) => item?.user_id == teacher?._id
+      );
       if (matchingTeacher) {
         mergedArray.push({ ...teacher, ...matchingTeacher });
       } else {
@@ -62,18 +64,24 @@ export default function Teachers() {
   }, []);
 
   useEffect(() => {
-    console.log(teachers,bios);
-    const Tea = teachers?.map((tea) => {
-      return {
-        ...tea,
-        departmentName: Departments?.filter(
-          ({ _id }) => tea?.department_id === _id
-        ),
-      };
-    });
-    if (Tea?.length > 0) {
-      let dataFinal = mergeArrays(Tea, bios);
-      setFinalTeacher(dataFinal);
+    console.log(teachers, bios);
+    if (teachers.length > 0 && bios.length > 0) {
+      const Tea = teachers?.map((tea) => {
+        return {
+          ...tea,
+          departmentName: Departments?.filter(
+            ({ _id }) => tea?.department_id === _id
+          ),
+        };
+      });
+      if (Tea?.length > 0) {
+        let dataFinal = mergeArrays(Tea, bios);
+        setFinalTeacher(dataFinal);
+      }
+    } else {
+      dispatch(fetchTeachers());
+      dispatch(fetchDepartment());
+      dispatch(fetchBiometric());
     }
   }, [Departments, teachers]);
   const userDeleteAction = () => {
