@@ -54,6 +54,7 @@ export default function StudentAdd() {
   }
 
   useEffect(() => {
+    console.log(Students);
     let finalRAttendence = [];
     if (StudentAttendence.length > 0 && Students.length > 0) {
       StudentAttendence?.map((item) => {
@@ -214,7 +215,7 @@ export default function StudentAdd() {
       dispatch(fetchSubject());
       dispatch(fetchStudents());
     }
-  }, [StudentAttendence, Students]);
+  }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
