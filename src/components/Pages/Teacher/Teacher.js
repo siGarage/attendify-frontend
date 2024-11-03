@@ -60,6 +60,7 @@ export default function Teachers() {
     return mergedArray;
   }
   useEffect(() => {
+    dispatch(fetchBiometric());
     const Tea = teachers?.map((tea) => {
       return {
         ...tea,
