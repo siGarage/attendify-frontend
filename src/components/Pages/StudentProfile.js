@@ -153,8 +153,6 @@ export default function StudentProfile() {
               return accumulatedAttendance;
             }, {}),
         }));
-
-      console.log(subjectsArray);
       setFinalAttendence(subjectsArray);
     }
   }, [StudentAttendence[0], Subjects]);
@@ -163,6 +161,7 @@ export default function StudentProfile() {
   }
   return (
     <div className="mt-2">
+      {console.log(students,Courses,Semesters)}
       {students.length && Courses.length && Semesters.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>
