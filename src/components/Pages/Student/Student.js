@@ -97,8 +97,6 @@ export default function Students() {
       roll_no: "",
     },
     onSubmit: (values) => {
-      // const handleFilter = () => {
-        console.log(students);
       const filteredData = students.filter((student) => {
         let matches = true;
         if (values.name) {
@@ -230,7 +228,6 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
-              {console.log(filteredData)}
               <div className="table-responsive">
                 <datatable.StudentDataTables
                   handleStatusUpdate={handleStatusUpdate}
