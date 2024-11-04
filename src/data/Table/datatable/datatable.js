@@ -2160,7 +2160,7 @@ export const StudentDataTables = ({ handleShow, Students }) => {
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
           <NavLink
-            to={`/student-profile/${row?._id}/${row.course_id}/${row.semester_id}`}
+            to={`/student-profile/${row?.user_id}/${row.course_id}/${row.semester_id}`}
           >
             {row.name}
           </NavLink>
