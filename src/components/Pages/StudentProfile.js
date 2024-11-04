@@ -22,7 +22,7 @@ export default function StudentProfile() {
   const { students, Courses, Semesters, StudentAttendence, Subjects } =
     useSelector((state) => ({
       students: state?.students?.students.filter(
-        (item) => item.roll_no == params.id
+        (item) => item._id == params.id
       ),
       Courses: state?.courses?.courses.filter(
         (item) => item._id == params.course
@@ -161,7 +161,6 @@ export default function StudentProfile() {
   }
   return (
     <div className="mt-2">
-      {console.log(students,Courses,Semesters)}
       {students.length && Courses.length && Semesters.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>

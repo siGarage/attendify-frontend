@@ -98,6 +98,7 @@ export default function Students() {
     },
     onSubmit: (values) => {
       // const handleFilter = () => {
+        console.log(students);
       const filteredData = students.filter((student) => {
         let matches = true;
         if (values.name) {
