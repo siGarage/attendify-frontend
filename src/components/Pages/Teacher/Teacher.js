@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import * as datatable from "../../../data/Table/datatable/datatable";
 import { Link, useNavigate } from "react-router-dom";
-import { Row, Card, Col, Breadcrumb } from "react-bootstrap";
+import { Row, Card, Col, Breadcrumb, Button } from "react-bootstrap";
 import { UserDetailModal } from "../../Modal/UserDetailModal";
 import { useDispatch, useSelector } from "react-redux";
+import { useFormik } from "formik";
 import {
   fetchTeachers,
   teacherDelete,
@@ -27,6 +28,7 @@ export default function Teachers() {
   const [scroll, setScroll] = React.useState("paper");
   const [editUser, setEditUser] = useState();
   const [finalTeacher, setFinalTeacher] = useState([]);
+  const [mergeBiometricList, setMergeBiometricList] = useState([]);
   const [deleteId, setDeleteId] = useState();
   const handleClose = () => setShow(false);
 
@@ -43,7 +45,6 @@ export default function Teachers() {
     //     .catch(err => console.log(err))
   };
   function mergeArrays(filteredData, bios) {
-    console.log(filteredData, bios);
     const mergedArray = [];
     filteredData.forEach((teacher) => {
       const matchingTeacher = bios.find(
@@ -64,7 +65,6 @@ export default function Teachers() {
   }, []);
 
   useEffect(() => {
-    console.log(teachers, bios);
     if (teachers.length > 0 && bios.length > 0) {
       const Tea = teachers?.map((tea) => {
         return {
@@ -76,7 +76,7 @@ export default function Teachers() {
       });
       if (Tea?.length > 0) {
         let dataFinal = mergeArrays(Tea, bios);
-        setFinalTeacher(dataFinal);
+        setMergeBiometricList(dataFinal);
       }
     } else {
       dispatch(fetchTeachers());
@@ -104,6 +104,18 @@ export default function Teachers() {
     setShowUserProfile(true);
     setUserData(id);
   };
+
+  const formik = useFormik({
+    initialValues: {
+      department_id: "",
+    },
+    onSubmit: (values) => {
+      let searchData = mergeBiometricList?.filter(
+        (fd) => fd?.department_id == values?.department_id
+      );
+      setFinalTeacher(searchData);
+    },
+  });
 
   return (
     <div>
@@ -141,6 +153,55 @@ export default function Teachers() {
               <h3 className="card-title">Teachers</h3>
             </Card.Header>
             <Card.Body>
+              <Col sm={12} lg={12} md={12} xl={12}>
+                <Card className="removeShadow">
+                  <form onSubmit={formik.handleSubmit}>
+                    <Row>
+                      <div className="row">
+                        <Col sm={12} lg={3} md={3} xl={3}>
+                          <label className="form-label">Department</label>
+                          <select
+                            onChange={formik.handleChange}
+                            value={formik.values.department_id}
+                            className="form-control required"
+                            name="department_id"
+                            id="department_id"
+                          >
+                            <option value="">Please Select Department</option>
+                            {Departments?.length > 0
+                              ? Departments?.map((d) => {
+                                  return (
+                                    <option value={d?._id}>{d?.name}</option>
+                                  );
+                                })
+                              : ""}
+                          </select>
+                        </Col>
+                      </div>
+                      <div className="d-flex justify-content-start">
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          className="me-1 mt-5"
+                        >
+                          Search
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="danger"
+                          className="me-1 mt-5"
+                          onClick={() => {
+                            formik.resetForm();
+                            setFinalTeacher([...mergeBiometricList]);
+                          }}
+                        >
+                          Reset
+                        </Button>
+                      </div>
+                    </Row>
+                  </form>
+                </Card>
+              </Col>
               <div className="table-responsive">
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
@@ -149,7 +210,9 @@ export default function Teachers() {
                   userDeleteAction={userDeleteAction}
                   handleOpen={handleOpen}
                   handleClickOpen={handleClickOpen}
-                  Teachers={finalTeacher}
+                  Teachers={
+                    finalTeacher.length > 0 ? finalTeacher : mergeBiometricList
+                  }
                 />
               </div>
             </Card.Body>
