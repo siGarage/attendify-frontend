@@ -22,7 +22,7 @@ export default function StudentProfile() {
   const { students, Courses, Semesters, StudentAttendence, Subjects } =
     useSelector((state) => ({
       students: state?.students?.students.filter(
-        (item) => item._id == params.id
+        (item) => item.roll_no == params.id
       ),
       Courses: state?.courses?.courses.filter(
         (item) => item._id == params.course
