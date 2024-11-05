@@ -9,7 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { fetchCourse } from "../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../redux/Action/SemesterAction";
 import { fetchStudents } from "../../../redux/Action/StudentAction";
-import { fetchTeachers} from "../../../redux/Action/TeacherAction";
+import { fetchTeachers } from "../../../redux/Action/TeacherAction";
 import { fetchSubject } from "../../../redux/Action/SubjectAction";
 import { fetchStudentsAttendence } from "../../../redux/Action/StudentAttendenceAction";
 import { fetchTeachersAttendence } from "../../../redux/Action/TeacherAttendenceAction";
@@ -27,18 +27,25 @@ export default function TeacherAttendanceList() {
   const [deleteId, setDeleteId] = useState();
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [finalAttendence, setFinalAttendence] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]);
   const [show, setShow] = useState(false);
-  const { Courses, Semester, Subjects, StudentAttendence,TeacherAttendance, Students,Teachers } =
-    useSelector((state) => ({
-      Courses: state?.courses?.courses,
-      Subjects: state?.subjects?.subjects,
-      Semester: state?.semesters?.semesters,
-      StudentAttendence: state?.studentsAttendence?.studentsAttendence,
-      TeacherAttendance: state?.teachersAttendence?.teachersAttendence,
-      Students: state?.students?.students,
-      Teachers: state?.teachers?.teachers,
-    }));
+  const {
+    Courses,
+    Semester,
+    Subjects,
+    StudentAttendence,
+    TeacherAttendance,
+    Students,
+    Teachers,
+  } = useSelector((state) => ({
+    Courses: state?.courses?.courses,
+    Subjects: state?.subjects?.subjects,
+    Semester: state?.semesters?.semesters,
+    StudentAttendence: state?.studentsAttendence?.studentsAttendence,
+    TeacherAttendance: state?.teachersAttendence?.teachersAttendence,
+    Students: state?.students?.students,
+    Teachers: state?.teachers?.teachers,
+  }));
   useEffect(() => {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
@@ -52,156 +59,50 @@ export default function TeacherAttendanceList() {
   }
   function extractRollNoById(array, targetId) {
     console.log(array, targetId);
-    return array
-      .filter((obj) => obj._id === targetId)
-      .map((obj) => obj.emp_id);
+    return array.filter((obj) => obj._id === targetId).map((obj) => obj.emp_id);
   }
 
   useEffect(() => {
-    let finalRAttendence = [];
-    if (TeacherAttendance.length > 0) {
-      TeacherAttendance.map((item) => {
-        let data = {};
-        const date = item.a_date;
-        const course = extractNamesById(Courses, item.course_id)[0];
-        const phase = extractNamesById(Semester, item.semester_id)[0];
-        const teacher = extractNamesById(Teachers, item.teacher_id)[0];
-        const subject = extractNamesById(Subjects, item.subject_id)[0];
-        const studentroll = extractRollNoById(Teachers, item.teacher_id)[0];
-        const attendance_status = item.attendence_status;
-        const type = item.type;
-        data = {
-          studentroll,
-          teacher,
-          course,
-          phase,
-          subject,
-          type,
-          date,
-          attendance_status,
-        };
-        finalRAttendence.push(data);
-      });
-    }
-    function calculateAttendancePercentageByStudent(data) {
-      const studentAttendance = {};
-      data.forEach((entry) => {
-        const { studentroll, teacher, subject, type, attendance_status } =
-          entry;
-        const studentKey = `${studentroll}-${teacher}`;
-        console.log(studentKey);
-        const subjectKey = `${subject}-${type}`;
-        if (!studentAttendance[studentKey]) {
-          studentAttendance[studentKey] = {
-            teacher,
-            roll: studentroll,
-            subjects: {},
-          };
-        }
-
-        const studentData = studentAttendance[studentKey];
-        if (!studentData.subjects[subjectKey]) {
-          studentData.subjects[subjectKey] = { present: 0, absent: 0 };
-        }
-
-        const subjectData = studentData.subjects[subjectKey];
-        if (attendance_status === "Present") {
-          subjectData.present++;
+    if (TeacherAttendance?.length > 0) {
+      const processedData = TeacherAttendance.reduce((acc, item) => {
+        const existingEntry = acc.find(
+          (entry) => entry.name === item.name && entry.emp_id === item.emp_id
+        );
+        if (existingEntry) {
+          existingEntry.attendanceCount++;
         } else {
-          subjectData.absent++;
+          acc.push({
+            name: item.name,
+            emp_id: item.emp_id,
+            attendanceCount: item._doc.attendance_status === "Present" ? 1 : 0,
+          });
         }
-      });
-
-      // Calculate percentage for each subject within each student
-      for (const studentKey in studentAttendance) {
-        const studentData = studentAttendance[studentKey];
-        for (const subjectKey in studentData.subjects) {
-          const subjectData = studentData.subjects[subjectKey];
-          const total = subjectData.present + subjectData.absent;
-          subjectData.percentage =
-            total === 0
-              ? "N/A"
-              : ((subjectData.present / total) * 100).toFixed(1) + "%";
-        }
-      }
-
-      return studentAttendance;
+        return acc;
+      }, []);
+      setAttendanceData(processedData);
+      // TeacherAttendance.map((item) => {
+      //   let data = {};
+      //   const date = item.a_date;
+      //   const course = extractNamesById(Courses, item.course_id)[0];
+      //   const phase = extractNamesById(Semester, item.semester_id)[0];
+      //   const teacher = extractNamesById(Teachers, item.teacher_id)[0];
+      //   const subject = extractNamesById(Subjects, item.subject_id)[0];
+      //   const studentroll = extractRollNoById(Teachers, item.teacher_id)[0];
+      //   const attendance_status = item.attendence_status;
+      //   const type = item.type;
+      //   data = {
+      //     studentroll,
+      //     teacher,
+      //     course,
+      //     phase,
+      //     subject,
+      //     type,
+      //     date,
+      //     attendance_status,
+      //   };
+      //   finalRAttendence.push(data);
+      // });
     }
-    const attendanceByType =
-      calculateAttendancePercentageByStudent(finalRAttendence);
-
-    function ObjectToArray(data) {
-      const studentArray = [];
-      // Loop through object keys (student IDs)
-      for (const studentId in data) {
-        const studentData = data[studentId]; // Get student object for current ID
-        const student = {
-          id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
-          name: studentData.teacher,
-          roll: studentData.roll,
-          subjects: [], // Initialize subjects array for current student
-        };
-
-        // Loop through student's subjects object
-        for (const subjectName in studentData.subjects) {
-          const subjectData = studentData.subjects[subjectName];
-          const nameSet = new Set(student.subjects.map((item) => item.name));
-          if (!nameSet.has(subjectName)) {
-            student.subjects.push({
-              name: subjectName,
-              present: subjectData.present,
-              absent: subjectData.absent,
-              percentage: subjectData.percentage,
-            });
-          }
-        }
-        studentArray.push(student); // Add student object to the final array
-      }
-
-      return studentArray;
-    }
-    const studentArray = ObjectToArray(attendanceByType);
-
-    function DuplicateFirstSubject(studentData) {
-      if (!studentData || studentData.length === 0) {
-        return studentData; // Handle empty or invalid data
-      }
-      const firstStudent = studentData[0]; // Get the first student object
-      const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
-      const duplicatedSubject = {
-        ...firstSubject, // Copy all properties from the first subject
-      };
-
-      // Add the duplicated subject to the first student's subjects array
-      firstStudent.subjects.push(duplicatedSubject);
-      return studentData; // Return the modified student data array
-    }
-    const modifiedArray = DuplicateFirstSubject(studentArray);
-
-    function extractSubjectDetails(data) {
-      const results = [];
-      for (const subject of data.subjects) {
-        const subjectWithKeys = { ...subject }; // Spread subject object
-        for (const key in subject) {
-          // Combine subject key and value
-          subjectWithKeys[key] = subject[key];
-        }
-
-        // Add outer object properties without prefix
-        subjectWithKeys.id = data.id;
-        subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
-        subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
-        results.push(subjectWithKeys);
-      }
-      return results;
-    }
-    let finalAttendenceArray = [];
-    modifiedArray.map((item) => {
-      const combinedResults = extractSubjectDetails(item);
-      const id = item.a_date;
-      finalAttendenceArray.push(...combinedResults);
-    });
-    setFinalAttendence(modifiedArray);
 
     // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
     //   // Check if any existing object in 'acc' has all the same properties as 'current'
@@ -211,36 +112,34 @@ export default function TeacherAttendanceList() {
     //   return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
     // }, []);
 
-    // setFinalAttendence(uniqueData);
     setIsDisabled(false);
   }, [TeacherAttendance]);
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
-    subject_id: Yup.string().required("*Required"),
-    endDate: Yup.string().required("*Required"),
-    fromdate: Yup.string().required("*Required"),
+    // subject_id: Yup.string().required("*Required"),
+    // endDate: Yup.string().required("*Required"),
+    // fromdate: Yup.string().required("*Required"),
   });
   const formik = useFormik({
     initialValues: {
       course_id: "",
       semester_id: "",
-      subject_id: "",
-      endDate: "",
-      fromdate: "",
+      // endDate: "",
+      // fromdate: "",
     },
     validationSchema: SignupSchema,
     onSubmit: (values) => {
-      setFromDate(values.fromdate);
-      setToDate(values.endDate);
+      // setFromDate(values.fromdate);
+      // setToDate(values.endDate);
       setIsDisabled(true);
-      setFinalAttendence([]);
+      setAttendanceData([]);
       dispatch(fetchTeachersAttendence(values));
       // dispatch(fetchStudentsAttendence(values));
     },
   });
   useEffect(() => {
-    if (formik.values.course_id.length > 0) {
+    if (formik.values.course_id?.length > 0) {
       setCourse(true);
     } else {
       formik.values.semester_id = "";
@@ -253,7 +152,7 @@ export default function TeacherAttendanceList() {
   }, [formik.values.course_id]);
 
   useEffect(() => {
-    if (formik.values.semester_id.length > 0) {
+    if (formik.values.semester_id?.length > 0) {
       setSemester(true);
     } else {
       formik.values.type = "";
@@ -264,7 +163,7 @@ export default function TeacherAttendanceList() {
   }, [formik.values.semester_id]);
 
   useEffect(() => {
-    if (formik.values.subject_id.length > 0) {
+    if (formik.values.subject_id?.length > 0) {
       setSubject(true);
     } else {
       formik.values.type = "";
@@ -298,7 +197,7 @@ export default function TeacherAttendanceList() {
       Fap_A: "Fap_A",
       Fap_Pre: "Fap_Pre",
     };
-    const transformSubjects = finalAttendence.map((student, index) => {
+    const transformSubjects = attendanceData.map((student, index) => {
       let transformed = {
         id: index + 1,
         name: student.name,
@@ -336,7 +235,7 @@ export default function TeacherAttendanceList() {
       {
         id: "S no.",
         student: "Name",
-        roll:"Roll No",
+        roll: "Roll No",
         ...filteredHeader,
       },
       ...transformSubjects,
@@ -373,7 +272,9 @@ export default function TeacherAttendanceList() {
           <Col lg={12} xl={12} md={12} sm={12}>
             <Card>
               <Card.Header className="d-flex justify-content-between">
-                <Card.Title className="h3">Filter Teacher Attendance</Card.Title>
+                <Card.Title className="h3">
+                  Filter Teacher Attendance
+                </Card.Title>
                 <div className="d-flex">
                   <button
                     onClick={() => handleDownloadClick()}
@@ -446,55 +347,7 @@ export default function TeacherAttendanceList() {
                           </div>
                         ) : null}
                       </Col>
-                      <Col sm={12} lg={3} md={3} xl={3}>
-                        <label className="form-label">Subject</label>
-                        <select
-                          onChange={formik.handleChange}
-                          value={formik.values.subject_id}
-                          className="form-control required"
-                          name="subject_id"
-                          id="subject_id"
-                        >
-                          <option value="">Please Select Subject</option>
-                          {Subjects?.length > 0
-                            ? Subjects?.map((subject) => {
-                                return (
-                                  <option value={subject?._id}>
-                                    {subject?.name}
-                                  </option>
-                                );
-                              })
-                            : ""}
-                        </select>
-                        {formik.errors.subject_id &&
-                        formik.touched.subject_id ? (
-                          <div className="red_color">
-                            {formik.errors.subject_id}
-                          </div>
-                        ) : null}
-                      </Col>
-
-                      {/* {subject ? (
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Type</label>
-                          <select
-                            onChange={formik.handleChange}
-                            value={formik.values.type}
-                            className="form-control required"
-                            name="type"
-                            id="type"
-                          >
-                            <option value="">Please Select Type</option>
-                            <option value="Theory">Theory</option>
-                            <option value="Clinical">Clinical</option>
-                            <option value="Practical">Practical</option>
-                            <option value="Others">Others</option>
-                          </select>
-                        </Col>
-                      ) : (
-                        ""
-                      )} */}
-                      <Col sm={12} lg={3} md={3} xl={3}>
+                      {/* <Col sm={12} lg={3} md={3} xl={3}>
                         <label className="form-label">From</label>
                         <input
                           type="date"
@@ -527,7 +380,7 @@ export default function TeacherAttendanceList() {
                             {formik.errors.endDate}
                           </div>
                         ) : null}
-                      </Col>
+                      </Col> */}
                     </div>
                     <div className="d-flex justify-content-start">
                       {isDisabled ? (
@@ -555,7 +408,7 @@ export default function TeacherAttendanceList() {
                         className="me-1 mt-5"
                         onClick={() => {
                           formik.resetForm();
-                          setFinalAttendence([]);
+                          setAttendanceData([]);
                         }}
                       >
                         Reset
@@ -568,22 +421,11 @@ export default function TeacherAttendanceList() {
           </Col>
         </Row>
       </form>
-      {finalAttendence?.length > 0 ? (
+      {attendanceData?.length > 0 ? (
         <div className="table-responsive">
           <Card>
             <Card.Header>
               <div className="w-100 d-flex justify-content-between">
-                <div>
-                  <h4>
-                    Subject:
-                    {finalAttendence[0].subjects
-                      ? finalAttendence[0].subjects[0]?.name?.split("-")[0]
-                      : ""}
-                  </h4>
-                  <p>
-                    From Date:{fromDate} to {toDate}
-                  </p>
-                </div>
                 <button onClick={exportCSV} className="btn btn-primary h-50">
                   Export as CSV
                 </button>
@@ -591,8 +433,9 @@ export default function TeacherAttendanceList() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <datatable.StudentAttendenceDataTables
-                  StudentAttendece={finalAttendence}
+                {console.log(attendanceData)}
+                <datatable.TeacherAttendenceDataTables
+                  StudentAttendece={attendanceData}
                   handleShow={handleShow}
                 />
               </div>
