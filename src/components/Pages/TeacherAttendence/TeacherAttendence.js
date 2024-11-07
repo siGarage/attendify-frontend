@@ -79,38 +79,19 @@ export default function TeacherAttendanceList() {
         }
         return acc;
       }, []);
-      setAttendanceData(processedData);
-      // TeacherAttendance.map((item) => {
-      //   let data = {};
-      //   const date = item.a_date;
-      //   const course = extractNamesById(Courses, item.course_id)[0];
-      //   const phase = extractNamesById(Semester, item.semester_id)[0];
-      //   const teacher = extractNamesById(Teachers, item.teacher_id)[0];
-      //   const subject = extractNamesById(Subjects, item.subject_id)[0];
-      //   const studentroll = extractRollNoById(Teachers, item.teacher_id)[0];
-      //   const attendance_status = item.attendence_status;
-      //   const type = item.type;
-      //   data = {
-      //     studentroll,
-      //     teacher,
-      //     course,
-      //     phase,
-      //     subject,
-      //     type,
-      //     date,
-      //     attendance_status,
-      //   };
-      //   finalRAttendence.push(data);
-      // });
-    }
 
-    // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
-    //   // Check if any existing object in 'acc' has all the same properties as 'current'
-    //   const isDuplicate = acc.some((obj) =>
-    //     Object.keys(current).every((key) => current[key] === obj[key])
-    //   );
-    //   return !isDuplicate ? [...acc, current] : acc; // Add only if not a duplicate
-    // }, []);
+      const mergedData = Teachers.reduce((acc, faculty) => {
+        const attendance = processedData.find(
+          (a) => a.emp_id === faculty.emp_id
+        );
+        const combined = attendance
+          ? { ...attendance }
+          : { emp_id: faculty.emp_id, name: faculty.name, attendanceCount: 0 };
+        acc.push(combined);
+        return acc;
+      }, []);
+      setAttendanceData(mergedData);
+    }
 
     setIsDisabled(false);
   }, [TeacherAttendance]);
@@ -433,7 +414,6 @@ export default function TeacherAttendanceList() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                {console.log(attendanceData)}
                 <datatable.TeacherAttendenceDataTables
                   StudentAttendece={attendanceData}
                   handleShow={handleShow}

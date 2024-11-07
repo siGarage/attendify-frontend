@@ -107,7 +107,7 @@ function App() {
                 element={<StudentProfile />}
               />
               <Route
-                path={"/teacher-profile/:id/:course/:semester"}
+                path={"/teacher-profile/:id"}
                 element={<TeacherProfile />}
               />
               <Route

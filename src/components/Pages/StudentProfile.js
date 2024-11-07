@@ -19,9 +19,10 @@ export default function StudentProfile() {
   const [month, setMonth] = React.useState(moment().format("MMMM"));
   const [year, setYear] = React.useState(moment().format("YYYY"));
   const [type, setType] = React.useState("Theory");
+  console.log(params.id,'params');
   const { students, Courses, Semesters, StudentAttendence, Subjects } =
     useSelector((state) => ({
-      students: state?.students?.students.filter(
+      students: state?.students?.students?.filter(
         (item) => item._id == params.id
       ),
       Courses: state?.courses?.courses.filter(
@@ -34,11 +35,10 @@ export default function StudentProfile() {
       StudentAttendence: state?.studentsAttendence?.singleStudentAttendance,
     }));
   const [selectedYear, setSelectedYear] = useState("");
-
+console.log(students,"students");
   const handleYearChange = (date) => {
     setSelectedYear(date.getFullYear());
   };
-
   const columns = [
     {
       name: "Name",

@@ -2160,7 +2160,7 @@ export const StudentDataTables = ({ handleShow, Students }) => {
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
           <NavLink
-            to={`/student-profile/${row?._id}/${row.course_id}/${row.semester_id}`}
+            to={`/student-profile/${row?.student_id}/${row.course_id}/${row.semester_id}`}
           >
             {row.name}
           </NavLink>
@@ -2454,9 +2454,7 @@ export const StudentAttendenceDataTables = ({
     />
   );
 };
-export const TeacherAttendenceDataTables = ({
-  StudentAttendece
-}) => {
+export const TeacherAttendenceDataTables = ({ StudentAttendece }) => {
   const columns = [
     {
       name: "Id",
@@ -2472,7 +2470,7 @@ export const TeacherAttendenceDataTables = ({
       name: "Attendance Count",
       selector: (row) => [row.attendanceCount],
       sortable: true,
-    }
+    },
   ];
   return (
     <DataTable
@@ -2492,9 +2490,7 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
       sortable: true,
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
-          <NavLink
-            to={`/teacher-profile/${row?._id}/${row?.course_id}/${row?.semester_id}`}
-          >
+          <NavLink to={`/teacher-profile/${row?.teacher_id}`}>
             {row?.name}
           </NavLink>
         </span>

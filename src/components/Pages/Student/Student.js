@@ -40,14 +40,16 @@ export default function Students() {
   };
   function mergeArrays(filteredData, bios) {
     const mergedArray = [];
-    filteredData.forEach((student) => {
-      const matchingStudent = bios.find(
-        (item) => item.user_id === student._id
-      );
+    filteredData?.forEach((student) => {
+      const matchingStudent = bios.find((item) => item.user_id === student._id);
       if (matchingStudent) {
-        mergedArray.push({ ...student, ...matchingStudent });
+        mergedArray.push({
+          ...student,
+          ...matchingStudent,
+          student_id: student._id,
+        });
       } else {
-        mergedArray.push(student);
+        mergedArray.push({ student, student_id: student._id });
       }
     });
     return mergedArray;
@@ -97,7 +99,7 @@ export default function Students() {
       roll_no: "",
     },
     onSubmit: (values) => {
-      const filteredData = students.filter((student) => {
+      const filteredData = students?.filter((student) => {
         let matches = true;
         if (values.name) {
           matches =
@@ -108,7 +110,7 @@ export default function Students() {
           matches = matches && student.roll_no.toString() === values.roll_no;
         }
         return matches;
-      })
+      });
       let dataFinal = mergeArrays(filteredData, bios);
       setFilteredData(dataFinal);
     },
@@ -182,7 +184,14 @@ export default function Students() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={1} md={1} xl={1} className="d-flex align-items-center" style={{marginTop:"30px",marginLeft:"10px"}}>
+                        <Col
+                          sm={12}
+                          lg={1}
+                          md={1}
+                          xl={1}
+                          className="d-flex align-items-center"
+                          style={{ marginTop: "30px", marginLeft: "10px" }}
+                        >
                           <p>OR</p>
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>

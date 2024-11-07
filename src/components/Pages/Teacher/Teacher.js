@@ -69,6 +69,7 @@ export default function Teachers() {
       const Tea = teachers?.map((tea) => {
         return {
           ...tea,
+          teacher_id: tea._id,
           departmentName: Departments?.filter(
             ({ _id }) => tea?.department_id === _id
           ),
@@ -211,7 +212,7 @@ export default function Teachers() {
                   handleOpen={handleOpen}
                   handleClickOpen={handleClickOpen}
                   Teachers={
-                    finalTeacher.length > 0 ? finalTeacher : mergeBiometricList
+                    finalTeacher?.length > 0 ? finalTeacher : mergeBiometricList
                   }
                 />
               </div>

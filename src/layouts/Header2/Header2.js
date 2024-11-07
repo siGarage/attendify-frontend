@@ -128,7 +128,7 @@ import { fetchLoginUserById } from "../../redux/Action/AuthAction";
                       </div>
                     </div>
                   </div>
-                  <div className="dropdown d-md-flex">
+                  {/* <div className="dropdown d-md-flex">
                     <Link
                       to="#"
                       className="nav-link icon theme-layout nav-link-bg layout-setting"
@@ -141,7 +141,7 @@ import { fetchLoginUserById } from "../../redux/Action/AuthAction";
                         <i className={`fe ${"fe-sun"}`}></i>
                       </span>
                     </Link>
-                  </div>
+                  </div> */}
                   <div className="dropdown d-md-flex">
                     <Link
                       to="#"

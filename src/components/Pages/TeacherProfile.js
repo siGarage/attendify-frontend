@@ -18,15 +18,22 @@ export default function TeacherProfile() {
   const [date, setDate] = useState(new Date());
   const params = useParams();
   const [finalAttendance, setFinalAttendance] = useState([]);
+  console.log(params?.id);
   const { Subjects, teachers } = useSelector((state) => ({
-    teachers: state?.teachers?.teachers.filter((item) => item._id == params.id),
+    teachers: state?.teachers?.teachers?.filter(
+      (item) => item._id == params?.id
+    ),
+    teachers: state?.teachers?.teachers?.filter(
+      (item) => item._id == params?.id
+    ),
     Subjects: state?.subjects?.subjects,
     // TeacherAttendance: state?.teachersAttendence?.singleteacherAttendance,
   }));
 
+  console.log(teachers);
+
   useEffect(() => {
     let value = { id: params.id, date: moment(date).format("YYYY-MM-DD") };
-
     const fetchOptions = {
       method: "POST",
       headers: {
@@ -36,7 +43,7 @@ export default function TeacherProfile() {
       body: JSON.stringify(value),
     };
     fetch(
-      `${process.env.REACT_APP_API_BASE_URL}/fetchSingleTeacherAttendences`,
+      `${process.env.REACT_APP_API_BASE_URL}fetchSingleTeacherAttendences`,
       fetchOptions
     )
       .then((response) => response.json())
@@ -73,13 +80,16 @@ export default function TeacherProfile() {
   //     }
   //   }
   // }, [date]);
-  console.log(finalAttendance);
   function getFirstLetter(str) {
     return str.charAt(0);
   }
+
+  useEffect(() => {
+    dispatch(fetchTeachers());
+  }, []);
   return (
     <div className="mt-2">
-      {teachers.length > 0 ? (
+      {teachers?.length > 0 ? (
         <Row id="user-profile">
           <Col lg={6} md={6} xl={6} sm={12}>
             <Card className="bg-transparent shadow-none border-0">
