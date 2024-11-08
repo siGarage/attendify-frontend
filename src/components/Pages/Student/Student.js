@@ -15,11 +15,8 @@ import { WarningModal } from "../../Modal/WarningModal";
 export default function Students() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { users, exams, students, bios } = useSelector((state) => ({
-    users: state?.userAuth?.users,
-    exams: state?.exam?.exams,
+  const { students, bios } = useSelector((state) => ({
     students: state?.students?.students,
-    biometric: state?.students?.students,
     bios: state?.bios?.bio,
   }));
   const [show, setShow] = useState(false);
@@ -38,10 +35,16 @@ export default function Students() {
     setOpen(true);
     setScroll(scrollType);
   };
+  useEffect(() => {
+    dispatch(fetchStudents());
+    dispatch(fetchBiometric());
+  }, []);
   function mergeArrays(filteredData, bios) {
     const mergedArray = [];
     filteredData?.forEach((student) => {
-      const matchingStudent = bios.find((item) => item.user_id === student._id);
+      const matchingStudent = bios?.find(
+        (item) => item.user_id === student._id
+      );
       if (matchingStudent) {
         mergedArray.push({
           ...student,
@@ -54,12 +57,6 @@ export default function Students() {
     });
     return mergedArray;
   }
-
-  useEffect(() => {
-    let d = students;
-    let tdata = mergeArrays(students, bios);
-    setFilteredData(tdata);
-  }, []);
 
   const handleStatusUpdate = (row) => {
     // dispatch(userUpdate({ ...row, type: "user" }))
@@ -115,6 +112,12 @@ export default function Students() {
       setFilteredData(dataFinal);
     },
   });
+
+
+  useEffect(() => {
+    let tdata = mergeArrays(students, bios);
+    setFilteredData(tdata);
+  }, [students, bios]);
 
   return (
     <div>
@@ -237,17 +240,21 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
-              <div className="table-responsive">
-                <datatable.StudentDataTables
-                  handleStatusUpdate={handleStatusUpdate}
-                  handleOpenUserModal={handleOpenUserModal}
-                  handleShow={handleShow}
-                  userDeleteAction={userDeleteAction}
-                  handleOpen={handleOpen}
-                  handleClickOpen={handleClickOpen}
-                  Students={filteredData}
-                />
-              </div>
+              {filteredData?.length > 0 ? (
+                <div className="table-responsive">
+                  <datatable.StudentDataTables
+                    handleStatusUpdate={handleStatusUpdate}
+                    handleOpenUserModal={handleOpenUserModal}
+                    handleShow={handleShow}
+                    userDeleteAction={userDeleteAction}
+                    handleOpen={handleOpen}
+                    handleClickOpen={handleClickOpen}
+                    Students={filteredData}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
             </Card.Body>
           </Card>
         </Col>
