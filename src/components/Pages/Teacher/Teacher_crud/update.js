@@ -63,7 +63,7 @@ export default function TeacherAdd() {
     onSubmit: (values) => {
       values = {
         ...values,
-        _id: params.id,
+        id: params.id,
         notes: content,
         role: "3",
         user_id: teachers[0]?.user_id,
