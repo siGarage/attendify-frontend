@@ -6,6 +6,7 @@ import Login from "./components/Authentication/Login/Login";
 import Profile from "./components/Pages/Profile";
 import StudentProfile from "./components/Pages/StudentProfile";
 import TeacherProfile from "./components/Pages/TeacherProfile";
+import SelfAttendance from "./components/Pages/SelfAttendance";
 import Register from "./components/Authentication/Register/Register";
 import SuperAdmin from "./components/Authentication/SuperAdmin/SuperAdmin.js";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -110,6 +111,7 @@ function App() {
                 path={"/teacher-profile/:id"}
                 element={<TeacherProfile />}
               />
+              <Route path={"/my-attendance"} element={<SelfAttendance />} />
               <Route
                 path={"/student-attendance-list"}
                 element={<CreateStudentAttendence />}

@@ -19,7 +19,6 @@ export default function StudentProfile() {
   const [month, setMonth] = React.useState(moment().format("MMMM"));
   const [year, setYear] = React.useState(moment().format("YYYY"));
   const [type, setType] = React.useState("Theory");
-  console.log(params.id,'params');
   const { students, Courses, Semesters, StudentAttendence, Subjects } =
     useSelector((state) => ({
       students: state?.students?.students?.filter(

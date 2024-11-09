@@ -363,6 +363,11 @@ export const FACULTYMENUITEMS = [
         active: false,
         children: [
           {
+            path: `/my-attendance`,
+            type: "link",
+            title: "Self Attendance",
+          },
+          {
             path: `/student-attendance-list`,
             type: "link",
             title: "Student Attendance",
@@ -370,7 +375,7 @@ export const FACULTYMENUITEMS = [
         ],
       },
     ],
-  }
+  },
 ];
 
 export const HODMENUITEMS = [
@@ -408,7 +413,7 @@ export const HODMENUITEMS = [
         ],
       },
     ],
-  }
+  },
 ];
 
 export const SIMPLEMENUITEMS = [
@@ -423,5 +428,5 @@ export const SIMPLEMENUITEMS = [
         title: "Dashboard",
       },
     ],
-  }
+  },
 ];

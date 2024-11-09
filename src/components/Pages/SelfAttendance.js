@@ -13,26 +13,22 @@ import "react-calendar/dist/Calendar.css";
 import { fetchSingleTeacherAttendence } from "../../redux/Action/TeacherAttendenceAction";
 import Calendar from "react-calendar";
 
-export default function TeacherProfile() {
+export default function SelfAttendance() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
-  const params = useParams();
   const [finalAttendance, setFinalAttendance] = useState([]);
   const { Subjects, teachers } = useSelector((state) => ({
     teachers: state?.teachers?.teachers?.filter(
-      (item) => item._id == params?.id
-    ),
-    teachers: state?.teachers?.teachers?.filter(
-      (item) => item._id == params?.id
+      (item) => item.user_id == sessionStorage.getItem("userId")
     ),
     Subjects: state?.subjects?.subjects,
-    // TeacherAttendance: state?.teachersAttendence?.singleteacherAttendance,
   }));
-
-  console.log(teachers);
-
+console.log(teachers);
   useEffect(() => {
-    let value = { id: params.id, date: moment(date).format("YYYY-MM-DD") };
+    let value = {
+      id: sessionStorage.getItem("userId"),
+      date: moment(date).format("YYYY-MM-DD"),
+    };
     const fetchOptions = {
       method: "POST",
       headers: {
