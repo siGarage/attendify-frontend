@@ -113,7 +113,6 @@ export default function Students() {
     },
   });
 
-
   useEffect(() => {
     let tdata = mergeArrays(students, bios);
     setFilteredData(tdata);
@@ -240,7 +239,10 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
-              {filteredData?.length > 0 ? (
+              {console.log(filteredData)}
+              {students.length > 0 &&
+              bios.length > 0 &&
+              filteredData?.length > 0 ? (
                 <div className="table-responsive">
                   <datatable.StudentDataTables
                     handleStatusUpdate={handleStatusUpdate}
