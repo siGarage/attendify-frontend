@@ -13,7 +13,7 @@ import {
   TEACHER_ADD_REQUEST,
   TEACHER_ADD_SUCCESS,
 } from "../Constants/Constants";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 //Add Status action
 export const createTeacher = (teacher) => async (dispatch) => {
