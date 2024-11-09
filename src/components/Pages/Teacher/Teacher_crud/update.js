@@ -69,7 +69,7 @@ export default function TeacherAdd() {
         user_id: teachers[0]?.user_id,
       };
       dispatch(updateTeacher(values));
-      navigate("/teacher-list");
+      window.location.href="/teacher-list";
     },
   });
   return (
