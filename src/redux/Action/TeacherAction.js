@@ -58,6 +58,18 @@ export const teacherDelete = (id) => async (dispatch) => {
     });
   }
 };
+export const updateTeacher = (uData) => async (dispatch) => {
+  try {
+    dispatch({ type: TEACHER_UPDATE_REQUEST });
+    const { data } = await API.put(`/updateTeacher`, uData);
+    toast.success("Teacher update successfully.");
+    dispatch({ type: TEACHER_UPDATE_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: TEACHER_UPDATE_FAILURE,
+    });
+  }
+};
 
 // export const examUpdate = (TEACHER) => async (dispatch) => {
 //     try {

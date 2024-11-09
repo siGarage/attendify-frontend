@@ -22,9 +22,6 @@ export default function TeacherProfile() {
     teachers: state?.teachers?.teachers?.filter(
       (item) => item._id == params?.id
     ),
-    teachers: state?.teachers?.teachers?.filter(
-      (item) => item._id == params?.id
-    ),
     Subjects: state?.subjects?.subjects,
     // TeacherAttendance: state?.teachersAttendence?.singleteacherAttendance,
   }));

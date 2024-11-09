@@ -5,7 +5,10 @@ import { Col, Row, Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { createTeacher } from "../../../../redux/Action/TeacherAction";
+import {
+  updateTeacher,
+  fetchTeachers,
+} from "../../../../redux/Action/TeacherAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
@@ -17,8 +20,7 @@ export default function TeacherAdd() {
   const navigate = useNavigate();
   const params = useParams();
   const editor = useRef(null);
-  const { Courses, Semester, teachers, Departments } = useSelector((state) => ({
-    Courses: state?.courses?.courses,
+  const { Departments, Semester, teachers } = useSelector((state) => ({
     Departments: state?.departments?.departments,
     Semester: state?.semesters?.semesters,
     teachers: state?.teachers?.teachers.filter(
@@ -36,22 +38,23 @@ export default function TeacherAdd() {
     department_id: Yup.string().required("*Required"),
     designation: Yup.string().required("*Required"),
     email: Yup.string().email("Invalid email").required("*Required"),
-    phone_no: Yup.number().required("*Required"),
   });
   useEffect(() => {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
+    dispatch(fetchTeachers());
   }, []);
   const formik = useFormik({
     initialValues: {
       name: teachers[0]?.name || "",
       department_id: teachers[0]?.department_id || "",
       alternate_no: teachers[0]?.alternate_no || "",
-      roll_no: teachers[0]?.roll_no || "",
+      emp_id: teachers[0]?.emp_id || "",
       email: teachers[0]?.email || "",
       semester_id: teachers[0]?.semester_id || "",
       designation: teachers[0]?.designation || "",
       gender: teachers[0]?.gender || "",
+      phone_no: teachers[0]?.phone_no || "",
       dob: teachers[0]?.dob || "",
       permanent_address: teachers[0]?.permanent_address || "",
       current_address: teachers[0]?.current_address || "",
@@ -62,8 +65,9 @@ export default function TeacherAdd() {
         ...values,
         notes: content,
         role: "3",
+        user_id: teachers[0]?.user_id,
       };
-      dispatch(createTeacher(values));
+      dispatch(updateTeacher(values));
       navigate("/teacher-list");
     },
   });
@@ -137,7 +141,7 @@ export default function TeacherAdd() {
                             type="number"
                             name="roll_no"
                             onChange={formik.handleChange}
-                            value={formik.values.roll_no}
+                            value={formik.values.emp_id}
                             placeholder="Employee Id"
                             className="form-control required"
                           />
@@ -250,15 +254,24 @@ export default function TeacherAdd() {
                           ) : null}
                         </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Department Id</label>
-                          <input
-                            type="number"
-                            name="department_id"
+                          <label className="form-label">Department</label>
+                          <select
                             onChange={formik.handleChange}
                             value={formik.values.department_id}
-                            placeholder="Department Id"
                             className="form-control required"
-                          />
+                            name="department_id"
+                          >
+                            <option>Please Select Department</option>
+                            {Departments?.length > 0
+                              ? Departments?.map((dep) => {
+                                  return (
+                                    <option value={dep?._id}>
+                                      {dep?.name}
+                                    </option>
+                                  );
+                                })
+                              : ""}
+                          </select>
                           {formik.errors.department_id ? (
                             <div style={{ color: "red" }}>
                               {formik.errors.department_id}

@@ -66,7 +66,6 @@ export default function TeacherAdd() {
         notes: content,
         role:"3"
       };
-      console.log(values);
       dispatch(createTeacher(values));
       navigate("/teacher-list");
     },
