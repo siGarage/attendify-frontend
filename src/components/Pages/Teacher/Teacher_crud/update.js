@@ -14,6 +14,7 @@ import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
+import ReactSwitch from "react-switch";
 
 export default function TeacherAdd() {
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export default function TeacherAdd() {
     ),
   }));
   const [content, setContent] = useState(teachers[0]?.notes || "");
-
+  const [isHod, setIsHod] = useState(teachers[0]?.role == "2" ? true : false);
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
@@ -65,13 +66,16 @@ export default function TeacherAdd() {
         ...values,
         id: params.id,
         notes: content,
-        role: "3",
+        role: isHod ? "2" : "3",
         user_id: teachers[0]?.user_id,
       };
       dispatch(updateTeacher(values));
-      window.location.href="/teacher-list";
+      window.location.href = "/teacher-list";
     },
   });
+  const handleSetHod = (val) => {
+    setIsHod(val);
+  };
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -279,7 +283,13 @@ export default function TeacherAdd() {
                             </div>
                           ) : null}
                         </Col>
-
+                        <Col>
+                          <label className="form-label">HOD</label>
+                          <ReactSwitch
+                            checked={isHod}
+                            onChange={handleSetHod}
+                          />
+                        </Col>
                         <Col sm={12} lg={3} md={3} xl={3}>
                           <label className="form-label">Designation</label>
                           <input
