@@ -31,18 +31,21 @@ export default function Departemnt() {
     //     })
     //     .catch(err => console.log(err))
   };
-  useEffect(() => {
-    const Dep = Departments?.map((dep) => {
-      return {
-        ...dep,
-        TeacherName: teachers?.filter((teacher) => teacher.user_id === dep.hod),
-      };
-    });
-    if (Dep?.length > 0) {
-      setFinalDepartment(Dep);
-    }
-  }, []);
-  console.log(finalDepartment);
+  // useEffect(() => {
+  //   const Dep = Departments?.map((dep) => {
+  //     console.log();
+  //     return {
+  //       ...dep,
+  //       TeacherName: teachers?.filter(
+  //         (teacher) => teacher._id.toString() === dep.hod
+  //       ),
+  //     };
+  //   });
+  //   if (Dep?.length > 0) {
+  //     setFinalDepartment(Dep);
+  //   }
+  // }, []);
+  // console.log(finalDepartment);
   const userDeleteAction = () => {
     dispatch(departmentDelete(deleteId));
     setShow(false);
@@ -90,17 +93,13 @@ export default function Departemnt() {
               <h3 className="card-title">Departments</h3>
             </Card.Header>
             <Card.Body>
-              {finalDepartment.length !== 0 ? (
-                <div className="table-responsive">
-                  <datatable.DepartmentDataTables
-                    handleStatusUpdate={handleStatusUpdate}
-                    handleShow={handleShow}
-                    Departments={finalDepartment}
-                  />
-                </div>
-              ) : (
-                ""
-              )}
+              <div className="table-responsive">
+                <datatable.DepartmentDataTables
+                  handleStatusUpdate={handleStatusUpdate}
+                  handleShow={handleShow}
+                  Departments={Departments}
+                />
+              </div>
             </Card.Body>
           </Card>
         </Col>

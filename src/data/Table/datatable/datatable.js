@@ -1856,7 +1856,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
     },
     {
       name: "HOD",
-      selector: (row) => [row?.TeacherName[0]?.name],
+      selector: (row) => [row?.hod],
       sortable: true,
     },
     {
