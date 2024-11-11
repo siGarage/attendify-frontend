@@ -1851,12 +1851,12 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
   const columns = [
     {
       name: "NAME",
-      selector: (row) => [row.name],
+      selector: (row) => [row._doc.name],
       sortable: true,
     },
     {
       name: "HOD",
-      selector: (row) => [row?.hod],
+      selector: (row) => [row.hod ? row.hod : "NO HOD"],
       sortable: true,
     },
     {
