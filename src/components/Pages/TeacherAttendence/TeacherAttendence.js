@@ -52,10 +52,10 @@ export default function TeacherAttendanceList() {
       let departmentId = Teachers?.filter(
         (t) => t.user_id == sessionStorage.getItem("userId")
       );
-      console.log(departmentId);
       let FinalTeacherAttendance = TeacherAttendance?.filter(
         (ta) => ta?.department_id == departmentId[0]?.department_id
       );
+      console.log(FinalTeacherAttendance);
       if (FinalTeacherAttendance?.length > 0) {
         const processedData = FinalTeacherAttendance.reduce((acc, item) => {
           const existingEntry = acc.find(
