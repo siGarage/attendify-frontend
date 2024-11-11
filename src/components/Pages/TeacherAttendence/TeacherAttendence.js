@@ -55,7 +55,7 @@ export default function TeacherAttendanceList() {
       );
       console.log("kartik2");
       let FinalTeacherAttendance = TeacherAttendance?.filter((ta) =>
-        console.log(ta?._doc?.department_id, departmentId[0]?.department_id)
+        console.log(ta);
       );
       console.log("kartik3");
       console.log(FinalTeacherAttendance);
