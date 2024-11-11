@@ -44,11 +44,15 @@ export default function TeacherAttendanceList() {
   }, []);
 
   useEffect(() => {
-    if (sessionStorage.getItem("role") == "2") {
+    if (
+      sessionStorage.getItem("role") == "2" &&
+      Teachers.length > 0 &&
+      TeacherAttendance.length > 0
+    ) {
       let department_id = Teachers?.filter(
         (t) => t._id.toString() == sessionStorage.getItem("userId")
       );
-      let FinalTeacherAttendance = TeacherAttendance.filter(
+      let FinalTeacherAttendance = TeacherAttendance?.filter(
         (ta) => ta.department_id == department_id[0].department_id
       );
       if (FinalTeacherAttendance?.length > 0) {
