@@ -401,6 +401,11 @@ export const HODMENUITEMS = [
         active: false,
         children: [
           {
+            path: `/my-attendance`,
+            type: "link",
+            title: "Self Attendance",
+          },
+          {
             path: `/student-attendance-list`,
             type: "link",
             title: "Student Attendance",
