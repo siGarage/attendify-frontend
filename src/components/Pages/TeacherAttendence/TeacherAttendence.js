@@ -49,18 +49,18 @@ export default function TeacherAttendanceList() {
       Teachers.length > 0 &&
       TeacherAttendance.length > 0
     ) {
-      console.log('kartik');
+      console.log("kartik");
       let departmentId = Teachers?.filter(
         (t) => t.user_id == sessionStorage.getItem("userId")
       );
-      console.log('kartik2');
-      let FinalTeacherAttendance = TeacherAttendance?.filter(
-        (ta) => ta?._doc?.department_id == departmentId[0]?.department_id
+      console.log("kartik2");
+      let FinalTeacherAttendance = TeacherAttendance?.filter((ta) =>
+        console.log(ta?._doc?.department_id, departmentId[0]?.department_id)
       );
-      console.log('kartik3');
+      console.log("kartik3");
       console.log(FinalTeacherAttendance);
       if (FinalTeacherAttendance?.length > 0) {
-      console.log('kartik4');
+        console.log("kartik4");
         const processedData = FinalTeacherAttendance.reduce((acc, item) => {
           const existingEntry = acc.find(
             (entry) => entry.name === item.name && entry.emp_id === item.emp_id
