@@ -56,7 +56,10 @@ export default function TeacherAttendanceList() {
         (t) => t.department_id == departmentId[0].department_id
       );
       const tIds = teachers.map((d) => d._id.toString());
-      console.log(TeacherAttendance,tIds);
+      const filteredA2 = TeacherAttendance.filter((a2Item) => {
+        return tIds.includes(a2Item._doc.teacher_id);
+      });
+      console.log(filteredA2);
       // if (FinalTeacherAttendance?.length > 0) {
       //   console.log("kartik4");
       //   const processedData = FinalTeacherAttendance.reduce((acc, item) => {
