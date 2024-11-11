@@ -53,7 +53,7 @@ export default function TeacherAttendanceList() {
         (t) => t.user_id == sessionStorage.getItem("userId")
       );
       let teachers = Teachers?.filter(
-        (t) => t.department_id == departmentId.department_id
+        (t) => t.department_id == departmentId[0].department_id
       );
       const tIds = teachers.map((d) => d._id.toString());
       console.log(TeacherAttendance,tIds);
