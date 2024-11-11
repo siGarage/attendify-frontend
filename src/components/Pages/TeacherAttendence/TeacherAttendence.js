@@ -53,7 +53,7 @@ export default function TeacherAttendanceList() {
         (t) => t.user_id == sessionStorage.getItem("userId")
       );
       let FinalTeacherAttendance = TeacherAttendance?.filter(
-        (ta) => ta?.department_id == departmentId[0]?.department_id
+        (ta) => ta?._doc?.department_id == departmentId[0]?.department_id
       );
       console.log(FinalTeacherAttendance);
       if (FinalTeacherAttendance?.length > 0) {
