@@ -25,27 +25,17 @@ export default function TeacherAttendanceList() {
   const [semester, setSemester] = useState(false);
   const [subject, setSubject] = useState(false);
   const [deleteId, setDeleteId] = useState();
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
   const [attendanceData, setAttendanceData] = useState([]);
   const [show, setShow] = useState(false);
-  const {
-    Courses,
-    Semester,
-    Subjects,
-    StudentAttendence,
-    TeacherAttendance,
-    Students,
-    Teachers,
-  } = useSelector((state) => ({
-    Courses: state?.courses?.courses,
-    Subjects: state?.subjects?.subjects,
-    Semester: state?.semesters?.semesters,
-    StudentAttendence: state?.studentsAttendence?.studentsAttendence,
-    TeacherAttendance: state?.teachersAttendence?.teachersAttendence,
-    Students: state?.students?.students,
-    Teachers: state?.teachers?.teachers,
-  }));
+  const { Courses, Semester, TeacherAttendance, Teachers } = useSelector(
+    (state) => ({
+      Courses: state?.courses?.courses,
+      Subjects: state?.subjects?.subjects,
+      Semester: state?.semesters?.semesters,
+      TeacherAttendance: state?.teachersAttendence?.teachersAttendence,
+      Teachers: state?.teachers?.teachers,
+    })
+  );
   useEffect(() => {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
@@ -54,45 +44,84 @@ export default function TeacherAttendanceList() {
     dispatch(fetchStudents());
   }, []);
 
-  function extractNamesById(array, targetId) {
-    return array.filter((obj) => obj._id === targetId).map((obj) => obj.name);
-  }
-  function extractRollNoById(array, targetId) {
-    console.log(array, targetId);
-    return array.filter((obj) => obj._id === targetId).map((obj) => obj.emp_id);
-  }
-
   useEffect(() => {
-    if (TeacherAttendance?.length > 0) {
-      const processedData = TeacherAttendance.reduce((acc, item) => {
-        const existingEntry = acc.find(
-          (entry) => entry.name === item.name && entry.emp_id === item.emp_id
-        );
-        if (existingEntry) {
-          existingEntry.attendanceCount++;
-        } else {
-          acc.push({
-            name: item.name,
-            emp_id: item.emp_id,
-            attendanceCount: item._doc.attendance_status === "Present" ? 1 : 0,
-          });
-        }
-        return acc;
-      }, []);
+    if (sessionStorage.getItem("role") == "2") {
+      let department_id = Teachers?.filter(
+        (t) => t._id.toString() == sessionStorage.getItem("userId")
+      );
+      let FinalTeacherAttendance = TeacherAttendance.filter(
+        (ta) => ta.department_id == department_id[0].department_id
+      );
+      if (FinalTeacherAttendance?.length > 0) {
+        const processedData = FinalTeacherAttendance.reduce((acc, item) => {
+          const existingEntry = acc.find(
+            (entry) => entry.name === item.name && entry.emp_id === item.emp_id
+          );
+          if (existingEntry) {
+            existingEntry.attendanceCount++;
+          } else {
+            acc.push({
+              name: item.name,
+              emp_id: item.emp_id,
+              attendanceCount:
+                item._doc.attendance_status === "Present" ? 1 : 0,
+            });
+          }
+          return acc;
+        }, []);
 
-      const mergedData = Teachers.reduce((acc, faculty) => {
-        const attendance = processedData.find(
-          (a) => a.emp_id === faculty.emp_id
-        );
-        const combined = attendance
-          ? { ...attendance }
-          : { emp_id: faculty.emp_id, name: faculty.name, attendanceCount: 0 };
-        acc.push(combined);
-        return acc;
-      }, []);
-      setAttendanceData(mergedData);
+        const mergedData = Teachers.reduce((acc, faculty) => {
+          const attendance = processedData.find(
+            (a) => a.emp_id === faculty.emp_id
+          );
+          const combined = attendance
+            ? { ...attendance }
+            : {
+                emp_id: faculty.emp_id,
+                name: faculty.name,
+                attendanceCount: 0,
+              };
+          acc.push(combined);
+          return acc;
+        }, []);
+        setAttendanceData(mergedData);
+      }
+    } else {
+      if (TeacherAttendance?.length > 0) {
+        const processedData = TeacherAttendance.reduce((acc, item) => {
+          const existingEntry = acc.find(
+            (entry) => entry.name === item.name && entry.emp_id === item.emp_id
+          );
+          if (existingEntry) {
+            existingEntry.attendanceCount++;
+          } else {
+            acc.push({
+              name: item.name,
+              emp_id: item.emp_id,
+              attendanceCount:
+                item._doc.attendance_status === "Present" ? 1 : 0,
+            });
+          }
+          return acc;
+        }, []);
+
+        const mergedData = Teachers.reduce((acc, faculty) => {
+          const attendance = processedData.find(
+            (a) => a.emp_id === faculty.emp_id
+          );
+          const combined = attendance
+            ? { ...attendance }
+            : {
+                emp_id: faculty.emp_id,
+                name: faculty.name,
+                attendanceCount: 0,
+              };
+          acc.push(combined);
+          return acc;
+        }, []);
+        setAttendanceData(mergedData);
+      }
     }
-
     setIsDisabled(false);
   }, [TeacherAttendance]);
   const SignupSchema = Yup.object().shape({
