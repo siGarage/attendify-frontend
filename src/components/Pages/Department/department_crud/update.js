@@ -30,7 +30,7 @@ export default function CourseAdd() {
   const formik = useFormik({
     initialValues: {
       name: Departments[0]?.name || "",
-      hod: Departments[0]?.hod || "",
+      // hod: Departments[0]?.hod || "",
     },
     onSubmit: (values) => {
       let _id = params?.id;
@@ -69,7 +69,7 @@ export default function CourseAdd() {
                             </div>
                           ) : null}
                         </Col>
-                        <Col sm={12} lg={6} md={6} xl={6}>
+                        {/* <Col sm={12} lg={6} md={6} xl={6}>
                           <label className="form-label">
                             Head Of Department
                           </label>
@@ -95,7 +95,7 @@ export default function CourseAdd() {
                               {formik.errors.hod}
                             </div>
                           ) : null}
-                        </Col>
+                        </Col> */}
                         <Col sm={12} lg={12} md={12} xl={12}>
                           <label className="fw-bold mt-5 ">Notes</label>
                           <JoditEditor
