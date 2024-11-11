@@ -64,19 +64,18 @@ export default function TeacherAttendanceList() {
           const existingEntry = acc.find(
             (entry) => entry.name === item.name && entry.emp_id === item.emp_id
           );
-          if (existingEntry) {
-            existingEntry.attendanceCount++;
-          } else {
+          // if (existingEntry) {
+          //   existingEntry.attendanceCount++;
+          // } else {
             acc.push({
               name: item.name,
               emp_id: item.emp_id,
               attendanceCount:
                 item._doc.attendance_status === "Present" ? 1 : 0,
             });
-          }
+          // }
           return acc;
         }, []);
-
         const mergedData = Teachers.reduce((acc, faculty) => {
           const attendance = processedData.find(
             (a) => a.emp_id === faculty.emp_id
