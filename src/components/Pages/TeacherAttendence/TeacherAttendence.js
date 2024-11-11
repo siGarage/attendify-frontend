@@ -55,7 +55,7 @@ export default function TeacherAttendanceList() {
       let FinalTeacherAttendance = TeacherAttendance?.filter(
         (ta) => ta?._doc?.department_id == departmentId[0]?.department_id
       );
-      console.log(FinalTeacherAttendance);
+      console.log(FinalTeacherAttendance,"kartik");
       if (FinalTeacherAttendance?.length > 0) {
         const processedData = FinalTeacherAttendance.reduce((acc, item) => {
           const existingEntry = acc.find(
