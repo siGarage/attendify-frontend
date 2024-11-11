@@ -49,51 +49,49 @@ export default function TeacherAttendanceList() {
       Teachers.length > 0 &&
       TeacherAttendance.length > 0
     ) {
-      console.log("kartik");
       let departmentId = Teachers?.filter(
         (t) => t.user_id == sessionStorage.getItem("userId")
       );
-      console.log("kartik2");
-      let FinalTeacherAttendance = TeacherAttendance?.filter((ta) =>
-        console.log(ta)
+      let teachers = Teachers?.filter(
+        (t) => t.department_id == departmentId.department_id
       );
-      console.log("kartik3");
-      console.log(FinalTeacherAttendance);
-      if (FinalTeacherAttendance?.length > 0) {
-        console.log("kartik4");
-        const processedData = FinalTeacherAttendance.reduce((acc, item) => {
-          const existingEntry = acc.find(
-            (entry) => entry.name === item.name && entry.emp_id === item.emp_id
-          );
-          if (existingEntry) {
-            existingEntry.attendanceCount++;
-          } else {
-            acc.push({
-              name: item.name,
-              emp_id: item.emp_id,
-              attendanceCount:
-                item._doc.attendance_status === "Present" ? 1 : 0,
-            });
-          }
-          return acc;
-        }, []);
+      const tIds = teachers.map((d) => d._id.toString());
+      console.log(TeacherAttendance,tIds);
+      // if (FinalTeacherAttendance?.length > 0) {
+      //   console.log("kartik4");
+      //   const processedData = FinalTeacherAttendance.reduce((acc, item) => {
+      //     const existingEntry = acc.find(
+      //       (entry) => entry.name === item.name && entry.emp_id === item.emp_id
+      //     );
+      //     if (existingEntry) {
+      //       existingEntry.attendanceCount++;
+      //     } else {
+      //       acc.push({
+      //         name: item.name,
+      //         emp_id: item.emp_id,
+      //         attendanceCount:
+      //           item._doc.attendance_status === "Present" ? 1 : 0,
+      //       });
+      //     }
+      //     return acc;
+      //   }, []);
 
-        const mergedData = Teachers.reduce((acc, faculty) => {
-          const attendance = processedData.find(
-            (a) => a.emp_id === faculty.emp_id
-          );
-          const combined = attendance
-            ? { ...attendance }
-            : {
-                emp_id: faculty.emp_id,
-                name: faculty.name,
-                attendanceCount: 0,
-              };
-          acc.push(combined);
-          return acc;
-        }, []);
-        setAttendanceData(mergedData);
-      }
+      //   const mergedData = Teachers.reduce((acc, faculty) => {
+      //     const attendance = processedData.find(
+      //       (a) => a.emp_id === faculty.emp_id
+      //     );
+      //     const combined = attendance
+      //       ? { ...attendance }
+      //       : {
+      //           emp_id: faculty.emp_id,
+      //           name: faculty.name,
+      //           attendanceCount: 0,
+      //         };
+      //     acc.push(combined);
+      //     return acc;
+      //   }, []);
+      //   setAttendanceData(mergedData);
+      // }
     } else {
       if (TeacherAttendance?.length > 0) {
         const processedData = TeacherAttendance.reduce((acc, item) => {
