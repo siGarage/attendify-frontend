@@ -11,9 +11,7 @@ import { fetchSemester } from "../../../redux/Action/SemesterAction";
 import { fetchStudents } from "../../../redux/Action/StudentAction";
 import { fetchTeachers } from "../../../redux/Action/TeacherAction";
 import { fetchSubject } from "../../../redux/Action/SubjectAction";
-import { fetchStudentsAttendence } from "../../../redux/Action/StudentAttendenceAction";
 import { fetchTeachersAttendence } from "../../../redux/Action/TeacherAttendenceAction";
-import { AddStudentAttendenceModal } from "../../Modal/AddStudentModal";
 import file from "../../../assets/add_student_attendance.csv";
 import * as Yup from "yup";
 
@@ -42,6 +40,7 @@ export default function TeacherAttendanceList() {
     dispatch(fetchSubject());
     dispatch(fetchTeachers());
     dispatch(fetchStudents());
+    dispatch(fetchTeachersAttendence());
   }, []);
 
   useEffect(() => {
