@@ -1861,7 +1861,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
     },
     {
       name: "STATUS",
-      selector: (row) => [row.status == "active" ? "Active" : "InActive"],
+      selector: (row) => [row._doc.status == "active" ? "Active" : "InActive"],
       sortable: true,
     },
     {

@@ -67,7 +67,7 @@ export default function TeacherAttendanceList() {
           // if (existingEntry) {
           //   existingEntry.attendanceCount++;
           // } else {
-            acc.push({
+            acc.push({ 
               name: item.name,
               emp_id: item.emp_id,
               attendanceCount:
