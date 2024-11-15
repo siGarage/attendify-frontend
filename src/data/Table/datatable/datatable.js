@@ -2510,7 +2510,7 @@ export const TeacherDataTables = ({ handleShow, Teachers }) => {
     },
     {
       name: "DEPARTMENT",
-      selector: (row) => [row.departmentName[0]?.name],
+      selector: (row) => [row.departmentName[0]?._doc?.name],
       sortable: true,
     },
     {

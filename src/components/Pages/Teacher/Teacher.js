@@ -204,7 +204,6 @@ export default function Teachers() {
                   </form>
                 </Card>
               </Col>
-              {console.log(finalTeacher)}
               <div className="table-responsive">
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
