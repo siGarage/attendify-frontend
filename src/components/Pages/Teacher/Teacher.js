@@ -70,7 +70,7 @@ export default function Teachers() {
           ...tea,
           teacher_id: tea._id,
           departmentName: Departments?.filter(
-            ({ _id }) => tea?._doc?.department_id === _id
+            ({ _id }) => tea?.department_id === _id
           ),
         };
       });
@@ -204,6 +204,7 @@ export default function Teachers() {
                   </form>
                 </Card>
               </Col>
+              {console.log(finalTeacher)}
               <div className="table-responsive">
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
