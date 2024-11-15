@@ -63,7 +63,6 @@ export default function Teachers() {
     dispatch(fetchDepartment());
     dispatch(fetchBiometric());
   }, []);
-
   useEffect(() => {
     if (teachers.length > 0 && bios.length > 0) {
       const Tea = teachers?.map((tea) => {
@@ -71,7 +70,7 @@ export default function Teachers() {
           ...tea,
           teacher_id: tea._id,
           departmentName: Departments?.filter(
-            ({ _id }) => tea?.department_id === _id
+            ({ _id }) => tea?._doc?.department_id === _id
           ),
         };
       });
@@ -172,7 +171,9 @@ export default function Teachers() {
                             {Departments?.length > 0
                               ? Departments?.map((d) => {
                                   return (
-                                    <option value={d?._id}>{d?.name}</option>
+                                    <option value={d?._doc?._id}>
+                                      {d?._doc?.name}
+                                    </option>
                                   );
                                 })
                               : ""}
@@ -203,6 +204,7 @@ export default function Teachers() {
                   </form>
                 </Card>
               </Col>
+              {console.log(finalTeacher)}
               <div className="table-responsive">
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
