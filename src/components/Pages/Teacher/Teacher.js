@@ -66,11 +66,12 @@ export default function Teachers() {
   useEffect(() => {
     if (teachers.length > 0 && bios.length > 0) {
       const Tea = teachers?.map((tea) => {
+        console.log(tea);
         return {
           ...tea,
           teacher_id: tea._id,
           departmentName: Departments?.filter(
-            ({ _id }) => tea?.department_id === _id
+            (d) => tea?.department_id === d._doc._id
           ),
         };
       });
