@@ -15,21 +15,25 @@ import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
 import ReactSwitch from "react-switch";
+import { fetchUsers } from "../../../../redux/Action/AuthAction";
 
 export default function TeacherAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
   const editor = useRef(null);
-  const { Departments, Semester, teachers } = useSelector((state) => ({
+  const { Departments, users, teachers } = useSelector((state) => ({
     Departments: state?.departments?.departments,
+    users: state?.userAuth?.getAllUsers?.filter(
+      (item) => item?.phone_no == params?.phone_no
+    ),
     Semester: state?.semesters?.semesters,
     teachers: state?.teachers?.teachers.filter(
       (item) => item?._id == params?.id
     ),
   }));
   const [content, setContent] = useState(teachers[0]?.notes || "");
-  const [isHod, setIsHod] = useState(teachers[0]?.role == "2" ? true : false);
+  const [isHod, setIsHod] = useState(users[0]?.role == "2" ? true : false);
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
@@ -44,6 +48,7 @@ export default function TeacherAdd() {
     dispatch(fetchCourse());
     dispatch(fetchSemester());
     dispatch(fetchTeachers());
+    dispatch(fetchUsers());
   }, []);
   const formik = useFormik({
     initialValues: {

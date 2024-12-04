@@ -101,7 +101,7 @@ function App() {
               />
               <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
-              <Route path={"/update-teacher/:id"} element={<UpdateTeacher />} />
+              <Route path={"/update-teacher/:id/:phone_no"} element={<UpdateTeacher />} />
               <Route path={"/student-list"} element={<Students />} />
               <Route
                 path={"/student-profile/:id/:course/:semester"}
