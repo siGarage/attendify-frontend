@@ -71,7 +71,7 @@ export default function Teachers() {
           ...tea,
           teacher_id: tea._id,
           departmentName: Departments?.filter(
-            (d) => tea?.department_id === d._doc._id
+            (d) => tea?.department_id === d._id
           ),
         };
       });
@@ -172,8 +172,8 @@ export default function Teachers() {
                             {Departments?.length > 0
                               ? Departments?.map((d) => {
                                   return (
-                                    <option value={d?._doc?._id}>
-                                      {d?._doc?.name}
+                                    <option value={d?._id}>
+                                      {d?.name}
                                     </option>
                                   );
                                 })

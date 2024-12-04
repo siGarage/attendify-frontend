@@ -1851,7 +1851,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
   const columns = [
     {
       name: "NAME",
-      selector: (row) => [row._doc.name],
+      selector: (row) => [row.name],
       sortable: true,
     },
     {
@@ -1861,7 +1861,7 @@ export const DepartmentDataTables = ({ handleShow, Departments }) => {
     },
     {
       name: "STATUS",
-      selector: (row) => [row._doc.status == "active" ? "Active" : "InActive"],
+      selector: (row) => [row.status == "active" ? "Active" : "InActive"],
       sortable: true,
     },
     {
