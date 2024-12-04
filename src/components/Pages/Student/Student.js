@@ -239,7 +239,6 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
-              {console.log(filteredData, "filteredData")}
               {students.length > 0 &&
               bios.length > 0 &&
               filteredData?.length > 0 ? (

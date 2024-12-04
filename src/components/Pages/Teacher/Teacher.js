@@ -71,10 +71,11 @@ export default function Teachers() {
           ...tea,
           teacher_id: tea._id,
           departmentName: Departments?.filter(
-            (d) => tea?.department_id === d._id
+            (d) => tea?.department_id === d?._id
           ),
         };
       });
+      console.log(Tea)
       if (Tea?.length > 0) {
         let dataFinal = mergeArrays(Tea, bios);
         setMergeBiometricList(dataFinal);
@@ -205,7 +206,6 @@ export default function Teachers() {
                   </form>
                 </Card>
               </Col>
-              {console.log(finalTeacher)}
               <div className="table-responsive">
                 <datatable.TeacherDataTables
                   handleStatusUpdate={handleStatusUpdate}
