@@ -52,7 +52,7 @@ export default function Students() {
           student_id: student._id,
         });
       } else {
-        mergedArray.push({ student, student_id: student._id });
+        mergedArray.push({ ...student, student_id: student._id });
       }
     });
     return mergedArray;
@@ -239,6 +239,7 @@ export default function Students() {
                   </form>
                 </Card>
               </Col>
+              {console.log(filteredData, "filteredData")}
               {students.length > 0 &&
               bios.length > 0 &&
               filteredData?.length > 0 ? (
