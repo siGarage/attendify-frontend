@@ -16,7 +16,7 @@ import {
 let initState = {
   users: {},
   teamLeader: [],
-  getAllUsers: {},
+  getAllUsers: [],
 };
 
 const userAuthReducer = (state = initState, action) => {
