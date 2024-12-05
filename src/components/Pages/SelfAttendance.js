@@ -23,7 +23,6 @@ export default function SelfAttendance() {
     ),
     Subjects: state?.subjects?.subjects,
   }));
-console.log(teachers);
   useEffect(() => {
     let value = {
       id: sessionStorage.getItem("userId"),

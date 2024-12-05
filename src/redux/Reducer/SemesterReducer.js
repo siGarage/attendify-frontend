@@ -29,7 +29,6 @@ const semesterReducer = (state = initState, action) => {
         ),
       };
     case SEMESTER_DELETE_SUCCESS:
-      console.log(action.payload.id);
       return {
         ...state,
         semesters: state?.semesters?.filter(

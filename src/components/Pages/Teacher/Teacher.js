@@ -66,7 +66,6 @@ export default function Teachers() {
   useEffect(() => {
     if (teachers.length > 0 && bios.length > 0) {
       const Tea = teachers?.map((tea) => {
-        console.log(tea);
         return {
           ...tea,
           teacher_id: tea._id,
@@ -75,7 +74,6 @@ export default function Teachers() {
           ),
         };
       });
-      console.log(Tea)
       if (Tea?.length > 0) {
         let dataFinal = mergeArrays(Tea, bios);
         setMergeBiometricList(dataFinal);

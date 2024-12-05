@@ -34,7 +34,6 @@ export default function StudentProfile() {
       StudentAttendence: state?.studentsAttendence?.singleStudentAttendance,
     }));
   const [selectedYear, setSelectedYear] = useState("");
-console.log(students,"students");
   const handleYearChange = (date) => {
     setSelectedYear(date.getFullYear());
   };
