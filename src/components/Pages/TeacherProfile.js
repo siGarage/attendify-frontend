@@ -16,6 +16,7 @@ import Calendar from "react-calendar";
 export default function TeacherProfile() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
+  const [finalLecture, setFinalLecture] = useState("");
   const params = useParams();
   const [finalAttendance, setFinalAttendance] = useState([]);
   const { Subjects, teachers } = useSelector((state) => ({
@@ -55,6 +56,7 @@ export default function TeacherProfile() {
     )
       .then((response) => response.json())
       .then((data) => {
+        setFinalLecture(data.length);
         const filteredArray = filterByDate(
           data,
           moment(date).format("YYYY-MM-DD")
@@ -170,6 +172,10 @@ export default function TeacherProfile() {
                           </p> */}
                           <p className="mb-0">
                             <strong>Phone:</strong>&nbsp;{teachers[0]?.phone_no}
+                          </p>
+                          <p className="mb-0">
+                            <strong>Total Lecture:</strong>&nbsp;
+                            {finalLecture ? finalLecture : 0}
                           </p>
                         </Col>
                       </Row>
