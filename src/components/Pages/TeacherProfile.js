@@ -284,7 +284,6 @@ export default function TeacherProfile() {
             <Row>
               <Col xs={12} sm={6} lg={4} md={4}>
                 <Calendar onChange={setDate} value={date} />
-                
               </Col>
               <Col>
                 <table class="table">
