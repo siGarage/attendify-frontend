@@ -1,7 +1,7 @@
 import React from "react";
 
 import Calendar from "color-calendar";
-import "color-calendar/dist/css/theme-glass.css";
+import "react-color/dist/css/theme-glass.css";
 
 class CalendarComponent extends React.Component {
   componentDidMount() {

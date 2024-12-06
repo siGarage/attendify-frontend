@@ -12,7 +12,6 @@ import DataTable from "react-data-table-component";
 import "react-calendar/dist/Calendar.css";
 import { fetchSingleTeacherAttendence } from "../../redux/Action/TeacherAttendenceAction";
 import Calendar from "react-calendar";
-import CalendarComponent from "./calander";
 
 export default function TeacherProfile() {
   const dispatch = useDispatch();
@@ -284,8 +283,8 @@ export default function TeacherProfile() {
           <Card.Body>
             <Row>
               <Col xs={12} sm={6} lg={4} md={4}>
-                {/* <Calendar onChange={setDate} value={date} /> */}
-                <CalendarComponent />
+                <Calendar onChange={setDate} value={date} />
+                
               </Col>
               <Col>
                 <table class="table">
