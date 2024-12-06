@@ -283,7 +283,29 @@ export default function TeacherProfile() {
           <Card.Body>
             <Row>
               <Col xs={12} sm={6} lg={4} md={4}>
-                <Calendar onChange={setDate} value={date} />
+                <Calendar
+                  onChange={setDate}
+                  value={date}
+                  colors={[
+                    {
+                      date: "2024-12-06T00:00",
+                      highlight: "#f3a146",
+                    },
+                    {
+                      date: "2024-12-15T00:00",
+                      highlight: "#b4c145",
+                    },
+                    {
+                      date: "2024-12-23T00:00",
+                      highlight: "#ff6a00",
+                    },
+                    {
+                      date: "2024-12-11T00:00",
+                      background: "#ea4986",
+                      highlight: "#c7356d",
+                    },
+                  ]}
+                />
               </Col>
               <Col>
                 <table class="table">
