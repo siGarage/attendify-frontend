@@ -42,7 +42,11 @@ export default function SelfAttendance() {
     )
       .then((response) => response.json())
       .then((data) => {
-        let Data = data?.map((da) => {
+        const filteredArray = filterByDate(
+          data,
+          moment(date).format("YYYY-MM-DD")
+        );
+        let Data = filteredArray?.map((da) => {
           return {
             ...da,
             Subject: Subjects?.filter((sub) => sub._id === da.subject_id),
