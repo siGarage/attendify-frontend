@@ -23,6 +23,18 @@ export default function SelfAttendance() {
     ),
     Subjects: state?.subjects?.subjects,
   }));
+  function filterByDate(array, date) {
+    return array.filter((item) => {
+      const itemDate = new Date(item.a_date);
+      const filterDate = new Date(date);
+      // Compare the dates, ignoring time
+      return (
+        itemDate.getFullYear() === filterDate.getFullYear() &&
+        itemDate.getMonth() === filterDate.getMonth() &&
+        itemDate.getDate() === filterDate.getDate()
+      );
+    });
+  }
   useEffect(() => {
     let value = {
       id: sessionStorage.getItem("userId"),
