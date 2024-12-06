@@ -2246,6 +2246,8 @@ export const StudentDataTables = ({ handleShow, Students }) => {
 export const StudentAttendenceDataTables = ({
   handleShow,
   StudentAttendece,
+  course_id,
+  semester_id,
 }) => {
   const convertPercentage = (str) => {
     // Regular expression to extract number and handle decimals
@@ -2262,8 +2264,17 @@ export const StudentAttendenceDataTables = ({
     },
     {
       name: "NAME",
-      selector: (row) => [row?.name],
+      selector: (row) => [row.name],
       sortable: true,
+      cell: (row) => (
+        <span className="" style={{ width: "409px" }}>
+          <NavLink
+            to={`/student-profile/${row?.s_id}/${course_id}/${semester_id}`}
+          >
+            {row.name}
+          </NavLink>
+        </span>
+      ),
     },
     // {
     //   name: "SUBJECT",

@@ -65,7 +65,6 @@ export default function SemesterAdd() {
     },
   });
   const handleSetFacultyAttedenceViewPermission = (val) => {
-    console.log(val);
     setFacultyAttedenceViewPermission(val);
   };
   const handleSetStudentAttedenceViewPermission = (val) => {

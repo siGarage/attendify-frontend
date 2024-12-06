@@ -64,6 +64,7 @@ export default function StudentAdd() {
         const student = extractNamesById(Students, item?.student_id)[0];
         const subject = extractNamesById(Subjects, item?.subject_id)[0];
         const studentroll = extractRollNoById(Students, item?.student_id)[0];
+        const student_id = item?.student_id;
         const attendance_status = item?.attendance_status;
         const type = item?.type;
         data = {
@@ -75,6 +76,7 @@ export default function StudentAdd() {
           type,
           date,
           attendance_status,
+          student_id,
         };
         finalRAttendence.push(data);
       });
@@ -82,14 +84,22 @@ export default function StudentAdd() {
       function calculateAttendancePercentageByStudent(data) {
         const studentAttendance = {};
         data?.forEach((entry) => {
-          const { studentroll, student, subject, type, attendance_status } =
-            entry;
+          const {
+            studentroll,
+            student,
+            subject,
+            type,
+            attendance_status,
+            student_id,
+          } = entry;
+          console.log(student_id);
           const studentKey = `${studentroll}-${student}`;
           const subjectKey = `${subject}-${type}`;
           if (!studentAttendance[studentKey]) {
             studentAttendance[studentKey] = {
               student,
               roll: studentroll,
+              stu_id: student_id,
               subjects: {},
             };
           }
@@ -118,7 +128,6 @@ export default function StudentAdd() {
                 : ((subjectData.present / total) * 100).toFixed(1) + "%";
           }
         }
-
         return studentAttendance;
       }
       const attendanceByType =
@@ -134,9 +143,9 @@ export default function StudentAdd() {
             id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
             name: studentData.student,
             roll: studentData.roll,
+            s_id: studentData.stu_id,
             subjects: [], // Initialize subjects array for current student
           };
-
           // Loop through student's subjects object
           for (const subjectName in studentData.subjects) {
             const subjectData = studentData.subjects[subjectName];
@@ -592,9 +601,12 @@ export default function StudentAdd() {
               </div>
             </Card.Header>
             <Card.Body>
+              {console.log(finalAttendence)}
               <div className="table-responsive">
                 <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
+                  course_id={formik.values.course_id}
+                  semester_id={formik.values.semester_id}
                   handleShow={handleShow}
                 />
               </div>
