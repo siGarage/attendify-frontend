@@ -26,10 +26,21 @@ export default function TeacherProfile() {
     // TeacherAttendance: state?.teachersAttendence?.singleteacherAttendance,
   }));
 
-  console.log(teachers);
+  function filterByDate(array, date) {
+    return array.filter((item) => {
+      const itemDate = new Date(item.a_date);
+      const filterDate = new Date(date);
 
+      // Compare the dates, ignoring time
+      return (
+        itemDate.getFullYear() === filterDate.getFullYear() &&
+        itemDate.getMonth() === filterDate.getMonth() &&
+        itemDate.getDate() === filterDate.getDate()
+      );
+    });
+  }
   useEffect(() => {
-    let value = { id: params.id, date: moment(date).format("YYYY-MM-DD") };
+    let value = { id: params.id };
     const fetchOptions = {
       method: "POST",
       headers: {
@@ -44,7 +55,11 @@ export default function TeacherProfile() {
     )
       .then((response) => response.json())
       .then((data) => {
-        let Data = data?.map((da) => {
+        const filteredArray = filterByDate(
+          data,
+          moment(date).format("YYYY-MM-DD")
+        );
+        let Data = filteredArray?.map((da) => {
           return {
             ...da,
             Subject: Subjects?.filter((sub) => sub._id === da.subject_id),
