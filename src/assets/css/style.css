@@ -1530,6 +1530,11 @@ blockquote cite:before {
     color: #495584;
 }
 
+.marked-date {
+    background-color: rgb(37, 160, 37) !important;
+    color: white !important;
+}
+
 .breadcrumb-3 ol {
     position: relative;
     display: block;
