@@ -17,6 +17,7 @@ export default function SelfAttendance() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
   const [finalAttendance, setFinalAttendance] = useState([]);
+  const [finalLecture, setFinalLecture] = useState("");
   const { Subjects, teachers } = useSelector((state) => ({
     teachers: state?.teachers?.teachers?.filter(
       (item) => item.user_id == sessionStorage.getItem("userId")
@@ -37,7 +38,7 @@ export default function SelfAttendance() {
   }
   useEffect(() => {
     let value = {
-      id: sessionStorage.getItem("userId"),
+      id: teachers[0]._id,
       date: moment(date).format("YYYY-MM-DD"),
     };
     const fetchOptions = {
@@ -54,6 +55,7 @@ export default function SelfAttendance() {
     )
       .then((response) => response.json())
       .then((data) => {
+        setFinalLecture(data.length);
         const filteredArray = filterByDate(
           data,
           moment(date).format("YYYY-MM-DD")
@@ -236,7 +238,10 @@ export default function SelfAttendance() {
         <Card>
           <Card.Title>
             <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center justify-content-between">
-              <h3>Attendance</h3>
+              <h3>
+                Total Lecture:&nbsp;
+                {finalLecture ? finalLecture : 0}
+              </h3>
               {/* <div>
                 <select
                   className="border-none"
