@@ -173,10 +173,10 @@ export default function TeacherProfile() {
                           <p className="mb-0">
                             <strong>Phone:</strong>&nbsp;{teachers[0]?.phone_no}
                           </p>
-                          <p className="mb-0">
+                          {/* <p className="mb-0">
                             <strong>Total Lecture:</strong>&nbsp;
                             {finalLecture ? finalLecture : 0}
-                          </p>
+                          </p> */}
                         </Col>
                       </Row>
                     </Col>
@@ -242,8 +242,11 @@ export default function TeacherProfile() {
       <div className="table-responsive">
         <Card>
           <Card.Title>
-            <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center justify-content-between">
-              <h3>Attendance</h3>
+            <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center">
+              <h3>
+                Total Lecture:&nbsp;
+                {finalLecture ? finalLecture : 0}
+              </h3>
               {/* <div>
                 <select
                   className="border-none"
