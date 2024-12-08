@@ -16,7 +16,8 @@ import Calendar from "react-calendar";
 export default function SelfAttendance() {
   const dispatch = useDispatch();
   const [date, setDate] = useState(new Date());
-  const [finalAttendance, setFinalAttendance] = useState([]);
+  const [finalAttendance, setFinalAttendance] = useState([]);  
+  const [finalDates, setFinalDates] = useState([]);
   const [finalLecture, setFinalLecture] = useState("");
   const { Subjects, teachers } = useSelector((state) => ({
     teachers: state?.teachers?.teachers?.filter(
@@ -34,6 +35,13 @@ export default function SelfAttendance() {
         itemDate.getMonth() === filterDate.getMonth() &&
         itemDate.getDate() === filterDate.getDate()
       );
+    });
+  }
+  function convertDateStringsToDateObjects(dateStrings) {
+    return dateStrings?.map((dateString) => {
+      const [datePart, timePart] = dateString.split(" ");
+      const [year, month, day] = datePart.split("-").map(Number);
+      return new Date(year, month - 1, day);
     });
   }
   useEffect(() => {
@@ -55,6 +63,9 @@ export default function SelfAttendance() {
     )
       .then((response) => response.json())
       .then((data) => {
+        const dates = data?.map((d) => d.a_date);
+        let finalDates = convertDateStringsToDateObjects(dates);
+        setFinalDates(finalDates);
         setFinalLecture(data.length);
         const filteredArray = filterByDate(
           data,
@@ -287,7 +298,18 @@ export default function SelfAttendance() {
           <Card.Body>
             <Row>
               <Col xs={12} sm={6} lg={4} md={4}>
-                <Calendar onChange={setDate} value={date} />
+                <Calendar
+                  onChange={setDate}
+                  value={date}
+                  tileClassName={({ date, view }) => {
+                    if (
+                      view === "month" &&
+                      finalDates.some((d) => d.getTime() === date.getTime())
+                    ) {
+                      return "marked-date";
+                    }
+                  }}
+                />
               </Col>
               <Col>
                 <table class="table">
