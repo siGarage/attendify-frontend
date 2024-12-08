@@ -2473,9 +2473,16 @@ export const TeacherAttendenceDataTables = ({ StudentAttendece }) => {
       sortable: true,
     },
     {
-      name: "Name",
+      name: "NAME",
       selector: (row) => [row.name],
       sortable: true,
+      cell: (row) => (
+        <span className="" style={{ width: "409px" }}>
+          <NavLink to={`/teacher-profile/${row?.t_id}`}>
+            {row?.name}
+          </NavLink>
+        </span>
+      ),
     },
     {
       name: "Attendance Count",

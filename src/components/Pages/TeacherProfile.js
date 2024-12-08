@@ -28,7 +28,7 @@ export default function TeacherProfile() {
   }));
 
   function filterByDate(array, date) {
-    return array.filter((item) => {
+    return array?.filter((item) => {
       const itemDate = new Date(item.a_date);
       const filterDate = new Date(date);
 

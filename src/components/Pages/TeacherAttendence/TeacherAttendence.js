@@ -56,7 +56,7 @@ export default function TeacherAttendanceList() {
         (t) => t.department_id == departmentId[0].department_id
       );
       const tIds = teachers.map((d) => d._id.toString());
-      const filteredA2 = TeacherAttendance.filter((a2Item) => {
+      const filteredA2 = TeacherAttendance?.filter((a2Item) => {
         return tIds.includes(a2Item._doc.teacher_id);
       });
       if (filteredA2?.length > 0) {
@@ -67,8 +67,9 @@ export default function TeacherAttendanceList() {
           if (existingEntry) {
             existingEntry.attendanceCount++;
           } else {
-            acc.push({ 
+            acc.push({
               name: item.name,
+              t_id: item._id,
               emp_id: item.emp_id,
               attendanceCount:
                 item._doc.attendance_status === "Present" ? 1 : 0,
@@ -84,6 +85,7 @@ export default function TeacherAttendanceList() {
             ? { ...attendance }
             : {
                 emp_id: faculty.emp_id,
+                t_id: faculty._id,
                 name: faculty.name,
                 attendanceCount: 0,
               };
@@ -104,6 +106,7 @@ export default function TeacherAttendanceList() {
             acc.push({
               name: item.name,
               emp_id: item.emp_id,
+              t_id: item.t_id,
               attendanceCount:
                 item._doc.attendance_status === "Present" ? 1 : 0,
             });
@@ -120,6 +123,7 @@ export default function TeacherAttendanceList() {
             : {
                 emp_id: faculty.emp_id,
                 name: faculty.name,
+                t_id: faculty._id,
                 attendanceCount: 0,
               };
           acc.push(combined);
@@ -229,7 +233,7 @@ export default function TeacherAttendanceList() {
     });
 
     // Extract the subjects dynamically from the first student in transformSubjects
-    const subjects = Object.keys(transformSubjects[0]).filter(
+    const subjects = Object.keys(transformSubjects[0])?.filter(
       (key) => key !== "id" && key !== "name" && key !== "roll"
     );
 
