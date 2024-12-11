@@ -4,6 +4,7 @@ import ForgotPassword from "./components/Authentication/ForgotPassword/ForgotPas
 import ResetPassword from "./components/Authentication/ForgotPassword/ResetPassword";
 import Login from "./components/Authentication/Login/Login";
 import Profile from "./components/Pages/Profile";
+import ResetTPassword from "./components/Pages/ResetPassword";
 import StudentProfile from "./components/Pages/StudentProfile";
 import TeacherProfile from "./components/Pages/TeacherProfile";
 import SelfAttendance from "./components/Pages/SelfAttendance";
@@ -56,7 +57,6 @@ function App() {
         <Route path={"/register"} element={<Register />} />
         <Route path={"/"} element={<Login />} />
         <Route path={"/forgotPassword"} element={<ForgotPassword />} />
-        <Route path={"/resetPassword"} element={<ResetPassword />} />
         <Route path={"/changePassword/:id"} element={<ChangePassword />} />
         <Route path={"/super-admin-ams"} element={<SuperAdmin />} />
         {authenticate ? (
@@ -66,6 +66,7 @@ function App() {
             <Route path={`/`} element={<RootApp />}>
               <Route index element={<Dashboard />} />
               <Route path={"/profile"} element={<Profile />} />
+              <Route path={"/resetPassword"} element={<ResetTPassword />} />
               <Route path={"/dashboard"} element={<Dashboard />} />
               <Route path={"/editProfile/:id"} element={<EditProfile />} />
               <Route path={"/editor"} element={<Editors />} />
@@ -101,7 +102,10 @@ function App() {
               />
               <Route path={"/update-student/:id"} element={<UpdateStudent />} />
               <Route path={"/add-teacher"} element={<CreateTeacher />} />
-              <Route path={"/update-teacher/:id/:phone_no"} element={<UpdateTeacher />} />
+              <Route
+                path={"/update-teacher/:id/:phone_no"}
+                element={<UpdateTeacher />}
+              />
               <Route path={"/student-list"} element={<Students />} />
               <Route
                 path={"/student-profile/:id/:course/:semester"}

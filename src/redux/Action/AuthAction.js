@@ -202,14 +202,13 @@ export const changePass = (userInfo) => async (dispatch) => {
 export const changePassDone = (userInfo) => async (dispatch) => {
   try {
     dispatch({ type: USER_CHANGE_PASS_REQUEST });
-    const { data } = await API.put(`/change-password`, userInfo);
-    dispatch({ type: USER_CHANGE_PASS_SUCCESS });
-    if (data.status_code) {
-      // sessionStorage.setItem("accessToken", data?.data?.token);
-      window.location.href = "/login";
-      toast.success(data?.message);
+    const { data } = await API.post(`/change-password`, userInfo);
+    if (data.status_text == "success") {
+      sessionStorage.clear();
+      window.location.reload(false);
+      window.location.href = "/";
     } else {
-      toast.success(data?.message);
+      toast.error(data?.message);
     }
   } catch (error) {
     console.log("error", error);

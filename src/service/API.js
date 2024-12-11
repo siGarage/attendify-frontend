@@ -1,7 +1,7 @@
 import axios from "axios";
 const API = axios.create({
-  // baseURL: " http://localhost:4500",
-  baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
+  baseURL: " http://localhost:4500",
+  // baseURL: `${process.env.REACT_APP_API_BASE_URL}`,
   headers: {
     authorization: `Bearer ${sessionStorage.getItem("accessToken")}`,
   },

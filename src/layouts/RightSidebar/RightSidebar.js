@@ -75,13 +75,31 @@ export function RightSidebar() {
                   className="dropdown-item d-flex border-bottom border-top"
                   to={`/profile`}
                 >
-                  <div className="d-flex">
+                  <div
+                    className="d-flex"
+                    onClick={() => Outhover(rightsidebartoogle)}
+                  >
                     <i className="fe fe-user me-3 tx-20 text-muted"></i>
                     <div className="pt-1">
                       <h6 className="mb-0">My Profile</h6>
                       <p className="tx-12 mb-0 text-muted">
                         Profile Personal information
                       </p>
+                    </div>
+                  </div>
+                </Link>
+                <Link
+                  className="dropdown-item d-flex border-bottom border-top"
+                  to={`/resetPassword`}
+                >
+                  <div
+                    className="d-flex"
+                    onClick={() => Outhover(rightsidebartoogle)}
+                  >
+                    <i className="fe fe-user me-3 tx-20 text-muted"></i>
+                    <div className="pt-1">
+                      <h6 className="mb-0">Reset Password</h6>
+                      <p className="tx-12 mb-0 text-muted">Password</p>
                     </div>
                   </div>
                 </Link>
@@ -135,6 +153,7 @@ export function RightSidebar() {
                     <i className="fe fe-power me-3 tx-20 text-muted"></i>
                     <div
                       onClick={() => {
+                        Outhover(rightsidebartoogle);
                         sessionStorage.clear();
                         window.location.reload(false);
                         window.location.href = "/";
