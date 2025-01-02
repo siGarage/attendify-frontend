@@ -59,6 +59,7 @@ export default function TeacherAttendanceList() {
       const filteredA2 = TeacherAttendance?.filter((a2Item) => {
         return tIds.includes(a2Item._doc.teacher_id);
       });
+
       if (filteredA2?.length > 0) {
         const processedData = filteredA2.reduce((acc, item) => {
           const existingEntry = acc.find(
@@ -69,7 +70,7 @@ export default function TeacherAttendanceList() {
           } else {
             acc.push({
               name: item.name,
-              t_id: item._id,
+              t_id: item.t_id,
               emp_id: item.emp_id,
               attendanceCount:
                 item._doc.attendance_status === "Present" ? 1 : 0,
