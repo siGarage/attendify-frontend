@@ -206,7 +206,6 @@ export default function StudentAdd() {
         finalAttendenceArray.push(...combinedResults);
       });
       setFinalAttendence(modifiedArray);
-
       // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
       //   // Check if any existing object in 'acc' has all the same properties as 'current'
       //   const isDuplicate = acc.some((obj) =>
@@ -222,6 +221,7 @@ export default function StudentAdd() {
       dispatch(fetchSemester());
       dispatch(fetchSubject());
       dispatch(fetchStudents());
+      setIsDisabled(false);
     }
   }, [StudentAttendence]);
   const SignupSchema = Yup.object().shape({
@@ -567,6 +567,7 @@ export default function StudentAdd() {
                         onClick={() => {
                           formik.resetForm();
                           setFinalAttendence([]);
+                          setIsDisabled(false);
                         }}
                       >
                         Reset
@@ -601,7 +602,6 @@ export default function StudentAdd() {
               </div>
             </Card.Header>
             <Card.Body>
-              {console.log(finalAttendence)}
               <div className="table-responsive">
                 <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
