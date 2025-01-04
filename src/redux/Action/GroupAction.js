@@ -5,7 +5,10 @@ import {
   GROUP_ADD_SUCCESS,
   GROUP_GET_FAILURE,
   GROUP_GET_SUCCESS,
-  GROUP_GET_REQUEST
+  GROUP_GET_REQUEST,
+  DASHBOARD_GET_REQUEST,
+  DASHBOARD_GET_SUCCESS,
+  DASHBOARD_GET_FAILURE
 } from "../Constants/Constants";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -35,6 +38,17 @@ export const fetchGroups = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: GROUP_GET_FAILURE,
+    });
+  }
+};
+export const fetchDashboardData= () => async (dispatch) => {
+  try {
+    dispatch({ type: DASHBOARD_GET_REQUEST });
+    const { data } = await API.get(`/dashboardData`);
+    dispatch({ type: DASHBOARD_GET_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: DASHBOARD_GET_FAILURE,
     });
   }
 };

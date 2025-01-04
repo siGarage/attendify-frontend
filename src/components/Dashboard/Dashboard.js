@@ -6,102 +6,83 @@ import * as dashboard from "../../data/dashboard/dashboard";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { fetchDepartment } from "../../redux/Action/DepartmentAction";
-import { fetchCourse } from "../../redux/Action/CourseAction";
-import { fetchSubject } from "../../redux/Action/SubjectAction";
-import {
-  fetchStudentsAttendence,
-  fetchTodayStudentsAttendence,
-  fetchMonthlyAttendence,
-} from "../../redux/Action/StudentAttendenceAction";
-// import { Chart } from "react-google-charts";
-import API from "../../service/API";
+import { fetchDashboardData } from "../../redux/Action/GroupAction";
 import Spinner from "react-bootstrap/Spinner";
-import { fetchStudents } from "../../redux/Action/StudentAction";
-import { fetchTeachers } from "../../redux/Action/TeacherAction";
 export default function Dashboard() {
-  const [month, setMonth] = useState(moment().month() + 1);
   const dispatch = useDispatch();
-  const [present, setPresent] = useState(0);
-  const [absent, setAbsent] = useState(0);
   const [chartData, setCartData] = useState([]);
   useEffect(() => {
-    dispatch(fetchDepartment());
-    dispatch(fetchCourse());
-    dispatch(fetchSubject());
-    dispatch(fetchStudentsAttendence());
-    dispatch(fetchTodayStudentsAttendence());
-    dispatch(fetchStudents());
-    dispatch(fetchTeachers());
-    let values = { month: month };
-    dispatch(fetchMonthlyAttendence(values));
+    dispatch(fetchDashboardData());
   }, []);
-
-  const today = moment();
-  const {
-    Departments,
-    Courses,
-    Subjects,
-    TodayAttendance,
-    MonthlyAttendance,
-    students,
-    teachers,
-  } = useSelector((state) => ({
-    Departments: state?.departments?.departments,
-    Courses: state?.courses?.courses,
-    Subjects: state?.subjects?.subjects,
-    studentAttendece: state?.studentsAttendence?.studentsAttendence,
-    TodayAttendance: state?.studentsAttendence?.todayAttendance,
-    MonthlyAttendance: state?.studentsAttendence?.monthlyAttendence,
-    students: state?.students?.students,
-    teachers: state?.teachers?.teachers,
+  const { DashboardData } = useSelector((state) => ({
+    DashboardData: state?.groups?.dashboardData,
   }));
+  console.log(DashboardData);
+  // const today = moment();
+  // const {
+  //   Departments,
+  //   Courses,
+  //   Subjects,
+  //   TodayAttendance,
+  //   MonthlyAttendance,
+  //   students,
+  //   teachers,
+  // } = useSelector((state) => ({
+  //   Departments: state?.departments?.departments,
+  //   Courses: state?.courses?.courses,
+  //   Subjects: state?.subjects?.subjects,
+  //   studentAttendece: state?.studentsAttendence?.studentsAttendence,
+  //   TodayAttendance: state?.studentsAttendence?.todayAttendance,
+  //   MonthlyAttendance: state?.studentsAttendence?.monthlyAttendence,
+  //   students: state?.students?.students,
+  //   teachers: state?.teachers?.teachers,
+  // }));
 
-  useEffect(() => {
-    const count = TodayAttendance[0]?.reduce((count, attendance) => {
-      return attendance.attendence_status === "Present" ? count + 1 : count;
-    }, 0);
-    setPresent(count);
-    setAbsent(TodayAttendance[0]?.length - count);
-  }, [TodayAttendance]);
+  // useEffect(() => {
+  //   const count = TodayAttendance[0]?.reduce((count, attendance) => {
+  //     return attendance.attendence_status === "Present" ? count + 1 : count;
+  //   }, 0);
+  //   setPresent(count);
+  //   setAbsent(TodayAttendance[0]?.length - count);
+  // }, [TodayAttendance]);
 
-  useEffect(() => {
-    const uniqueDates = MonthlyAttendance.map((item) => item.a_date).filter(
-      (date, index, self) => self.indexOf(date) === index
-    );
+  // useEffect(() => {
+  //   const uniqueDates = MonthlyAttendance.map((item) => item.a_date).filter(
+  //     (date, index, self) => self.indexOf(date) === index
+  //   );
 
-    function countStudentsByStatus(MonthlyAttendance, uniqueDates) {
-      const dateCounts = {};
-      uniqueDates?.forEach((date) => {
-        dateCounts[date] = {
-          present: 0,
-          absent: 0,
-        };
-      });
-      MonthlyAttendance?.forEach((attendance) => {
-        if (uniqueDates.includes(attendance.a_date)) {
-          dateCounts[attendance.a_date][
-            attendance?.attendence_status?.toLowerCase()
-          ]++;
-        }
-      });
-      return dateCounts;
-    }
-    const data = countStudentsByStatus(MonthlyAttendance, uniqueDates);
-    function convertObjectToArray(data) {
-      return Object.entries(data).map(([date, counts]) => ({
-        date,
-        present: counts.present,
-        absent: counts.absent,
-      }));
-    }
-    const chartData = convertObjectToArray(data);
-    let finalData = [["Year", "Present", "Absent"]];
-    chartData.map((item) => {
-      finalData.push([item.date, item.present, item.absent]);
-    });
-    setCartData(finalData);
-  }, [MonthlyAttendance]);
+  //   function countStudentsByStatus(MonthlyAttendance, uniqueDates) {
+  //     const dateCounts = {};
+  //     uniqueDates?.forEach((date) => {
+  //       dateCounts[date] = {
+  //         present: 0,
+  //         absent: 0,
+  //       };
+  //     });
+  //     MonthlyAttendance?.forEach((attendance) => {
+  //       if (uniqueDates.includes(attendance.a_date)) {
+  //         dateCounts[attendance.a_date][
+  //           attendance?.attendence_status?.toLowerCase()
+  //         ]++;
+  //       }
+  //     });
+  //     return dateCounts;
+  //   }
+  //   const data = countStudentsByStatus(MonthlyAttendance, uniqueDates);
+  //   function convertObjectToArray(data) {
+  //     return Object.entries(data).map(([date, counts]) => ({
+  //       date,
+  //       present: counts.present,
+  //       absent: counts.absent,
+  //     }));
+  //   }
+  //   const chartData = convertObjectToArray(data);
+  //   let finalData = [["Year", "Present", "Absent"]];
+  //   chartData.map((item) => {
+  //     finalData.push([item.date, item.present, item.absent]);
+  //   });
+  //   setCartData(finalData);
+  // }, [MonthlyAttendance]);
 
   // const data = [
   //   ["Year", "Present", "Absent"],
@@ -152,7 +133,7 @@ export default function Dashboard() {
                       <h6 className="">Total Departments</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
-                          end={Departments.length}
+                          end={DashboardData?.departmentCount}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -183,7 +164,7 @@ export default function Dashboard() {
                       <h6 className="">Total Courses</h6>
                       <h3 className="mb-2 number-font">
                         <CountUp
-                          end={Courses.length}
+                          end={DashboardData?.courseCount}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -208,7 +189,7 @@ export default function Dashboard() {
                       <h3 className="mb-2 number-font">
                         {/* $ */}
                         <CountUp
-                          end={Subjects.length}
+                          end={DashboardData?.subjectCount}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -240,7 +221,7 @@ export default function Dashboard() {
                       <h3 className="mb-2 number-font">
                         {/* $ */}
                         <CountUp
-                          end={students.length}
+                          end={DashboardData?.studentCount}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -272,7 +253,7 @@ export default function Dashboard() {
                       <h3 className="mb-2 number-font">
                         {/* $ */}
                         <CountUp
-                          end={teachers.length}
+                          end={DashboardData?.teacherCount}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -305,7 +286,7 @@ export default function Dashboard() {
                         {/* $ */}
                         Present:
                         <CountUp
-                          end={present}
+                          end={DashboardData?.todaysPresentStudents}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -314,7 +295,7 @@ export default function Dashboard() {
                       <p className="text-muted mb-0">
                         Absent:
                         <CountUp
-                          end={absent}
+                          end={DashboardData?.todaysAbsentStudents}
                           separator=","
                           start={0}
                           duration={2.94}
@@ -345,7 +326,8 @@ export default function Dashboard() {
                     <div className="d-flex justify-content-center">
                       <Spinner animation="border" variant="primary" />
                     </div>
-                  ) : (""
+                  ) : (
+                    ""
                     // <Chart
                     //   chartType="LineChart"
                     //   width="100%"

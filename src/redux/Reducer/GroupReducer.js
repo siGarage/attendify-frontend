@@ -1,7 +1,12 @@
-import { GROUP_ADD_SUCCESS, GROUP_GET_SUCCESS } from "../Constants/Constants";
+import {
+  GROUP_ADD_SUCCESS,
+  GROUP_GET_SUCCESS,
+  DASHBOARD_GET_SUCCESS,
+} from "../Constants/Constants";
 
 let initState = {
   groups: [],
+  dashboardData: {},
 };
 
 const groupReducer = (state = initState, action) => {
@@ -10,6 +15,11 @@ const groupReducer = (state = initState, action) => {
       return {
         ...state,
         groups: [...state.groups, action.payload],
+      };
+    case DASHBOARD_GET_SUCCESS:
+      return {
+        ...state,
+        dashboardData: { ...action.payload },
       };
     case GROUP_GET_SUCCESS:
       return {
