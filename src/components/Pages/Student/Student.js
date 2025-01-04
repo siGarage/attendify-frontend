@@ -70,11 +70,11 @@ export default function Students() {
     dispatch(studentDelete(deleteId));
     setRun(true);
   };
-  useEffect(() => {
-    dispatch(fetchStudents());
-    dispatch(fetchBiometric());
-    setRun(false);
-  }, [run]);
+  // useEffect(() => {
+  //   dispatch(fetchStudents());
+  //   dispatch(fetchBiometric());
+  //   setRun(false);
+  // }, [run]);
 
   const handleShow = (id) => {
     setDeleteId(id);
