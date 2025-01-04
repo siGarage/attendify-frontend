@@ -80,49 +80,50 @@ export default function StudentProfile() {
     dispatch(fetchSubject());
     dispatch(fetchSemester());
   }, [month, type, year]);
-  useEffect(() => {
-    if (finalAttendence?.length > 0) {
-      function calculateAttendance(scheduleData) {
-        const attendance = {};
+  // useEffect(() => {
+  //   if (finalAttendence?.length > 0) {
+  //     function calculateAttendance(scheduleData) {
+  //       const attendance = {};
 
-        scheduleData.forEach((course) => {
-          const courseName = course.name;
-          attendance[courseName] = {
-            presentDays: 0,
-            absentDays: 0,
-          };
+  //       scheduleData.forEach((course) => {
+  //         const courseName = course.name;
+  //         attendance[courseName] = {
+  //           presentDays: 0,
+  //           absentDays: 0,
+  //         };
 
-          for (const day in course.days) {
-            if (course.days[day] === "Present") {
-              attendance[courseName].presentDays++;
-            } else if (course.days[day] === "Absent") {
-              attendance[courseName].absentDays++;
-            }
-          }
-        });
+  //         for (const day in course.days) {
+  //           if (course.days[day] === "Present") {
+  //             attendance[courseName].presentDays++;
+  //           } else if (course.days[day] === "Absent") {
+  //             attendance[courseName].absentDays++;
+  //           }
+  //         }
+  //       });
 
-        return attendance;
-      }
-      const attendanceData = calculateAttendance(finalAttendence);
-      function convertAttendanceToArray(attendanceObject) {
-        const attendanceArray = [];
-        for (const subject in attendanceObject) {
-          const subjectData = attendanceObject[subject];
-          attendanceArray.push({
-            subject: subject,
-            presentDays: subjectData.presentDays,
-            absentDays: subjectData.absentDays,
-          });
-        }
-        return attendanceArray;
-      }
-      const finaldata = convertAttendanceToArray(attendanceData);
-      setTopAttendence(finaldata);
-    }
-  }, [finalAttendence]);
+  //       return attendance;
+  //     }
+  //     const attendanceData = calculateAttendance(finalAttendence);
+  //     function convertAttendanceToArray(attendanceObject) {
+  //       const attendanceArray = [];
+  //       for (const subject in attendanceObject) {
+  //         const subjectData = attendanceObject[subject];
+  //         attendanceArray.push({
+  //           subject: subject,
+  //           presentDays: subjectData.presentDays,
+  //           absentDays: subjectData.absentDays,
+  //         });
+  //       }
+  //       return attendanceArray;
+  //     }
+  //     const finaldata = convertAttendanceToArray(attendanceData);
+  //     console.log(finaldata);
+      
+  //   }
+  // }, [finalAttendence]);
 
   function extractNamesById(array, targetId) {
-    return array.filter((obj) => obj._id === targetId).map((obj) => obj.name);
+    return array?.filter((obj) => obj._id === targetId).map((obj) => obj.name);
   }
   function takeLastTwoAlphas(str) {
     const dateParts = str.split("-");
@@ -152,6 +153,36 @@ export default function StudentProfile() {
             }, {}),
         }));
       setFinalAttendence(subjectsArray);
+      function processAttendanceData(data) {
+        const result = {};
+        const processedLectures = new Set();
+
+        data?.forEach((record) => {
+          const { subject_id, lecture_uid, attendance_status } = record;
+
+          if (!processedLectures.has(lecture_uid)) {
+            processedLectures.add(lecture_uid);
+            if (!result[subject_id]) {
+              result[subject_id] = { present: 0, absent: 0 };
+            }
+
+            if (attendance_status === "Present") {
+              result[subject_id].present++;
+            } else {
+              result[subject_id].absent++;
+            }
+          }
+        });
+
+        return Object.entries(result).map(([subject_id, counts]) => ({
+          subjectId: extractNamesById(Subjects, subject_id),
+          present: counts.present,
+          absent: counts.absent,
+          total: counts.present + counts.absent,
+        }));
+      }
+      const processedAttendance = processAttendanceData(StudentAttendence[0]);
+      setTopAttendence(processedAttendance);
     }
   }, [StudentAttendence[0], Subjects]);
   function getFirstLetter(str) {
@@ -258,12 +289,12 @@ export default function StudentProfile() {
                     </Col>
                   </Row>
                   <Row>
-                    {topAttendence.length > 0
-                      ? topAttendence.map((item) => {
+                    {topAttendence?.length > 0
+                      ? topAttendence?.map((item) => {
                           return (
                             <Col lg={6} md={6} sm={12} xs={12}>
-                              {item.subject}:{item.presentDays}/
-                              {item.presentDays + item.absentDays}
+                              {item.subjectId[0]}:{item.present}/
+                              {item.total}
                             </Col>
                           );
                         })

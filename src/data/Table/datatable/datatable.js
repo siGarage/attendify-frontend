@@ -2175,13 +2175,13 @@ export const StudentDataTables = ({ handleShow, Students }) => {
     {
       name: "Finger ID",
       selector: (row) => [
-        row.finger_id_1 && row.finger_id_2 && row.finger_id_3 ? "Yes" : "No",
+        row.finger_id_1 && row.finger_id_2 && row.finger_id_3 =="true" ? "Yes" : "No",
       ],
       sortable: true,
     },
     {
       name: "Face ID",
-      selector: (row) => [row.face_id !== undefined ? "Yes" : "No"],
+      selector: (row) => [row.face_id =="true" ? "Yes" : "No"],
       sortable: true,
     },
     {

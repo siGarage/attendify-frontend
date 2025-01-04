@@ -80,7 +80,14 @@ export default function StudentAdd() {
         };
         finalRAttendence.push(data);
       });
-
+      console.log(finalRAttendence);
+      let filterDta = finalRAttendence.filter(
+        (i) =>
+          i.student_id === "6729b1027808cce8519ba24d" &&
+          i.subject === "Anatomy" &&
+          i.type == "Theory"
+      );
+      console.log(filterDta);
       function calculateAttendancePercentageByStudent(data) {
         const studentAttendance = {};
         data?.forEach((entry) => {
@@ -92,7 +99,6 @@ export default function StudentAdd() {
             attendance_status,
             student_id,
           } = entry;
-          console.log(student_id);
           const studentKey = `${studentroll}-${student}`;
           const subjectKey = `${subject}-${type}`;
           if (!studentAttendance[studentKey]) {
@@ -132,10 +138,8 @@ export default function StudentAdd() {
       }
       const attendanceByType =
         calculateAttendancePercentageByStudent(finalRAttendence);
-
       function ObjectToArray(data) {
         const studentArray = [];
-
         // Loop through object keys (student IDs)
         for (const studentId in data) {
           const studentData = data[studentId]; // Get student object for current ID
@@ -161,7 +165,6 @@ export default function StudentAdd() {
           }
           studentArray.push(student); // Add student object to the final array
         }
-
         return studentArray;
       }
       const studentArray = ObjectToArray(attendanceByType);
