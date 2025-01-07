@@ -3,24 +3,22 @@ import * as datatable from "../../../data/Table/datatable/datatable";
 import { Link, useNavigate } from "react-router-dom";
 import { Row, Card, Col, Breadcrumb } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTeachers } from "../../../redux/Action/TeacherAction";
 import {
   fetchDepartment,
   departmentDelete,
 } from "../../../redux/Action/DepartmentAction";
 import { WarningModal } from "../../Modal/WarningModal";
-import Teachers from "../Teacher/Teacher";
 export default function Departemnt() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [finalDepartment, setFinalDepartment] = useState([]);
   useEffect(() => {
-    dispatch(fetchTeachers());
-    dispatch(fetchDepartment());
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
   }, []);
-  const { Departments, teachers } = useSelector((state) => ({
+  const { Departments } = useSelector((state) => ({
     Departments: state?.departments?.departments,
-    teachers: state?.teachers?.teachers,
   }));
   const [show, setShow] = useState(false);
   const [deleteId, setDeleteId] = useState();

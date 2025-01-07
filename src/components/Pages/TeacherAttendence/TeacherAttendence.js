@@ -28,19 +28,24 @@ export default function TeacherAttendanceList() {
   const { Courses, Semester, TeacherAttendance, Teachers } = useSelector(
     (state) => ({
       Courses: state?.courses?.courses,
-      Subjects: state?.subjects?.subjects,
       Semester: state?.semesters?.semesters,
       TeacherAttendance: state?.teachersAttendence?.teachersAttendence,
       Teachers: state?.teachers?.teachers,
     })
   );
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchSubject());
-    dispatch(fetchTeachers());
-    dispatch(fetchStudents());
-    dispatch(fetchTeachersAttendence());
+    if (Semester?.length == 0) {
+          dispatch(fetchSemester());
+        }
+        if (Teachers?.length == 0) {
+          dispatch(fetchTeachers());
+        }
+        if (Courses?.length == 0) {
+          dispatch(fetchCourse());
+        }
+        if (TeacherAttendance?.length == 0) {
+          dispatch(fetchTeachersAttendence());
+        }
   }, []);
 
   useEffect(() => {

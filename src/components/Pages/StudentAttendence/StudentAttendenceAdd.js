@@ -23,18 +23,10 @@ export default function StudentAdd() {
   const [show, setShow] = useState(false);
   const {
     Courses,
-    Semester,
-    Subjects,
-    Students,
-    studentAttendence,
-    Departments,
+    studentAttendence
   } = useSelector((state) => ({
     Courses: state?.courses?.courses,
-    Subjects: state?.subjects?.subjects,
-    Semester: state?.semesters?.semesters,
-    Students: state?.students?.students,
-    studentAttendence: state?.studentsAttendence?.studentsAttendence,
-    Departments: state?.departments?.departments,
+    studentAttendence: state?.studentsAttendence?.studentsAttendence
   }));
   useEffect(() => {
     dispatch(fetchCourse());
@@ -42,7 +34,7 @@ export default function StudentAdd() {
     dispatch(fetchStudents());
     dispatch(fetchSubject());
     dispatch(fetchDepartment());
-    if (studentAttendence.length === 0) {
+    if (studentAttendence?.length === 0) {
       dispatch(fetchStudentsAttendence());
     }
   }, []);

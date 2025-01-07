@@ -316,27 +316,27 @@ export default function Dashboard() {
           <Row>
             <Col xl={8} md={12}>
               <Card className=" overflow-hidden">
-                <Card.Header className="card-header">
+                {/* <Card.Header className="card-header">
                   <div>
                     <h3 className="card-title">Monthly Attedence Chart</h3>
                   </div>
-                </Card.Header>
-                <Card.Body className="card-body pb-0 pt-4">
+                </Card.Header> */}
+                {/* <Card.Body className="card-body pb-0 pt-4">
                   {chartData?.length <= 1 ? (
                     <div className="d-flex justify-content-center">
                       <Spinner animation="border" variant="primary" />
                     </div>
                   ) : (
                     ""
-                    // <Chart
-                    //   chartType="LineChart"
-                    //   width="100%"
-                    //   height="400px"
-                    //   data={chartData}
-                    //   options={options}
-                    // />
+                    <Chart
+                      chartType="LineChart"
+                      width="100%"
+                      height="400px"
+                      data={chartData}
+                      options={options}
+                    />
                   )}
-                </Card.Body>
+                </Card.Body> */}
               </Card>
             </Col>
           </Row>

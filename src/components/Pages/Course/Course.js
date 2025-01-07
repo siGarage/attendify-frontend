@@ -29,7 +29,9 @@ export default function Courses() {
   };
 
   useEffect(() => {
-    dispatch(fetchCourse());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
   }, []);
 
   const handleShow = (id) => {

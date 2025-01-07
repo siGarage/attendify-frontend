@@ -25,7 +25,9 @@ export default function SubjectAdd() {
     Semester: state?.semesters?.semesters,
   }));
   useEffect(() => {
-    dispatch(fetchSemester());
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
   }, []);
   const handleSetTheoryPermission = (val) => {
     setTheoryPermission(val);

@@ -4,16 +4,10 @@ import { Modal, Button, Row, Col, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { fetchCourse } from "../../redux/Action/CourseAction";
-import * as Yup from "yup";
 import { fetchDepartment } from "../../redux/Action/DepartmentAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
-import { ToastContainer, toast } from "react-toastify";
-import {
-  fetchSemester,
-  semesterDelete,
-} from "../../redux/Action/SemesterAction";
+import { fetchSemester } from "../../redux/Action/SemesterAction";
 import { createStudentAttendenceByCsv } from "../../redux/Action/StudentAttendenceAction";
-import Semesters from "../Pages/Semester/Semester";
 //SuccessAlertMessages
 // const AttendenceSchema = Yup.object().shape({
 //   course: Yup.string().required("*Required"),
@@ -32,10 +26,18 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
     })
   );
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSubject());
-    dispatch(fetchDepartment());
-    dispatch(fetchSemester());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semesters?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Subjects?.length == 0) {
+      dispatch(fetchSubject());
+    }
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

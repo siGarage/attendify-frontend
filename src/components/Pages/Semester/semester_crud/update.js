@@ -26,8 +26,12 @@ export default function SemesterAdd() {
   const [content, setContent] = useState(Semesters[0].description || "");
 
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semesters?.length == 0) {
+      dispatch(fetchSemester());
+    }
   }, []);
 
   const formik = useFormik({

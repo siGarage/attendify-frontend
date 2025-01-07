@@ -18,15 +18,12 @@ import moment from "moment";
 export default function TeacherAttendenceAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Courses, Semester, Subjects, Students, Teachers } = useSelector(
-    (state) => ({
-      Courses: state?.courses?.courses,
-      Subjects: state?.subjects?.subjects,
-      Semester: state?.semesters?.semesters,
-      Students: state?.students?.students,
-      Teachers: state?.teachers?.teachers,
-    })
-  );
+  const { Courses, Semester, Subjects, Teachers } = useSelector((state) => ({
+    Courses: state?.courses?.courses,
+    Subjects: state?.subjects?.subjects,
+    Semester: state?.semesters?.semesters,
+    Teachers: state?.teachers?.teachers,
+  }));
   const SignupSchema = Yup.object().shape({
     teacher_id: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
@@ -37,11 +34,18 @@ export default function TeacherAttendenceAdd() {
     department_id: Yup.string().required("*Required"),
   });
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchStudents());
-    dispatch(fetchTeachers());
-    dispatch(fetchSubject());
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Teachers?.length == 0) {
+      dispatch(fetchTeachers());
+    }
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Subjects?.length == 0) {
+      dispatch(fetchSubject());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

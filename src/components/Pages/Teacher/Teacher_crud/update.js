@@ -9,8 +9,7 @@ import {
   updateTeacher,
   fetchTeachers,
 } from "../../../../redux/Action/TeacherAction";
-import { fetchCourse } from "../../../../redux/Action/CourseAction";
-import { fetchSemester } from "../../../../redux/Action/SemesterAction";
+import { fetchDepartment } from "../../../../redux/Action/DepartmentAction";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
 import JoditEditor from "jodit-react";
@@ -19,7 +18,6 @@ import { fetchUsers } from "../../../../redux/Action/AuthAction";
 
 export default function TeacherAdd() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const params = useParams();
   const editor = useRef(null);
   const { Departments, users, teachers } = useSelector((state) => ({
@@ -27,7 +25,6 @@ export default function TeacherAdd() {
     users: state?.userAuth?.getAllUsers?.filter(
       (item) => item?.phone_no == params?.phone_no
     ),
-    Semester: state?.semesters?.semesters,
     teachers: state?.teachers?.teachers.filter(
       (item) => item?._id == params?.id
     ),
@@ -45,10 +42,15 @@ export default function TeacherAdd() {
     email: Yup.string().email("Invalid email").required("*Required"),
   });
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchTeachers());
-    dispatch(fetchUsers());
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
+    if (teachers?.length == 0) {
+      dispatch(fetchTeachers());
+    }
+    if (users?.length == 0) {
+      dispatch(fetchUsers());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

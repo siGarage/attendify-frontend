@@ -5,12 +5,14 @@ import { Col, Row, Card, Button } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
-import { updateStudent } from "../../../../redux/Action/StudentAction";
+import {
+  fetchStudents,
+  updateStudent,
+} from "../../../../redux/Action/StudentAction";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
 import { fetchSemester } from "../../../../redux/Action/SemesterAction";
 import { Form } from "react-bootstrap";
 import * as Yup from "yup";
-import JoditEditor from "jodit-react";
 
 export default function TeacherAdd() {
   const dispatch = useDispatch();
@@ -39,8 +41,15 @@ export default function TeacherAdd() {
     email: Yup.string().email("Invalid email").required("*Required"),
   });
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (students?.length == 0) {
+      dispatch(fetchStudents());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

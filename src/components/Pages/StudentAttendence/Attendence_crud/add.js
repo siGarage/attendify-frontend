@@ -17,11 +17,9 @@ import * as Yup from "yup";
 
 export default function StudentAdd() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [course, setCourse] = useState("");
   const [finalPhase, setFinalPhase] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
-  const [semester, setSemester] = useState("");
   const [finalSubject, setFinalSubjects] = useState([]);
   const [subject, setSubject] = useState(false);
   const [deleteId, setDeleteId] = useState();
@@ -29,6 +27,7 @@ export default function StudentAdd() {
   const [toDate, setToDate] = useState("");
   const [finalAttendence, setFinalAttendence] = useState([]);
   const [show, setShow] = useState(false);
+  // const { test } = useSelector((state) => (console.log(state)));
   const { Courses, Semester, Subjects, StudentAttendence, Students } =
     useSelector((state) => ({
       Courses: state?.courses?.courses,
@@ -38,10 +37,18 @@ export default function StudentAdd() {
       Students: state?.students?.students,
     }));
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchSubject());
-    dispatch(fetchStudents());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Subjects?.length == 0) {
+      dispatch(fetchSubject());
+    }
+    if (Students?.length == 0) {
+      dispatch(fetchStudents());
+    }
   }, []);
 
   function extractNamesById(array, targetId) {
@@ -55,7 +62,7 @@ export default function StudentAdd() {
 
   useEffect(() => {
     let finalRAttendence = [];
-    if (StudentAttendence.length > 0 && Students.length > 0) {
+    if (StudentAttendence?.length > 0 && Students?.length > 0) {
       StudentAttendence?.map((item) => {
         let data = {};
         const date = item.a_date;
@@ -80,14 +87,12 @@ export default function StudentAdd() {
         };
         finalRAttendence.push(data);
       });
-      console.log(finalRAttendence);
       let filterDta = finalRAttendence.filter(
         (i) =>
           i.student_id === "6729b1027808cce8519ba24d" &&
           i.subject === "Anatomy" &&
           i.type == "Theory"
       );
-      console.log(filterDta);
       function calculateAttendancePercentageByStudent(data) {
         const studentAttendance = {};
         data?.forEach((entry) => {
@@ -220,10 +225,19 @@ export default function StudentAdd() {
       // setFinalAttendence(uniqueData);
       setIsDisabled(false);
     } else {
-      dispatch(fetchCourse());
-      dispatch(fetchSemester());
-      dispatch(fetchSubject());
-      dispatch(fetchStudents());
+      console.log(Courses.Semester, Subjects, Students);
+      if (Courses?.length == 0) {
+        dispatch(fetchCourse());
+      }
+      if (Semester?.length == 0) {
+        dispatch(fetchSemester());
+      }
+      if (Subjects?.length == 0) {
+        dispatch(fetchSubject());
+      }
+      if (Students?.length == 0) {
+        dispatch(fetchStudents());
+      }
       setIsDisabled(false);
     }
   }, [StudentAttendence]);
@@ -249,7 +263,9 @@ export default function StudentAdd() {
       setToDate(values.endDate);
       setIsDisabled(true);
       setFinalAttendence([]);
-      dispatch(fetchStudentsAttendence(values));
+      if (StudentAttendence?.length == 0) {
+        dispatch(fetchStudentsAttendence(values));
+      }
     },
   });
   useEffect(() => {

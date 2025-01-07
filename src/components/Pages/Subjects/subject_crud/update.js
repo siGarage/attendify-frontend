@@ -32,14 +32,20 @@ export default function SubjectAdd() {
     Subjects[0].practical || false
   );
   const [secePermission, setEcePermission] = useState(Subjects[0].ece || false);
-  const [saetcomPermission, setAetcomPermission] = useState(Subjects[0].aetcom || false);
+  const [saetcomPermission, setAetcomPermission] = useState(
+    Subjects[0].aetcom || false
+  );
   const [sfapPermission, setFapPermission] = useState(Subjects[0].fap || false);
   const [sclinicalsPermission, setClinicalPermission] = useState(
     Subjects[0].clinical || false
   );
   useEffect(() => {
-    dispatch(fetchSemester());
-    dispatch(fetchSubject());
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Subjects?.length == 0) {
+      dispatch(fetchSubject());
+    }
   }, []);
   const handleSetTheoryPermission = (val) => {
     setTheoryPermission(val);

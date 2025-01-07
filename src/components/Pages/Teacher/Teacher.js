@@ -15,8 +15,6 @@ import { fetchBiometric } from "../../../redux/Action/BiometricAction";
 export default function Teachers() {
   const dispatch = useDispatch();
   const { teachers, Departments, bios } = useSelector((state) => ({
-    users: state?.userAuth?.users,
-    exams: state?.exam?.exams,
     teachers: state?.teachers?.teachers,
     Departments: state?.departments?.departments,
     bios: state?.bios?.bio,
@@ -59,9 +57,15 @@ export default function Teachers() {
     return mergedArray;
   }
   useEffect(() => {
-    dispatch(fetchTeachers());
-    dispatch(fetchDepartment());
-    dispatch(fetchBiometric());
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
+    if (teachers?.length == 0) {
+      dispatch(fetchTeachers());
+    }
+    if (bios?.length == 0) {
+      dispatch(fetchBiometric());
+    }
   }, []);
   useEffect(() => {
     if (teachers.length > 0 && bios.length > 0) {
@@ -79,9 +83,15 @@ export default function Teachers() {
         setMergeBiometricList(dataFinal);
       }
     } else {
-      dispatch(fetchTeachers());
-      dispatch(fetchDepartment());
-      dispatch(fetchBiometric());
+      if (Departments?.length == 0) {
+        dispatch(fetchDepartment());
+      }
+      if (teachers?.length == 0) {
+        dispatch(fetchTeachers());
+      }
+      if (bios?.length == 0) {
+        dispatch(fetchBiometric());
+      }
     }
   }, [Departments, teachers]);
   const userDeleteAction = () => {
@@ -171,9 +181,7 @@ export default function Teachers() {
                             {Departments?.length > 0
                               ? Departments?.map((d) => {
                                   return (
-                                    <option value={d?._id}>
-                                      {d?.name}
-                                    </option>
+                                    <option value={d?._id}>{d?.name}</option>
                                   );
                                 })
                               : ""}

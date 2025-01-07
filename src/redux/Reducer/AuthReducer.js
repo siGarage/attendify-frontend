@@ -17,6 +17,7 @@ let initState = {
   users: {},
   teamLeader: [],
   getAllUsers: [],
+  loginUser:{}
 };
 
 const userAuthReducer = (state = initState, action) => {

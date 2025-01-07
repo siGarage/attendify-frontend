@@ -10,22 +10,21 @@ import {
   updateDepartment,
 } from "../../../../redux/Action/DepartmentAction";
 import JoditEditor from "jodit-react";
-import { fetchTeachers } from "../../../../redux/Action/TeacherAction";
 export default function CourseAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const editor = useRef(null);
   const params = useParams();
-  const { teachers, Departments } = useSelector((state) => ({
-    teachers: state?.teachers?.teachers,
+  const { Departments } = useSelector((state) => ({
     Departments: state?.departments?.departments?.filter(
       (item) => item?._id == params?.id
     ),
   }));
   const [content, setContent] = useState(Departments[0]?.notes || "");
   useEffect(() => {
-    dispatch(fetchTeachers());
-    dispatch(fetchDepartment());
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

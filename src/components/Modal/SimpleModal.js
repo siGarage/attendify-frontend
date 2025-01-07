@@ -6,7 +6,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import "react-datepicker/dist/react-datepicker.css";
-import { FormSelect } from "../Forms/FormSelect";
 import { useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
@@ -180,53 +179,6 @@ export function SimpleModal({ open, role, scroll, handleClose, editUser, profile
 
                 </>
               }
-              {/* <FormSelect /> */}
-              {/* <div className="control-group form-group">
-                <label className="form-label">Role</label>
-                <select
-                  onChange={formik.handleChange}
-                  value={formik.values.role}
-                  className="form-control required"
-                  name="role" id="role">
-                  <option >Select</option>
-                  <option value="0">User</option>
-                  <option value="1">Admin</option>
-                  {["5"].includes(sessionStorage.getItem("role")) &&
-                  <option value="2">Editor</option>
-                  }
-                  <option value="3">Caller</option>
-                  <option value="4">Cyber Partner</option>
-                  {["5"].includes(sessionStorage.getItem("role")) &&
-                  <option value="5">Superadmin</option>
-                  }
-                </select>
-              </div>
-              {editUser != undefined ? '' :
-                <>
-                  <div className="control-group form-group">
-                    <label className="form-label">Password</label>
-                    <input
-                      type="password"
-                      className="form-control required"
-                      placeholder="Password"
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                      name="password"
-                    />
-                  </div>
-                  <div className="control-group form-group">
-                    <label className="form-label">Confirm Password</label>
-                    <input
-                      type="password"
-                      className="form-control required"
-                      placeholder="Confirm Password"
-                      onChange={formik.handleChange}
-                      value={formik.values.confirm_password}
-                      name="confirm_password"
-                    />
-                  </div>
-                </>
-              } */}
 
             </DialogContentText>
           </DialogContent>

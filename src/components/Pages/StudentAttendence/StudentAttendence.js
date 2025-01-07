@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from "react";
 import * as datatable from "../../../data/Table/datatable/datatable";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Row, Card, Col, Breadcrumb } from "react-bootstrap";
 import { UserDetailModal } from "../../Modal/UserDetailModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchStudents,
-  studentDelete,
-} from "../../../redux/Action/StudentAction";
-import { fetchStudentsAttendence,studentAttendenceDelete } from "../../../redux/Action/StudentAttendenceAction";
-import { SimpleModal } from "../../Modal/SimpleModal";
+  fetchStudentsAttendence,
+  studentAttendenceDelete,
+} from "../../../redux/Action/StudentAttendenceAction";
 import { WarningModal } from "../../Modal/WarningModal";
 export default function Students() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { users, exams, students, studentAttendece } = useSelector((state) => ({
-    users: state?.userAuth?.users,
-    exams: state?.exam?.exams,
-    students: state?.students?.students,
+  const { studentAttendece } = useSelector((state) => ({
     studentAttendece: state?.studentsAttendence?.studentsAttendence,
   }));
   const [show, setShow] = useState(false);
@@ -51,7 +45,9 @@ export default function Students() {
   };
 
   useEffect(() => {
-    dispatch(fetchStudentsAttendence());
+    if (studentAttendece?.length == 0) {
+      dispatch(fetchStudentsAttendence());
+    }
   }, []);
 
   const handleShow = (id) => {

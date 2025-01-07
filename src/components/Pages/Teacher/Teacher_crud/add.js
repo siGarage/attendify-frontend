@@ -25,8 +25,6 @@ export default function TeacherAdd() {
     Semester: state?.semesters?.semesters,
     Departments: state?.departments?.departments,
   }));
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
   const SignupSchema = Yup.object().shape({
     name: Yup.string().required("*Required"),
     phone_no: Yup.number().required("*Required"),
@@ -41,9 +39,15 @@ export default function TeacherAdd() {
     phone_no: Yup.string().phone("*Invalid number").required("*Required"),
   });
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
-    dispatch(fetchDepartment());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Departments?.length == 0) {
+      dispatch(fetchDepartment());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {
@@ -64,7 +68,7 @@ export default function TeacherAdd() {
       values = {
         ...values,
         notes: content,
-        role:"3"
+        role: "3",
       };
       dispatch(createTeacher(values));
       navigate("/teacher-list");

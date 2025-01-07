@@ -25,8 +25,13 @@ export default function Semesters() {
 
   const handleClose = () => setShow(false);
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
+    console.log(Courses,Courses?.length == 0, Semesters?.length == 0);
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semesters?.length == 0) {
+      dispatch(fetchSemester());
+    }
   }, []);
 
   useEffect(() => {

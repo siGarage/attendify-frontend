@@ -26,7 +26,6 @@ export default function Students() {
   const [open, setOpen] = React.useState(false);
   const [userData, setUserData] = React.useState({});
   const [scroll, setScroll] = React.useState("paper");
-  const [isDisabled, setIsDisabled] = useState(false);
   const [editUser, setEditUser] = useState();
   const [deleteId, setDeleteId] = useState();
   const handleClose = () => setShow(false);
@@ -36,8 +35,12 @@ export default function Students() {
     setScroll(scrollType);
   };
   useEffect(() => {
-    dispatch(fetchStudents());
-    dispatch(fetchBiometric());
+    if (students?.length == 0) {
+      dispatch(fetchStudents());
+    }
+    if (bios?.length == 0) {
+      dispatch(fetchBiometric());
+    }
   }, []);
   function mergeArrays(filteredData, bios) {
     const mergedArray = [];

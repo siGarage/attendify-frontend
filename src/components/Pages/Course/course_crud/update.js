@@ -25,7 +25,9 @@ export default function CourseUpdate() {
   //   console.log(, "Courses");
   const [content, setContent] = useState(Courses[0]?.description);
   useEffect(() => {
-    dispatch(fetchCourse());
+    if (Courses?.length === 0) {
+      dispatch(fetchCourse());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

@@ -37,8 +37,12 @@ export default function StudentAdd() {
   //   phone_no: Yup.number().required("*Required"),
   // });
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
   }, []);
   const formik = useFormik({
     initialValues: {

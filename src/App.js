@@ -12,14 +12,9 @@ import Register from "./components/Authentication/Register/Register";
 import SuperAdmin from "./components/Authentication/SuperAdmin/SuperAdmin.js";
 import Dashboard from "./components/Dashboard/Dashboard";
 import EditProfile from "./components/Pages/profileEdit/EditProfile";
-import Editors from "./components/Pages/User/Editors";
-import UpdateEditor from "./components/Pages/User_crud/update";
-import AddEditors from "./components/Pages/User_crud/add";
-import Guest from "./components/Pages/User/Guest";
 import RootApp from "./helper/RootApp";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Agent from "./components/Pages/User/Agent";
 
 //////////////////
 
@@ -68,12 +63,6 @@ function App() {
               <Route path={"/profile"} element={<Profile />} />
               <Route path={"/resetPassword"} element={<ResetTPassword />} />
               <Route path={"/dashboard"} element={<Dashboard />} />
-              <Route path={"/editProfile/:id"} element={<EditProfile />} />
-              <Route path={"/editor"} element={<Editors />} />
-              <Route path={"/agent"} element={<Agent />} />
-              <Route path={"/editorAdd"} element={<AddEditors />} />
-              <Route path={"/editor-update/:id"} element={<UpdateEditor />} />
-              <Route path={"/guest"} element={<Guest />} />
               //--------------------New Rotes--------------------------------//
               <Route path={"/course-list"} element={<Course />} />
               <Route path={"/add-course"} element={<CreateCourse />} />

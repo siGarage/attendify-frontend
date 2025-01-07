@@ -15,12 +15,7 @@ import * as Yup from "yup";
 export default function TeacherAdd() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const editor = useRef(null);
-  const [course, setCourse] = useState("");
-  const [parmamentAd, setParmanentAd] = useState("");
   const [finalPhase, setFinalPhase] = useState([]);
-  const [spracticalPermission, setPracticalPermission] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
   const { Courses, Semester } = useSelector((state) => ({
     Courses: state?.courses?.courses,
     Semester: state?.semesters?.semesters,
@@ -44,8 +39,12 @@ export default function TeacherAdd() {
   });
 
   useEffect(() => {
-    dispatch(fetchCourse());
-    dispatch(fetchSemester());
+    if (Courses?.length == 0) {
+      dispatch(fetchCourse());
+    }
+    if (Semester?.length == 0) {
+      dispatch(fetchSemester());
+    }
   }, []);
 
   const formik = useFormik({
@@ -59,7 +58,7 @@ export default function TeacherAdd() {
       course_id: "",
       gender: "",
       dob: "",
-      father_name:"",
+      father_name: "",
       current_address: "",
       roll_no: "",
       isSameAddress: false,
@@ -75,7 +74,7 @@ export default function TeacherAdd() {
           semester_id: values.semester_id,
           gender: values.gender,
           phone_no: values.phone_no,
-          father_name:values.father_name,
+          father_name: values.father_name,
           dob: values.dob,
           current_address: values.current_address,
           permanent_address: values.current_address,

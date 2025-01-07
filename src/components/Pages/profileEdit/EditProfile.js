@@ -2,13 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { useFormik } from "formik";
-import { ImagePreviewCard } from "../../Card/ImagePreviewCard";
-import JoditEditor from "jodit-react";
 import {
   fetchLoginUserById,
   userProfileUpdate,
 } from "../../../redux/Action/AuthAction";
-import { DropImg } from "../Property/StepForm/component/DropImg";
 
 const EditProfile = () => {
   const dispatch = useDispatch();
@@ -23,14 +20,7 @@ const EditProfile = () => {
   }, []);
 
   const profileData = users?.user;
-  const editor = useRef(null);
-  const [content, setContent] = useState(profileData?.description || "");
-  const [file, setFile] = useState("");
-  const [preview, setPreview] = useState(null);
-  const [fileDataURL, setFileDataURL] = useState(null);
-  const [editProfilePic, setEditProfilePic] = useState(
-    profileData?.image ? true : false
-  );
+  
   const formik = useFormik({
     initialValues: {
       name: profileData?.name || "",

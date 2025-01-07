@@ -51,8 +51,12 @@ export default function Subjects() {
   };
 
   useEffect(() => {
-    dispatch(fetchSubject());
-    dispatch(fetchSemester());
+    if (Semesters?.length == 0) {
+      dispatch(fetchSemester());
+    }
+    if (Subjects?.length == 0) {
+      dispatch(fetchSubject());
+    }
   }, []);
 
   const handleShow = (id) => {

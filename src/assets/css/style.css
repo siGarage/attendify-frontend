@@ -16577,6 +16577,7 @@ div.conv-form-wrapper div.options div.option.selected {
         margin: 0 auto;
         left: 0;
         right: 0;
+        height: 200px;
         text-align: center;
         position: absolute;
         top: 17px;
