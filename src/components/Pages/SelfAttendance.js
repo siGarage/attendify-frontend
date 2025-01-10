@@ -46,7 +46,7 @@ export default function SelfAttendance() {
   }
   useEffect(() => {
     let value = {
-      id: teachers[0]._id,
+      id: teachers[0]?._id,
       date: moment(date).format("YYYY-MM-DD"),
     };
     const fetchOptions = {
@@ -74,7 +74,7 @@ export default function SelfAttendance() {
         let Data = filteredArray?.map((da) => {
           return {
             ...da,
-            Subject: Subjects?.filter((sub) => sub._id === da.subject_id),
+            Subject: Subjects?.filter((sub) => sub?._id === da.subject_id),
           };
         });
         setFinalAttendance(Data);
