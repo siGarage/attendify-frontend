@@ -529,6 +529,10 @@ pre code {
     .container {
         max-width: 960px;
     }
+    .logo-1{
+        width:150px !important;
+        height:50px !important
+    }
 }
 
 @media (min-width: 1280px) {
@@ -7047,6 +7051,10 @@ a.card-tabs-item.active {
 @media (max-width: 990px) and (min-width: 767px) {
     .carousel-caption {
         top: 10%;
+    }
+    .mobile-logo logo-1{
+        width:150px !important;
+        height:50px !important
     }
 }
 
@@ -19135,6 +19143,13 @@ img {
     display: inline-block;
     overflow: hidden;
     text-align: center;
+}
+
+@media only screen and (min-device-width:768px)  and (max-device-width:1024px){
+    #ams_logos{
+        width:150px !important;
+        height:50px !important
+    }
 }
 
 .gallery-wrap .img-small-wrap img {

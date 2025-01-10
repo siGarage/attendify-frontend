@@ -67,6 +67,7 @@ import { fetchLoginUserById } from "../../redux/Action/AuthAction";
               <img
                 src={require("../../assets/images/mainlogo.png")}
                 className="mobile-logo logo-1"
+                id="ams_logos"
                 alt="logo"
               />
               <img

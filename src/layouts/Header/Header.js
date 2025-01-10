@@ -92,6 +92,7 @@ export function Header() {
               <img
                 src={require("../../assets/images/mainlogo.png")}
                 className="mobile-logo logo-1"
+                id="ams_logos"
                 alt="logo"
               />
               <img
