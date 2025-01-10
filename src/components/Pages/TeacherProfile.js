@@ -22,7 +22,7 @@ export default function TeacherProfile() {
   const [finalAttendance, setFinalAttendance] = useState([]);
   const { Subjects, teachers } = useSelector((state) => ({
     teachers: state?.teachers?.teachers?.filter(
-      (item) => item._id == params?.id
+      (item) => item?._id == params?.id
     ),
     Subjects: state?.subjects?.subjects,
     // TeacherAttendance: state?.teachersAttendence?.singleteacherAttendance,
@@ -75,7 +75,7 @@ export default function TeacherProfile() {
         let Data = filteredArray?.map((da) => {
           return {
             ...da,
-            Subject: Subjects?.filter((sub) => sub._id === da.subject_id),
+            Subject: Subjects?.filter((sub) => sub?._id === da?.subject_id),
           };
         });
         setFinalAttendance(Data);
@@ -132,12 +132,6 @@ export default function TeacherProfile() {
                       sm={12}
                       className="d-flex justify-content-center"
                     >
-                      {/* <img
-                        className="rounded"
-                        src={profile}
-                        width={100}
-                        height={100}
-                      /> */}
                       <span className="colored-letter">
                         {getFirstLetter(teachers[0].name)}
                       </span>
@@ -149,17 +143,9 @@ export default function TeacherProfile() {
                             <strong>{teachers[0].name}</strong>
                           </h4>
                         </Col>
-                        {/* <Col className="d-flex justify-content-end">
-                          <h4 className="mb-0">
-                            <strong>{Semesters[0].name}</strong>
-                          </h4>
-                        </Col> */}
                       </Row>
                       <Row className="border-bottom border-dark">
                         <Col>{teachers[0].emp_id}</Col>
-                        {/* <Col className="d-flex justify-content-end">
-                          {Courses[0].name}
-                        </Col> */}
                       </Row>
                       <Row>
                         <Col className="p-4 mt-2 border-end border-dark">
@@ -171,21 +157,8 @@ export default function TeacherProfile() {
                             <strong>Gender:</strong>
                             {teachers[0]?.gender}
                           </p>
-                          {/* <p className="mb-0">
-                            <strong>Father's Name:</strong>&nbsp;{" "}
-                            {students[0]?.father_name}
-                          </p> */}
                         </Col>
                         <Col className="p-4 mt-2">
-                          {/* <p className="mb-0">
-                            <strong>Batch:</strong>&nbsp;{students[0]?.batch}
-                          </p> */}
-                          {/* <p className="mb-0">
-                            <strong>ELL:</strong>Never Ell
-                          </p>
-                          <p className="mb-0">
-                            <strong>SWD:</strong>&nbsp;
-                          </p> */}
                           <p className="mb-0">
                             <strong>Phone:</strong>&nbsp;{teachers[0]?.phone_no}
                           </p>
@@ -263,46 +236,6 @@ export default function TeacherProfile() {
                 Total Lecture:&nbsp;
                 {finalLecture ? finalLecture : 0}
               </h3>
-              {/* <div>
-                <select
-                  className="border-none"
-                  onChange={(e) => setYear(e.target.value)}
-                  value={year}
-                >
-                  <option value="2024">2024</option>
-                  <option value="2025">2025</option>
-                </select>
-                <select
-                  className="border-none"
-                  onChange={(e) => setMonth(e.target.value)}
-                  value={month}
-                >
-                  <option value="January">January</option>
-                  <option value="February">February</option>
-                  <option value="March">March</option>
-                  <option value="April">April</option>
-                  <option value="May">May</option>
-                  <option value="June">June</option>
-                  <option value="July">July</option>
-                  <option value="August">August</option>
-                  <option value="September">September</option>
-                  <option value="October">October</option>
-                  <option value="November">November</option>
-                  <option value="December">December</option>
-                </select>
-                <select
-                  className="border-none"
-                  onChange={(e) => setType(e.target.value)}
-                  value={type}
-                >
-                  <option value="Theory">Theory</option>
-                  <option value="Practical">Practical</option>
-                  <option value="Clinical">Clinical</option>
-                  <option value="Ece">Ece</option>
-                  <option value="Aetcom">Aetcom</option>
-                  <option value="Fap">Fap</option>
-                </select>
-              </div> */}
             </div>
           </Card.Title>
           <Card.Body>

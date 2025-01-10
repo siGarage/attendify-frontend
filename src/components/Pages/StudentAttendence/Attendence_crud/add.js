@@ -263,9 +263,7 @@ export default function StudentAdd() {
       setToDate(values.endDate);
       setIsDisabled(true);
       setFinalAttendence([]);
-      if (StudentAttendence?.length == 0) {
-        dispatch(fetchStudentsAttendence(values));
-      }
+      dispatch(fetchStudentsAttendence(values));
     },
   });
   useEffect(() => {
