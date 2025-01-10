@@ -27,6 +27,7 @@
     "echarts": "^5.3.2",
     "echarts-for-react": "^3.0.2",
     "formik": "^2.2.9",
+    "git-filter-repo": "0.0.30",
     "html-react-parser": "^3.0.16",
     "jodit-react": "^4.1.2",
     "leaflet": "^1.8.0",
