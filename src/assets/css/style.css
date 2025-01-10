@@ -19150,6 +19150,18 @@ img {
         width:150px !important;
         height:50px !important
     }
+    .header-logo{
+        height:50px !important;
+    }
+}
+@media only screen and (max-width:600px){
+    #ams_logos{
+        width:150px !important;
+        height:50px !important
+    }
+    .header-logo{
+        height:50px !important;
+    }
 }
 
 .gallery-wrap .img-small-wrap img {
