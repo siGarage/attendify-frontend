@@ -2269,7 +2269,7 @@ export const StudentAttendenceDataTables = ({
       cell: (row) => (
         <span className="" style={{ width: "409px" }}>
           <NavLink
-            to={`/student-profile/${row?.s_id}/${course_id}/${semester_id}`}
+            to={`/student-profile/${row?.s_id}/${row?.course_id}/${row?.semester_id}`}
           >
             {row.name}
           </NavLink>

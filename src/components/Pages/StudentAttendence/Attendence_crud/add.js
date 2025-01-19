@@ -18,6 +18,8 @@ import * as Yup from "yup";
 export default function StudentAdd() {
   const dispatch = useDispatch();
   const [course, setCourse] = useState("");
+  const [retreatCourse, setRetreatCourse] = useState("");
+  const [retreatSemester, setRetreatSemester] = useState("");
   const [finalPhase, setFinalPhase] = useState([]);
   const [isDisabled, setIsDisabled] = useState(false);
   const [finalSubject, setFinalSubjects] = useState([]);
@@ -68,6 +70,8 @@ export default function StudentAdd() {
         const date = item.a_date;
         const course = extractNamesById(Courses, item?.course_id)[0];
         const phase = extractNamesById(Semester, item?.semester_id)[0];
+        const semester_id = item?.semester_id;
+        const course_id = item?.course_id;
         const student = extractNamesById(Students, item?.student_id)[0];
         const subject = extractNamesById(Subjects, item?.subject_id)[0];
         const studentroll = extractRollNoById(Students, item?.student_id)[0];
@@ -78,6 +82,8 @@ export default function StudentAdd() {
           studentroll,
           student,
           course,
+          course_id,
+          semester_id,
           phase,
           subject,
           type,
@@ -87,12 +93,6 @@ export default function StudentAdd() {
         };
         finalRAttendence.push(data);
       });
-      let filterDta = finalRAttendence.filter(
-        (i) =>
-          i.student_id === "6729b1027808cce8519ba24d" &&
-          i.subject === "Anatomy" &&
-          i.type == "Theory"
-      );
       function calculateAttendancePercentageByStudent(data) {
         const studentAttendance = {};
         data?.forEach((entry) => {
@@ -100,6 +100,8 @@ export default function StudentAdd() {
             studentroll,
             student,
             subject,
+            course_id,
+            semester_id,
             type,
             attendance_status,
             student_id,
@@ -110,6 +112,8 @@ export default function StudentAdd() {
             studentAttendance[studentKey] = {
               student,
               roll: studentroll,
+              course_id: course_id,
+              semester_id: semester_id,
               stu_id: student_id,
               subjects: {},
             };
@@ -152,6 +156,8 @@ export default function StudentAdd() {
             id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
             name: studentData.student,
             roll: studentData.roll,
+            semester_id: studentData.semester_id,
+            course_id: studentData.course_id,
             s_id: studentData.stu_id,
             subjects: [], // Initialize subjects array for current student
           };
@@ -203,6 +209,8 @@ export default function StudentAdd() {
           subjectWithKeys.id = data.id;
           subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
           subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
+          subjectWithKeys.course_id = data.course_id; // Add other relevant outer object properties
+          subjectWithKeys.semester_id = data.semester_id; // Add other relevant outer object properties
           results.push(subjectWithKeys);
         }
         return results;
@@ -262,7 +270,6 @@ export default function StudentAdd() {
       setFromDate(values.fromdate);
       setToDate(values.endDate);
       setIsDisabled(true);
-      setFinalAttendence([]);
       dispatch(fetchStudentsAttendence(values));
     },
   });
@@ -349,7 +356,6 @@ export default function StudentAdd() {
     // Function to filter the header based on subjects
     const filteredHeader = Object.keys(header).reduce((filtered, key) => {
       const subjectName = key.split("_")[0]; // Extracts subject name before the underscore (e.g., 'theory' from 'theory_P')
-
       if (
         subjects.some((sub) =>
           sub?.toLowerCase().includes(subjectName?.toLowerCase())
@@ -622,8 +628,6 @@ export default function StudentAdd() {
               <div className="table-responsive">
                 <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
-                  course_id={formik.values.course_id}
-                  semester_id={formik.values.semester_id}
                   handleShow={handleShow}
                 />
               </div>

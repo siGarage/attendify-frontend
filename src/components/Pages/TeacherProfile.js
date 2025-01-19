@@ -231,10 +231,14 @@ export default function TeacherProfile() {
       <div className="table-responsive">
         <Card>
           <Card.Title>
-            <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center">
+            <div className="d-flex pt-5 ps-5 pe-5 text-center align-item-center justify-content-between">
               <h3>
                 Total Lecture:&nbsp;
                 {finalLecture ? finalLecture : 0}
+              </h3>
+              <h3>
+                Selected Date:&nbsp;
+                {moment(fdate).format("DD-MM-YYYY")}
               </h3>
             </div>
           </Card.Title>

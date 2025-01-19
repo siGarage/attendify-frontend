@@ -118,7 +118,7 @@ export default function StudentProfile() {
   //     }
   //     const finaldata = convertAttendanceToArray(attendanceData);
   //     console.log(finaldata);
-      
+
   //   }
   // }, [finalAttendence]);
 
@@ -293,8 +293,7 @@ export default function StudentProfile() {
                       ? topAttendence?.map((item) => {
                           return (
                             <Col lg={6} md={6} sm={12} xs={12}>
-                              {item.subjectId[0]}:{item.present}/
-                              {item.total}
+                              {item.subjectId[0]}:{item.present}/{item.total}
                             </Col>
                           );
                         })
