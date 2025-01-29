@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import * as datatable from "../../../../data/Table/datatable/datatable";
 import { useFormik } from "formik";
 import "../../../../App.css";
+import moment from "moment";
 import { Col, Row, Card, Button, Dropdown } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import { fetchCourse } from "../../../../redux/Action/CourseAction";
@@ -13,6 +14,7 @@ import { fetchSubject } from "../../../../redux/Action/SubjectAction";
 import { fetchStudentsAttendence } from "../../../../redux/Action/StudentAttendenceAction";
 import { AddStudentAttendenceModal } from "../../../Modal/AddStudentModal";
 import file from "../../../../assets/add_student_attendance.csv";
+import DataTable from "react-data-table-component";
 import * as Yup from "yup";
 
 export default function StudentAdd() {
@@ -28,6 +30,44 @@ export default function StudentAdd() {
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
   const [finalAttendence, setFinalAttendence] = useState([]);
+  const [dates, setDates] = useState([]);
+
+  const allDates = Array.from(
+    new Set(
+      finalAttendence.flatMap((student) =>
+        student.attendance.map((record) => record.date)
+      )
+    )
+  ).sort();
+  const columns = [
+    {
+      name: "Roll No",
+      selector: (row) => row.roll_number,
+      sortable: true,
+    },
+    {
+      name: "NAME",
+      selector: (row) => [row.name],
+      sortable: true,
+      cell: (row) => (
+        <span className="" style={{ width: "409px" }}>
+          <NavLink
+            to={`/student-profile/${row?.student_id}/${row.course_id}/${row.semester_id}`}
+          >
+            {row.name}
+          </NavLink>
+        </span>
+      ),
+    },
+
+    ...allDates.map((date) => ({
+      name: moment(date).format("DD/MM"), // Format the date as needed
+      selector: (row) => {
+        const record = row.attendance.find((r) => r.date === date);
+        return record ? record.status : "-"; // Show status or empty if absent
+      }, // You can make the date columns sortable if needed
+    })),
+  ];
   const [show, setShow] = useState(false);
   // const { test } = useSelector((state) => (console.log(state)));
   const { Courses, Semester, Subjects, StudentAttendence, Students } =
@@ -61,6 +101,17 @@ export default function StudentAdd() {
       .filter((obj) => obj._id === targetId)
       .map((obj) => obj.roll_no);
   }
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  const dateArray =
+    Object.keys(finalAttendence).length > 0
+      ? Object.keys(finalAttendence[Object.keys(finalAttendence)[0]]).sort()
+      : []; // Get sorted dates
 
   useEffect(() => {
     let finalRAttendence = [];
@@ -93,135 +144,217 @@ export default function StudentAdd() {
         };
         finalRAttendence.push(data);
       });
-      function calculateAttendancePercentageByStudent(data) {
-        const studentAttendance = {};
-        data?.forEach((entry) => {
-          const {
-            studentroll,
-            student,
-            subject,
-            course_id,
-            semester_id,
-            type,
-            attendance_status,
-            student_id,
-          } = entry;
-          const studentKey = `${studentroll}-${student}`;
-          const subjectKey = `${subject}-${type}`;
-          if (!studentAttendance[studentKey]) {
-            studentAttendance[studentKey] = {
-              student,
-              roll: studentroll,
-              course_id: course_id,
-              semester_id: semester_id,
-              stu_id: student_id,
-              subjects: {},
+      function processAttendanceData(data) {
+        const allDates = new Set();
+        data.forEach((item) => {
+          const date = new Date(item.date);
+          const formattedDate = formatDate(date);
+          allDates.add(formattedDate);
+        });
+        const dateArray = Array.from(allDates).sort();
+        setDates(dateArray);
+        const students = {};
+        data.forEach((item) => {
+          console.log(item);
+          if (!students[item.student]) {
+            students[item.student] = {};
+          }
+          if (!students[item.student][item.studentroll]) {
+            students[item.student][item.studentroll] = {
+              student_id: item.student_id,
+              course_id: item.course_id,
+              semester_id: item.semester_id,
             };
           }
-
-          const studentData = studentAttendance[studentKey];
-          if (!studentData.subjects[subjectKey]) {
-            studentData.subjects[subjectKey] = { present: 0, absent: 0 };
-          }
-          const subjectData = studentData.subjects[subjectKey];
-          if (attendance_status === "Present") {
-            subjectData.present++;
-          } else {
-            subjectData.absent++;
-          }
+          const date = new Date(item.date);
+          const formattedDate = formatDate(date);
+          students[item.student][item.studentroll][formattedDate] =
+            item.attendance_status === "Present" ? "P" : "A";
         });
-
-        // Calculate percentage for each subject within each student
-        for (const studentKey in studentAttendance) {
-          const studentData = studentAttendance[studentKey];
-          for (const subjectKey in studentData.subjects) {
-            const subjectData = studentData.subjects[subjectKey];
-            const total = subjectData.present + subjectData.absent;
-            subjectData.percentage =
-              total === 0
-                ? "N/A"
-                : ((subjectData.present / total) * 100).toFixed(1) + "%";
+        const processedData = Object.entries(students).flatMap(
+          ([studentName, rollNumbers]) => {
+            return Object.entries(rollNumbers).map(
+              ([studentRoll, attendanceData]) => {
+                const studentDetails = attendanceData;
+                const attendance = dateArray.map((date) => ({
+                  date,
+                  status: attendanceData[date] || "A",
+                }));
+                return {
+                  student_id: studentDetails.student_id,
+                  roll_number: studentRoll,
+                  name: studentName,
+                  course_id: studentDetails.course_id,
+                  semester_id: studentDetails.semester_id,
+                  attendance,
+                };
+              }
+            );
+          }
+        );
+        const sortedByName = [...processedData].sort((a, b) => {
+          const nameA = a.name.toLowerCase();
+          const nameB = b.name.toLowerCase();
+          if (nameA < nameB) return -1;
+          if (nameA > nameB) return 1;
+          return 0;
+        });
+    
+        // Remove duplicates based on roll_number, keeping the first entry
+        const uniqueAttendance = [];
+        const seenRollNumbers = new Set();
+    
+        for (const student of sortedByName) {
+          if (!seenRollNumbers.has(student.roll_number)) {
+            uniqueAttendance.push(student);
+            seenRollNumbers.add(student.roll_number);
           }
         }
-        return studentAttendance;
+        setFinalAttendence(uniqueAttendance);
+        // function removeDuplicateStudents(students) {
+        //   console.log(students);
+        //   const uniqueStudents = [];
+        //   const seenStudentIds = new Set();
+        //   for (const student of students) {
+        //     if (!seenStudentIds.has(student.student_id)) {
+        //       uniqueStudents.push(student);
+        //       seenStudentIds.add(student.student_id);
+        //     }
+        //   }
+        //   setFinalAttendence(uniqueStudents);
+        // }
+        // removeDuplicateStudents(processedData);
       }
-      const attendanceByType =
-        calculateAttendancePercentageByStudent(finalRAttendence);
-      function ObjectToArray(data) {
-        const studentArray = [];
-        // Loop through object keys (student IDs)
-        for (const studentId in data) {
-          const studentData = data[studentId]; // Get student object for current ID
-          const student = {
-            id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
-            name: studentData.student,
-            roll: studentData.roll,
-            semester_id: studentData.semester_id,
-            course_id: studentData.course_id,
-            s_id: studentData.stu_id,
-            subjects: [], // Initialize subjects array for current student
-          };
-          // Loop through student's subjects object
-          for (const subjectName in studentData.subjects) {
-            const subjectData = studentData.subjects[subjectName];
-            const nameSet = new Set(student.subjects.map((item) => item.name));
-            if (!nameSet.has(subjectName)) {
-              student.subjects.push({
-                name: subjectName,
-                present: subjectData.present,
-                absent: subjectData.absent,
-                percentage: subjectData.percentage,
-              });
-            }
-          }
-          studentArray.push(student); // Add student object to the final array
-        }
-        return studentArray;
-      }
-      const studentArray = ObjectToArray(attendanceByType);
+      processAttendanceData(finalRAttendence);
+      // function calculateAttendancePercentageByStudent(data) {
+      //   const studentAttendance = {};
+      //   data?.forEach((entry) => {
+      //     const {
+      //       studentroll,
+      //       student,
+      //       subject,
+      //       course_id,
+      //       semester_id,
+      //       type,
+      //       attendance_status,
+      //       student_id,
+      //     } = entry;
+      //     const studentKey = `${studentroll}-${student}`;
+      //     const subjectKey = `${subject}-${type}`;
+      //     if (!studentAttendance[studentKey]) {
+      //       studentAttendance[studentKey] = {
+      //         student,
+      //         roll: studentroll,
+      //         course_id: course_id,
+      //         semester_id: semester_id,
+      //         stu_id: student_id,
+      //         subjects: {},
+      //       };
+      //     }
 
-      function DuplicateFirstSubject(studentData) {
-        if (!studentData || studentData.length === 0) {
-          return studentData; // Handle empty or invalid data
-        }
-        const firstStudent = studentData[0]; // Get the first student object
-        const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
-        const duplicatedSubject = {
-          ...firstSubject, // Copy all properties from the first subject
-        };
+      //     const studentData = studentAttendance[studentKey];
+      //     if (!studentData.subjects[subjectKey]) {
+      //       studentData.subjects[subjectKey] = { present: 0, absent: 0 };
+      //     }
+      //     const subjectData = studentData.subjects[subjectKey];
+      //     if (attendance_status === "Present") {
+      //       subjectData.present++;
+      //     } else {
+      //       subjectData.absent++;
+      //     }
+      //   });
 
-        // Add the duplicated subject to the first student's subjects array
-        firstStudent.subjects.push(duplicatedSubject);
-        return studentData; // Return the modified student data array
-      }
-      const modifiedArray = DuplicateFirstSubject(studentArray);
+      //   // Calculate percentage for each subject within each student
+      //   for (const studentKey in studentAttendance) {
+      //     const studentData = studentAttendance[studentKey];
+      //     for (const subjectKey in studentData.subjects) {
+      //       const subjectData = studentData.subjects[subjectKey];
+      //       const total = subjectData.present + subjectData.absent;
+      //       subjectData.percentage =
+      //         total === 0
+      //           ? "N/A"
+      //           : ((subjectData.present / total) * 100).toFixed(1) + "%";
+      //     }
+      //   }
+      //   return studentAttendance;
+      // }
+      // const attendanceByType =
+      //   calculateAttendancePercentageByStudent(finalRAttendence);
+      // function ObjectToArray(data) {
+      //   const studentArray = [];
+      //   // Loop through object keys (student IDs)
+      //   for (const studentId in data) {
+      //     const studentData = data[studentId]; // Get student object for current ID
+      //     const student = {
+      //       id: studentId.split("-")[0], // Extract ID (assuming format "123-Student1")
+      //       name: studentData.student,
+      //       roll: studentData.roll,
+      //       semester_id: studentData.semester_id,
+      //       course_id: studentData.course_id,
+      //       s_id: studentData.stu_id,
+      //       subjects: [], // Initialize subjects array for current student
+      //     };
+      //     // Loop through student's subjects object
+      //     for (const subjectName in studentData.subjects) {
+      //       const subjectData = studentData.subjects[subjectName];
+      //       const nameSet = new Set(student.subjects.map((item) => item.name));
+      //       if (!nameSet.has(subjectName)) {
+      //         student.subjects.push({
+      //           name: subjectName,
+      //           present: subjectData.present,
+      //           absent: subjectData.absent,
+      //           percentage: subjectData.percentage,
+      //         });
+      //       }
+      //     }
+      //     studentArray.push(student); // Add student object to the final array
+      //   }
+      //   return studentArray;
+      // }
+      // const studentArray = ObjectToArray(attendanceByType);
 
-      function extractSubjectDetails(data) {
-        const results = [];
-        for (const subject of data.subjects) {
-          const subjectWithKeys = { ...subject }; // Spread subject object
-          for (const key in subject) {
-            // Combine subject key and value
-            subjectWithKeys[key] = subject[key];
-          }
+      // function DuplicateFirstSubject(studentData) {
+      //   if (!studentData || studentData.length === 0) {
+      //     return studentData; // Handle empty or invalid data
+      //   }
+      //   const firstStudent = studentData[0]; // Get the first student object
+      //   const firstSubject = firstStudent.subjects[0]; // Get the first subject of the first student
+      //   const duplicatedSubject = {
+      //     ...firstSubject, // Copy all properties from the first subject
+      //   };
 
-          // Add outer object properties without prefix
-          subjectWithKeys.id = data.id;
-          subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
-          subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
-          subjectWithKeys.course_id = data.course_id; // Add other relevant outer object properties
-          subjectWithKeys.semester_id = data.semester_id; // Add other relevant outer object properties
-          results.push(subjectWithKeys);
-        }
-        return results;
-      }
-      let finalAttendenceArray = [];
-      modifiedArray.map((item) => {
-        const combinedResults = extractSubjectDetails(item);
-        const id = item.a_date;
-        finalAttendenceArray.push(...combinedResults);
-      });
-      setFinalAttendence(modifiedArray);
+      //   // Add the duplicated subject to the first student's subjects array
+      //   firstStudent.subjects.push(duplicatedSubject);
+      //   return studentData; // Return the modified student data array
+      // }
+      // const modifiedArray = DuplicateFirstSubject(studentArray);
+
+      // function extractSubjectDetails(data) {
+      //   const results = [];
+      //   for (const subject of data.subjects) {
+      //     const subjectWithKeys = { ...subject }; // Spread subject object
+      //     for (const key in subject) {
+      //       // Combine subject key and value
+      //       subjectWithKeys[key] = subject[key];
+      //     }
+
+      //     // Add outer object properties without prefix
+      //     subjectWithKeys.id = data.id;
+      //     subjectWithKeys.studentName = data.name; // Assuming "name" holds student name
+      //     subjectWithKeys.roll = data.roll; // Add other relevant outer object properties
+      //     subjectWithKeys.course_id = data.course_id; // Add other relevant outer object properties
+      //     subjectWithKeys.semester_id = data.semester_id; // Add other relevant outer object properties
+      //     results.push(subjectWithKeys);
+      //   }
+      //   return results;
+      // }
+      // let finalAttendenceArray = [];
+      // modifiedArray.map((item) => {
+      //   const combinedResults = extractSubjectDetails(item);
+      //   const id = item.a_date;
+      //   finalAttendenceArray.push(...combinedResults);
+      // });
+      // setFinalAttendence(modifiedArray);
       // const uniqueData = finalAttendenceArray.reduce((acc, current) => {
       //   // Check if any existing object in 'acc' has all the same properties as 'current'
       //   const isDuplicate = acc.some((obj) =>
@@ -233,7 +366,6 @@ export default function StudentAdd() {
       // setFinalAttendence(uniqueData);
       setIsDisabled(false);
     } else {
-      console.log(Courses.Semester, Subjects, Students);
       if (Courses?.length == 0) {
         dispatch(fetchCourse());
       }
@@ -249,11 +381,17 @@ export default function StudentAdd() {
       setIsDisabled(false);
     }
   }, [StudentAttendence]);
+  const data = finalAttendence.map((student) => ({
+    ...student, // Include all student data
+    id: student.name + student.roll_no, // Unique ID
+  }));
+
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
     semester_id: Yup.string().required("*Required"),
     subject_id: Yup.string().required("*Required"),
     endDate: Yup.string().required("*Required"),
+    type: Yup.string().required("*Required"),
     fromdate: Yup.string().required("*Required"),
   });
   const formik = useFormik({
@@ -507,27 +645,27 @@ export default function StudentAdd() {
                           </div>
                         ) : null}
                       </Col>
-
-                      {/* {subject ? (
-                        <Col sm={12} lg={3} md={3} xl={3}>
-                          <label className="form-label">Type</label>
-                          <select
-                            onChange={formik.handleChange}
-                            value={formik.values.type}
-                            className="form-control required"
-                            name="type"
-                            id="type"
-                          >
-                            <option value="">Please Select Type</option>
-                            <option value="Theory">Theory</option>
-                            <option value="Clinical">Clinical</option>
-                            <option value="Practical">Practical</option>
-                            <option value="Others">Others</option>
-                          </select>
-                        </Col>
-                      ) : (
-                        ""
-                      )} */}
+                      <Col sm={12} lg={3} md={3} xl={3}>
+                        <label className="form-label">Type</label>
+                        <select
+                          onChange={formik.handleChange}
+                          value={formik.values.type}
+                          className="form-control required"
+                          name="type"
+                          id="type"
+                        >
+                          <option value="">Please Select Type</option>
+                          <option value="Theory">Theory</option>
+                          <option value="Clinical">Clinical</option>
+                          <option value="Practical">Practical</option>
+                          <option value="Others">Others</option>
+                        </select>
+                        {formik.errors.type ? (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.type}
+                          </div>
+                        ) : null}
+                      </Col>
                       <Col sm={12} lg={3} md={3} xl={3}>
                         <label className="form-label">From</label>
                         <input
@@ -626,9 +764,15 @@ export default function StudentAdd() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                <datatable.StudentAttendenceDataTables
+                {/* <datatable.StudentAttendenceDataTables
                   StudentAttendece={finalAttendence}
                   handleShow={handleShow}
+                /> */}
+                <DataTable
+                  columns={columns}
+                  data={data}
+                  pagination
+                  keyField="id"
                 />
               </div>
             </Card.Body>
