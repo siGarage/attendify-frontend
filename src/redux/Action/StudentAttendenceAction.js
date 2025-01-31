@@ -1,4 +1,5 @@
 import API from "../../service/API";
+import API2 from "../../service/API2";
 import {
   STUDENT_ATTENDANCE_UPDATE_FAILURE,
   STUDENT_ATTENDANCE_UPDATE_REQUEST,
@@ -55,7 +56,7 @@ export const createStudentAttendenceByCsv =
   (Attendence) => async (dispatch) => {
     try {
       // dispatch({ type: PROPERTY_GALLERY_ADD_REQUEST });
-      const { data } = await API.post(`/createAttendenceByCsv`, Attendence);
+      const { data } = await API2.post(`/createAttendenceByCsv`, Attendence);
       if (data.status_code == 201) {
         toast.success(data?.message);
       } else {

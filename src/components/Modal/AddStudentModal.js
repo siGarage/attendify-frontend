@@ -8,11 +8,7 @@ import { fetchDepartment } from "../../redux/Action/DepartmentAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
 import { fetchSemester } from "../../redux/Action/SemesterAction";
 import { createStudentAttendenceByCsv } from "../../redux/Action/StudentAttendenceAction";
-//SuccessAlertMessages
-// const AttendenceSchema = Yup.object().shape({
-//   course: Yup.string().required("*Required"),
-//   subject: Yup.string().required("*Required"),
-// });
+import * as Yup from "yup";
 
 export function AddStudentAttendenceModal({ show, handleClose }) {
   const dispatch = useDispatch();
@@ -39,14 +35,21 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
       dispatch(fetchDepartment());
     }
   }, []);
+  const SignupSchema = Yup.object().shape({
+    course_id: Yup.string().required("*Required"),
+    semester_id: Yup.string().required("*Required"),
+    subject_id: Yup.string().required("*Required"),
+    type: Yup.string().required("*Required"),
+  });
   const formik = useFormik({
     initialValues: {
       course_id: "",
       subject_id: "",
       semester_id: "",
+      teacher_id:"",
       type: "",
     },
-    // validationSchema: AttendenceSchema,
+    validationSchema: SignupSchema,
     onSubmit: (values, { resetForm }) => {
       let formData = new FormData();
       for (let value in values) {
@@ -86,6 +89,9 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                         })
                       : ""}
                   </select>
+                  {formik.errors.course_id && formik.touched.course_id ? (
+                    <div className="red_color">{formik.errors.course_id}</div>
+                  ) : null}
                 </Col>
                 <Col>
                   <label className="form-label">Subject</label>
@@ -107,6 +113,9 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                         })
                       : ""}
                   </select>
+                  {formik.errors.subject_id && formik.touched.subject_id ? (
+                    <div className="red_color">{formik.errors.subject_id}</div>
+                  ) : null}
                 </Col>
               </Row>
               <Row>
@@ -130,6 +139,9 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                         })
                       : ""}
                   </select>
+                  {formik.errors.semester_id && formik.touched.semester_id ? (
+                    <div className="red_color">{formik.errors.semester_id}</div>
+                  ) : null}
                 </Col>
                 <Col>
                   <label className="form-label">Type</label>
@@ -148,9 +160,36 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                     <option value="Aetcom">Aetcom</option>
                     <option value="Fap">Fap</option>
                   </select>
+                  {formik.errors.type && formik.touched.type ? (
+                    <div className="red_color">{formik.errors.type}</div>
+                  ) : null}
                 </Col>
               </Row>
               <Row>
+              <Col>
+                  <label className="form-label">Teacher</label>
+                  <select
+                    onChange={formik.handleChange}
+                    value={formik.values.teacher_id}
+                    className="form-control required"
+                    name="subject_id"
+                    id="subject_id"
+                  >
+                    <option value="">Please Select Subject</option>
+                    {Subjects?.length > 0
+                      ? Subjects?.map((Subject) => {
+                          return (
+                            <option value={Subject?._id}>
+                              {Subject?.name}
+                            </option>
+                          );
+                        })
+                      : ""}
+                  </select>
+                  {formik.errors.subject_id && formik.touched.subject_id ? (
+                    <div className="red_color">{formik.errors.subject_id}</div>
+                  ) : null}
+                </Col>
                 <Col lg={6} md={6} xs={12} sm={12}>
                   <label className="form-label">CSV Upload</label>
                   <input

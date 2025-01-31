@@ -59,9 +59,14 @@ export default function StudentAdd() {
         </span>
       ),
     },
+    {
+      name: "Percentage",
+      selector: (row) => `${row.attendancePercentage}%`,
+      sortable: true,
+    },
 
     ...allDates.map((date) => ({
-      name: moment(date).format("DD/MM"), // Format the date as needed
+      name: moment(date).format("DD/MM/YYYY"), // Format the date as needed
       selector: (row) => {
         const record = row.attendance.find((r) => r.date === date);
         return record ? record.status : "-"; // Show status or empty if absent
@@ -153,9 +158,9 @@ export default function StudentAdd() {
         });
         const dateArray = Array.from(allDates).sort();
         setDates(dateArray);
+
         const students = {};
         data.forEach((item) => {
-          console.log(item);
           if (!students[item.student]) {
             students[item.student] = {};
           }
@@ -171,6 +176,7 @@ export default function StudentAdd() {
           students[item.student][item.studentroll][formattedDate] =
             item.attendance_status === "Present" ? "P" : "A";
         });
+
         const processedData = Object.entries(students).flatMap(
           ([studentName, rollNumbers]) => {
             return Object.entries(rollNumbers).map(
@@ -180,6 +186,16 @@ export default function StudentAdd() {
                   date,
                   status: attendanceData[date] || "A",
                 }));
+
+                // Calculate attendance percentage
+                const presentDays = attendance.filter(
+                  (day) => day.status === "P"
+                ).length;
+                const attendancePercentage =
+                  dateArray.length > 0
+                    ? (presentDays / dateArray.length) * 100
+                    : 0;
+
                 return {
                   student_id: studentDetails.student_id,
                   roll_number: studentRoll,
@@ -187,11 +203,13 @@ export default function StudentAdd() {
                   course_id: studentDetails.course_id,
                   semester_id: studentDetails.semester_id,
                   attendance,
+                  attendancePercentage: attendancePercentage.toFixed(2), // Store percentage with 2 decimal places
                 };
               }
             );
           }
         );
+
         const sortedByName = [...processedData].sort((a, b) => {
           const nameA = a.name.toLowerCase();
           const nameB = b.name.toLowerCase();
@@ -199,31 +217,18 @@ export default function StudentAdd() {
           if (nameA > nameB) return 1;
           return 0;
         });
-    
-        // Remove duplicates based on roll_number, keeping the first entry
+
         const uniqueAttendance = [];
         const seenRollNumbers = new Set();
-    
+
         for (const student of sortedByName) {
           if (!seenRollNumbers.has(student.roll_number)) {
             uniqueAttendance.push(student);
             seenRollNumbers.add(student.roll_number);
           }
         }
+
         setFinalAttendence(uniqueAttendance);
-        // function removeDuplicateStudents(students) {
-        //   console.log(students);
-        //   const uniqueStudents = [];
-        //   const seenStudentIds = new Set();
-        //   for (const student of students) {
-        //     if (!seenStudentIds.has(student.student_id)) {
-        //       uniqueStudents.push(student);
-        //       seenStudentIds.add(student.student_id);
-        //     }
-        //   }
-        //   setFinalAttendence(uniqueStudents);
-        // }
-        // removeDuplicateStudents(processedData);
       }
       processAttendanceData(finalRAttendence);
       // function calculateAttendancePercentageByStudent(data) {
@@ -658,7 +663,9 @@ export default function StudentAdd() {
                           <option value="Theory">Theory</option>
                           <option value="Clinical">Clinical</option>
                           <option value="Practical">Practical</option>
-                          <option value="Others">Others</option>
+                          <option value="Ece">Ece</option>
+                          <option value="Aetcom">Aetcom</option>
+                          <option value="Fap">Fap</option>
                         </select>
                         {formik.errors.type ? (
                           <div style={{ color: "red" }}>
