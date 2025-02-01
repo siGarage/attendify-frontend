@@ -6,6 +6,7 @@ import { useFormik } from "formik";
 import { fetchCourse } from "../../redux/Action/CourseAction";
 import { fetchDepartment } from "../../redux/Action/DepartmentAction";
 import { fetchSubject } from "../../redux/Action/SubjectAction";
+import { fetchTeachers } from "../../redux/Action/TeacherAction";
 import { fetchSemester } from "../../redux/Action/SemesterAction";
 import { createStudentAttendenceByCsv } from "../../redux/Action/StudentAttendenceAction";
 import * as Yup from "yup";
@@ -13,17 +14,22 @@ import * as Yup from "yup";
 export function AddStudentAttendenceModal({ show, handleClose }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { Courses, Subjects, Departments, Semesters } = useSelector(
+  const { Courses, Subjects, Departments, Semesters, Teachers } = useSelector(
     (state) => ({
       Courses: state?.courses?.courses,
       Subjects: state?.subjects?.subjects,
       Departments: state?.departments?.departments,
       Semesters: state?.semesters?.semesters,
+      Semesters: state?.semesters?.semesters,
+      Teachers: state?.teachers?.teachers,
     })
   );
   useEffect(() => {
     if (Courses?.length == 0) {
       dispatch(fetchCourse());
+    }
+    if (Teachers?.length == 0) {
+      dispatch(fetchTeachers());
     }
     if (Semesters?.length == 0) {
       dispatch(fetchSemester());
@@ -46,7 +52,7 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
       course_id: "",
       subject_id: "",
       semester_id: "",
-      teacher_id:"",
+      teacher_id: "",
       type: "",
     },
     validationSchema: SignupSchema,
@@ -166,28 +172,28 @@ export function AddStudentAttendenceModal({ show, handleClose }) {
                 </Col>
               </Row>
               <Row>
-              <Col>
+                <Col>
                   <label className="form-label">Teacher</label>
                   <select
                     onChange={formik.handleChange}
                     value={formik.values.teacher_id}
                     className="form-control required"
-                    name="subject_id"
-                    id="subject_id"
+                    name="teacher_id"
+                    id="teacher_id"
                   >
-                    <option value="">Please Select Subject</option>
-                    {Subjects?.length > 0
-                      ? Subjects?.map((Subject) => {
+                    <option value="">Please Select Teacher</option>
+                    {Teachers?.length > 0
+                      ? Teachers?.map((Teacher) => {
                           return (
-                            <option value={Subject?._id}>
-                              {Subject?.name}
+                            <option value={Teacher?._id}>
+                              {Teacher?.name}
                             </option>
                           );
                         })
                       : ""}
                   </select>
-                  {formik.errors.subject_id && formik.touched.subject_id ? (
-                    <div className="red_color">{formik.errors.subject_id}</div>
+                  {formik.errors.teacher_id && formik.touched.teacher_id ? (
+                    <div className="red_color">{formik.errors.teacher_id}</div>
                   ) : null}
                 </Col>
                 <Col lg={6} md={6} xs={12} sm={12}>
