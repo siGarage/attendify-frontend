@@ -775,11 +775,12 @@ export default function StudentAdd() {
                   StudentAttendece={finalAttendence}
                   handleShow={handleShow}
                 /> */}
+                {console.log(data)}
                 <DataTable
                   columns={columns}
                   data={data}
                   pagination
-                  keyField="id"
+                  keyField="_id"
                 />
               </div>
             </Card.Body>
