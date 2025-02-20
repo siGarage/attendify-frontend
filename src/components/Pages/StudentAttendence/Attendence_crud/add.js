@@ -455,80 +455,112 @@ export default function StudentAdd() {
   };
   const handleClose = () => setShow(false);
 
-  const exportCSV = () => {
-    // Convert data to CSV format
-    const header = {
-      id: "Roll No",
-      student: "Name",
-      theory_P: "Theory_P",
-      theory_A: "Theory_A",
-      theory_Pre: "Theory_Pre",
-      practical_P: "Practical_P",
-      practical_A: "Practical_A",
-      practical_Pre: "Practical_Pre",
-      ece_P: "Ece_P",
-      ece_A: "Ece_A",
-      ece_Pre: "Ece_Pre",
-      Aetcom_P: "Aetcom_P",
-      Aetcom_A: "Aetcom_A",
-      Aetcom_Pre: "Aetcom_Pre",
-      Fap_P: "Fap_P",
-      Fap_A: "Fap_A",
-      Fap_Pre: "Fap_Pre",
-    };
-    const transformSubjects = finalAttendence.map((student, index) => {
-      let transformed = {
-        id: index + 1,
-        name: student.name,
-        roll: student.roll,
-      };
-      student.subjects.forEach((subject) => {
-        const subjectKey = subject.name.split("-")[1]; // Extracting key like 'Practical', 'Ece', etc.
-        transformed[`${subjectKey}-P`] = subject.present;
-        transformed[`${subjectKey}-A`] = subject.absent;
-        transformed[`${subjectKey}-Pre`] = subject.percentage;
+  const convertToCSV = (data) => {
+    if (!data || data.length === 0) {
+      return ""; // Handle empty data case
+    }
+
+    const dates = Array.from(
+      new Set(
+        data.flatMap((student) => student.attendance.map((item) => item.date))
+      )
+    ).sort(); // Get unique sorted dates
+
+    const header = ["roll_number", "name", ...dates]; // Create header row
+
+    const rows = data.map((student) => {
+      const studentData = [student.roll_number, student.name];
+      dates.forEach((date) => {
+        const attendance = student.attendance.find(
+          (item) => item.date === date
+        );
+        studentData.push(
+          attendance ? (attendance.status === "P" ? "P" : "A") : ""
+        ); // Add P/A or empty if no record
       });
-      return transformed;
+      return studentData.join(",");
     });
 
-    // Extract the subjects dynamically from the first student in transformSubjects
-    const subjects = Object.keys(transformSubjects[0]).filter(
-      (key) => key !== "id" && key !== "name" && key !== "roll"
-    );
+    return `${header.join(",")}\n${rows.join("\n")}`;
+  };
 
-    // Function to filter the header based on subjects
-    const filteredHeader = Object.keys(header).reduce((filtered, key) => {
-      const subjectName = key.split("_")[0]; // Extracts subject name before the underscore (e.g., 'theory' from 'theory_P')
-      if (
-        subjects.some((sub) =>
-          sub?.toLowerCase().includes(subjectName?.toLowerCase())
-        )
-      ) {
-        filtered[key] = header[key];
-      }
-      return filtered;
-    }, {});
+  const downloadCSV = (csvData, filename) => {
+    const blob = new Blob([csvData], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.href = url;
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  const handleExport = () => {
+    const csvData = convertToCSV(finalAttendence);
+    downloadCSV(csvData, "student_attendance.csv");
+  };
 
-    const newArray = [
-      {
-        id: "S no.",
-        student: "Name",
-        roll: "Roll No",
-        ...filteredHeader,
-      },
-      ...transformSubjects,
-    ];
-    const csv = newArray.map((row) => Object.values(row).join(",")).join("\n");
-    // Create a download link and trigger click
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "data.csv";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
+  const exportCSV = () => {
+    console.log(finalAttendence);
+    // Convert data to CSV format
+    // const header = {
+    //   id: "Roll No",
+    //   student: "Name",
+    //   ...allDates.map((date) => ({
+    //     name: moment(date).format("DD/MM/YYYY"), // Format the date as needed
+    //   })),
+    // };
+    // const transformSubjects = finalAttendence.map((student, index) => {
+    //   let transformed = {
+    //     name: student.name,
+    //     roll: student.roll,
+    //   };
+    //   student.subjects.forEach((subject) => {
+    //     const subjectKey = subject.name.split("-")[1]; // Extracting key like 'Practical', 'Ece', etc.
+    //     transformed[`${subjectKey}-P`] = subject.present;
+    //     transformed[`${subjectKey}-A`] = subject.absent;
+    //   });
+    //   return transformed;
+    // });
+
+    // // Extract the subjects dynamically from the first student in transformSubjects
+    // const subjects = Object.keys(transformSubjects[0]).filter(
+    //   (key) => key !== "id" && key !== "name" && key !== "roll"
+    // );
+
+    // // Function to filter the header based on subjects
+    // const filteredHeader = Object.keys(header).reduce((filtered, key) => {
+    //   const subjectName = key.split("_")[0]; // Extracts subject name before the underscore (e.g., 'theory' from 'theory_P')
+    //   if (
+    //     subjects.some((sub) =>
+    //       sub?.toLowerCase().includes(subjectName?.toLowerCase())
+    //     )
+    //   ) {
+    //     filtered[key] = header[key];
+    //   }
+    //   return filtered;
+    // }, {});
+
+    // const newArray = [
+    //   {
+    //     id: "S no.",
+    //     student: "Name",
+    //     roll: "Roll No",
+    //     ...filteredHeader,
+    //   },
+    //   ...transformSubjects,
+    // ];
+    // const csv = newArray.map((row) => Object.values(row).join(",")).join("\n");
+    // // Create a download link and trigger click
+    // const blob = new Blob([csv], { type: "text/csv" });
+    // const url = window.URL.createObjectURL(blob);
+    // const a = document.createElement("a");
+    // a.href = url;
+    // a.download = "data.csv";
+    // document.body.appendChild(a);
+    // a.click();
+    // document.body.removeChild(a);
+    // window.URL.revokeObjectURL(url);
   };
   const handleDownloadClick = () => {
     // Create a temporary anchor element
@@ -764,7 +796,7 @@ export default function StudentAdd() {
                     From Date:{fromDate} to {toDate}
                   </p>
                 </div>
-                <button onClick={exportCSV} className="btn btn-primary h-50">
+                <button onClick={handleExport} className="btn btn-primary h-50">
                   Export as CSV
                 </button>
               </div>
