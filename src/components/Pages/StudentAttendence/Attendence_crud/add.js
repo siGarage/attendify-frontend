@@ -386,10 +386,10 @@ export default function StudentAdd() {
       setIsDisabled(false);
     }
   }, [StudentAttendence]);
-  const data = finalAttendence.map((student) => ({
-    ...student, // Include all student data
-    id: student.name + student.roll_no, // Unique ID
-  }));
+  // const nData = finalAttendence.map((student) => ({
+  //   ...student, // Include all student data
+  //   // id: student.name + student.roll_no, // Unique ID
+  // }));
 
   const SignupSchema = Yup.object().shape({
     course_id: Yup.string().required("*Required"),
@@ -771,16 +771,11 @@ export default function StudentAdd() {
             </Card.Header>
             <Card.Body>
               <div className="table-responsive">
-                {/* <datatable.StudentAttendenceDataTables
-                  StudentAttendece={finalAttendence}
-                  handleShow={handleShow}
-                /> */}
-                {console.log(data)}
                 <DataTable
                   columns={columns}
-                  data={data}
+                  data={finalAttendence}
                   pagination
-                  keyField="_id"
+                  keyField="roll_no"
                 />
               </div>
             </Card.Body>
